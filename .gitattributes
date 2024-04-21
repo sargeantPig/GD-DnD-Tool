@@ -1,0 +1,5 @@
+*.png filter=lfs diff=lfs merge=lfs -text
+*.tres filter=lfs diff=lfs merge=lfs -text
+tilemaps/atlas/icons/*.tres filter=lfs diff=lfs merge=lfs -text
+tilemaps/*.png filter=lfs diff=lfs merge=lfs -text
+*.svg filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,119 @@
+[gd_scene load_steps=9 format=3 uid="uid://clrnmamca4eq7"]
+
+[ext_resource type="Script" path="res://scenes/ui/ui_root.gd" id="1_hnd6y"]
+[ext_resource type="Script" path="res://console/console.gd" id="1_njcnl"]
+[ext_resource type="Texture2D" uid="uid://152ovr8ij7n7" path="res://tilemaps/tilemap_icons.png" id="2_l1ay0"]
+[ext_resource type="Script" path="res://scenes/ui/toolbar.gd" id="3_7667e"]
+[ext_resource type="Texture2D" uid="uid://cvil7pa25ikdt" path="res://tilemaps/atlas/icons/icons_default.tres" id="4_fq3pw"]
+[ext_resource type="Texture2D" uid="uid://tnxskir1hyxt" path="res://tilemaps/atlas/icons/icons_clicked.tres" id="5_unp6r"]
+[ext_resource type="Texture2D" uid="uid://dutbfcpds06of" path="res://tilemaps/atlas/icons/icons_hovered.tres" id="6_76u3w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6iowx"]
+atlas = ExtResource("2_l1ay0")
+region = Rect2(64, 0, 32, 32)
+
+[node name="ui" type="Node2D"]
+script = ExtResource("1_hnd6y")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+visible = false
+offset_right = 67.0
+offset_bottom = 40.0
+columns = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GridContainer"]
+layout_mode = 2
+
+[node name="console" type="RichTextLabel" parent="GridContainer/VBoxContainer"]
+visible = false
+clip_contents = false
+layout_mode = 2
+mouse_filter = 2
+fit_content = true
+scroll_active = false
+script = ExtResource("1_njcnl")
+
+[node name="LineEdit" type="LineEdit" parent="GridContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GridContainer"]
+layout_mode = 2
+
+[node name="root_toolbar" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="toolbar" type="HBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 514.0
+offset_right = 546.0
+offset_bottom = 32.0
+grow_horizontal = 2
+theme_override_constants/separation = 0
+script = ExtResource("3_7667e")
+default_tex = ExtResource("4_fq3pw")
+clicked_tex = ExtResource("5_unp6r")
+hovered_tex = ExtResource("6_76u3w")
+has_multiple_atlas = true
+metadata/_edit_use_anchors_ = true
+
+[node name="btn_rotate" type="TextureButton" parent="toolbar"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="btn_move" type="TextureButton" parent="toolbar"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="btn_select" type="TextureButton" parent="toolbar"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="btn_multiselect" type="TextureButton" parent="toolbar"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_6iowx")
+
+[node name="btn_resize" type="TextureButton" parent="toolbar"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="btn_cancel" type="TextureButton" parent="toolbar"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 0
+script = ExtResource("3_7667e")
+default_tex = ExtResource("4_fq3pw")
+anchor = 1
+
+[node name="btn_rotate" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="btn_move" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="btn_select" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="btn_multiselect" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_6iowx")
+
+[node name="btn_resize" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="btn_cancel" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
