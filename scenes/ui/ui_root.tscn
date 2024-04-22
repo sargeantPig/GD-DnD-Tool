@@ -2,15 +2,14 @@
 
 [ext_resource type="Script" path="res://scenes/ui/ui_root.gd" id="1_hnd6y"]
 [ext_resource type="Script" path="res://console/console.gd" id="1_njcnl"]
-[ext_resource type="Texture2D" uid="uid://152ovr8ij7n7" path="res://tilemaps/tilemap_icons.png" id="2_l1ay0"]
 [ext_resource type="Script" path="res://scenes/ui/toolbar.gd" id="3_7667e"]
 [ext_resource type="Texture2D" uid="uid://cvil7pa25ikdt" path="res://tilemaps/atlas/icons/icons_default.tres" id="4_fq3pw"]
 [ext_resource type="Texture2D" uid="uid://tnxskir1hyxt" path="res://tilemaps/atlas/icons/icons_clicked.tres" id="5_unp6r"]
 [ext_resource type="Texture2D" uid="uid://dutbfcpds06of" path="res://tilemaps/atlas/icons/icons_hovered.tres" id="6_76u3w"]
+[ext_resource type="Texture2D" uid="uid://djbbxdbbm73af" path="res://tilemaps/tilemap_grassy.png" id="7_h6pas"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6iowx"]
-atlas = ExtResource("2_l1ay0")
-region = Rect2(64, 0, 32, 32)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ggpjb"]
+bg_color = Color(0, 0, 0, 0.768627)
 
 [node name="ui" type="Node2D"]
 script = ExtResource("1_hnd6y")
@@ -54,66 +53,30 @@ offset_bottom = 32.0
 grow_horizontal = 2
 theme_override_constants/separation = 0
 script = ExtResource("3_7667e")
+tile_size = 32.0
 default_tex = ExtResource("4_fq3pw")
 clicked_tex = ExtResource("5_unp6r")
 hovered_tex = ExtResource("6_76u3w")
 has_multiple_atlas = true
+tile_names = Array[String](["btn_tool_rotate", "btn_tool_move", "btn_tool_resize", "btn_tool_multiselect", "btn_tool_select", "btn_tool_cancel", "btn_tool_paint"])
 metadata/_edit_use_anchors_ = true
 
-[node name="btn_rotate" type="TextureButton" parent="toolbar"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="btn_move" type="TextureButton" parent="toolbar"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="btn_select" type="TextureButton" parent="toolbar"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="btn_multiselect" type="TextureButton" parent="toolbar"]
-layout_mode = 2
-toggle_mode = true
-texture_normal = SubResource("AtlasTexture_6iowx")
-
-[node name="btn_resize" type="TextureButton" parent="toolbar"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="btn_cancel" type="TextureButton" parent="toolbar"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="panel" type="Panel" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
-theme_override_constants/separation = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ggpjb")
+
+[node name="grid" type="GridContainer" parent="panel" node_paths=PackedStringArray("backdrop")]
+self_modulate = Color(0.0901961, 0.0901961, 0.0901961, 0.690196)
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 4
 script = ExtResource("3_7667e")
-default_tex = ExtResource("4_fq3pw")
+tile_size = 32.0
+default_tex = ExtResource("7_h6pas")
 anchor = 1
-
-[node name="btn_rotate" type="TextureButton" parent="VBoxContainer"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="btn_move" type="TextureButton" parent="VBoxContainer"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="btn_select" type="TextureButton" parent="VBoxContainer"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="btn_multiselect" type="TextureButton" parent="VBoxContainer"]
-layout_mode = 2
-toggle_mode = true
-texture_normal = SubResource("AtlasTexture_6iowx")
-
-[node name="btn_resize" type="TextureButton" parent="VBoxContainer"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="btn_cancel" type="TextureButton" parent="VBoxContainer"]
-layout_mode = 2
-toggle_mode = true
+name_format = "btn_terrain_%s"
+padding = 10
+backdrop = NodePath("..")

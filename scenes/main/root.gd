@@ -12,14 +12,22 @@ extends Node2D
 var selectedIndex: int = 0
 var tilesets: Array = [$grassy_terrain, $objects]
 var mode: Global.Mode
+var palettte_index: int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$ui.palette_index_changed.connect(palette_index_changed)
+	$ui.mode_changed.connect(mode_changed)
 	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	mode = $ui.mode
+	if mode == Global.Mode.epaint:
+		paint()
+	pass
+
+func paint():
 	pass
 
 func _input(event):
@@ -36,7 +44,14 @@ func add_tile():
 
 func remove_tile():
 	pass
-	
+
+func palette_index_changed(value: int):
+	palettte_index = value
+	print(str(value) + " recieved")
+
+func mode_changed(value: Global.Mode):
+	mode = value
+
 func modify_selected_index(value: int):
 	selectedIndex = clampi(selectedIndex + value,  0, tilesets.size()-1)
 	pass
