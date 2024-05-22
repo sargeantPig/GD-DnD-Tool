@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3lbo56hil2dh"]
+
+[ext_resource type="Script" path="res://scenes/ui/toolbar.gd" id="1_dyavu"]
+[ext_resource type="Texture2D" uid="uid://djbbxdbbm73af" path="res://tilemaps/tilemap_grassy.png" id="2_sggwd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ggpjb"]
+bg_color = Color(0, 0, 0, 0.768627)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t0pli"]
+bg_color = Color(0, 0, 0, 0.768627)
+
+[node name="toolbar_root" type="PanelContainer" node_paths=PackedStringArray("scroll_container", "grid_container")]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ggpjb")
+script = ExtResource("1_dyavu")
+tile_size = 32.0
+default_tex = ExtResource("2_sggwd")
+anchor = 1
+name_format = "btn_terrain_%s"
+padding = 10
+scroll_container = NodePath("scroll_container")
+grid_container = NodePath("scroll_container/grid")
+
+[node name="scroll_container" type="ScrollContainer" parent="."]
+clip_contents = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t0pli")
+horizontal_scroll_mode = 0
+
+[node name="grid" type="GridContainer" parent="scroll_container"]
+self_modulate = Color(0.0901961, 0.0901961, 0.0901961, 0.690196)
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4

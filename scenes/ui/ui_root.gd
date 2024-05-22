@@ -5,10 +5,18 @@ signal mode_changed(mode: Global.Mode)
 
 var mode: Global.Mode
 var terrain_idx: int
+
+@export var toolbar_scale: int = 2
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$toolbar.btn_clicked.connect(btn_mode_changed)
-	$panel/grid.btn_clicked.connect(btn_mode_changed)
+	$toolbar_terrain.btn_clicked.connect(btn_mode_changed)
+	$toolbar_tools.btn_clicked.connect(btn_mode_changed)
+	$toolbar_objects.btn_clicked.connect(btn_mode_changed)
+	$toolbar_characters.btn_clicked.connect(btn_mode_changed)
+	$toolbar_terrain.scale *= toolbar_scale
+	$toolbar_tools.scale *= toolbar_scale
+	$toolbar_objects.scale *= toolbar_scale
+	$toolbar_characters.scale *= toolbar_scale
 	pass # Replace with function body.
 
 
@@ -27,7 +35,7 @@ func _input(event):
 		mode = Global.Mode.escale
 		print("Mode set to scale")
 
-func btn_mode_changed(id: String):
+func btn_mode_changed(id: String, coord: Vector2):
 	print(id)
 	var split = id.split("_")
 	if split[1] == "tool":
@@ -39,10 +47,19 @@ func btn_mode_changed(id: String):
 			"btn_tool_resize": mode = Global.Mode.escale
 			"btn_tool_cancel": mode = Global.Mode.ecancel
 			"btn_tool_paint": mode = Global.Mode.epaint
+			"btn_tool_erase": mode = Global.Mode.eerase
+			"btn_tool_bucket": mode = Global.Mode.ebucket
+			"btn_tool_picker": mode = Global.Mode.epicker	
 		mode_changed.emit(mode)
 	if split[1] == "terrain":
-		terrain_idx = int(split[2])
-		palette_index_changed.emit(terrain_idx)
-		
-
+		terrain_idx = 0
+		palette_index_changed.emit(terrain_idx, coord)
+	if split[1] == "object":
+		terrain_idx = 1
+		palette_index_changed.emit(terrain_idx, coord)
+		pass
+	if split[1] == "character":
+		terrain_idx = 2
+		palette_index_changed.emit(terrain_idx, coord)
+		pass
 	pass

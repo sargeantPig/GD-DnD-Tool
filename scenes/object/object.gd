@@ -1,31 +1,31 @@
 extends Node2D
 
 # Object script to control the rotation and placement of objects. This should be generic and applied to each placeable object
-
+signal object_selected(id)
 
 var parent: Node2D
-var sprite: Texture2D 
 var mouseHover: bool = false
 var selected: bool = false
 var mode: Global.Mode
 
-
 func _ready():
-	#$box/sprite.texture = sprite
-	var p = get_parent()
-	if p.name == "root":
-		parent = p
+	$Control/lbl_name.text =  "%s" % self.name
+	if not get_parent() is Window:
+		parent = get_parent()
+		object_selected.connect(parent._managed_object_selected)
+		parent.mode_change.connect(_mode_change)
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if parent != null:
-		mode = parent.mode
+	#if parent != null:
+	#	mode = parent.mode
 	if selected:
-		modulate = Color("blue", 0.25)
-	else: modulate = Color("white")
-	if parent != null:
-		mode = parent.mode
+		$box.modulate = Color("white", 0.75)
+		$Control.visible = true
+	else: 
+		$box.modulate = Color("white")
+		$Control.visible = false
 	pass
 
 func _physics_process(delta):
@@ -42,7 +42,7 @@ func _physics_process(delta):
 		if Input.is_action_pressed("increase"):
 			manipulate_object(0.1)
 
-func _input(event):
+func _unhandled_input(event):
 	if event.is_action_pressed("select") && !mouseHover:
 		selected = false
 		print("deselected")
@@ -56,6 +56,9 @@ func _input(event):
 		if event.is_action_pressed("mode_scale"):
 			mode = Global.Mode.escale
 			print("Mode set to scale")
+
+func _input(event):
+
 	pass
 
 func manipulate_object(value: float):
@@ -90,4 +93,18 @@ func _on_box_input_event(viewport, event, shape_idx):
 	if event.is_action_pressed("select"):
 		print("selected")
 		selected = true
+		object_selected.emit(name)
 	pass # Replace with function body.
+
+func set_texture(sprite: Texture2D):
+	$box/sprite.texture = sprite
+
+func set_region(rect: Rect2):
+	$box/sprite.region_enabled = true
+	$box/sprite.region_rect = rect
+
+func set_parent(node: Node2D):
+	parent = node
+	
+func _mode_change(_mode: Global.Mode):
+	self.mode = _mode
