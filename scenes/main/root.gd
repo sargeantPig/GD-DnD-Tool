@@ -22,7 +22,12 @@ var palette_index: int = 0
 var palette_coord: Vector2 = Vector2(0,0)
 var tilemap_coord: Vector2
 var misc_objects: Array[Node2D]
-# Called when the node enters the scene tree for the first time.
+
+
+# ONE SHOT VARS
+var flip: bool = false
+
+
 func _ready():
 	$ui.palette_index_changed.connect(palette_index_changed)
 	$ui.mode_changed.connect(mode_changed)
@@ -114,6 +119,8 @@ func mode_changed(value: Global.Mode):
 			_save_objects()
 		Global.Mode.eload:
 			_load_objects()
+		Global.Mode.eflip:
+			flip = !flip
 			return
 	
 	mode = value

@@ -21,6 +21,7 @@ signal btn_clicked(id: String, coord: Vector2)
 @export var offset_x: int = 0
 @export var linked_maps: Array[ScrollContainer]
 @export var toggle_mode: bool = true
+@export var max_container_height: int = 400
 
 var btn_count: int = 0
 var screen_center: float = 0
@@ -37,6 +38,7 @@ func _ready():
 	var name_count: int = tile_names.size()
 	grid_container.columns = columns
 	max_sizey = get_viewport().get_visible_rect().size.y * 0.3
+	
 	#scale = Vector2(2, 2)
 	screen_center = get_viewport().get_visible_rect().size.x / 2
 	
@@ -66,14 +68,14 @@ func _ready():
 			region_coord[button.name] = Vector2(x, y)
 			
 	btn_count = buttons.size()
-	var row_count = buttons.size() / columns
+	var row_count = (buttons.size() / columns)
 	var scaledx = tile_size*scale.x
 	var scaledy = tile_size*scale.y
 	var real_width = btn_count*scaledx
 	var real_height = row_count*tile_size
 	var icon_height = row_count * scaledy
 	toolbar_width_halved = real_width/2
-	if icon_height < max_sizey: 
+	if icon_height < max_container_height: 
 		size.y = real_height + padding
 	else: 
 		size.y = clamp(real_height, 0, max_sizey)
@@ -122,7 +124,7 @@ func _process(delta):
 	elif anchor == 2: # Right
 		var x: int 
 		x = get_viewport().get_visible_rect().size.x - size.x*scale.x
-		position = Vector2(x-padding + offset_x, 0+padding + offset_y)
+		position = Vector2(x-padding + offset_x, 0 + offset_y)
 	elif anchor == 3: #Bottom
 		screen_center = get_viewport().get_visible_rect().size.x / 2
 		var x: int = screen_center - ((size.x /2) * scale.x)

@@ -14,11 +14,13 @@ func _ready():
 	$toolbar_objects.btn_clicked.connect(btn_mode_changed)
 	$toolbar_characters.btn_clicked.connect(btn_mode_changed)
 	$toolbar_system.btn_clicked.connect(btn_mode_changed)
+	$toolbar_mod.btn_clicked.connect(btn_mode_changed)
 	$toolbar_terrain.scale *= toolbar_scale
 	$toolbar_tools.scale *= toolbar_scale
 	$toolbar_objects.scale *= toolbar_scale
 	$toolbar_characters.scale *= toolbar_scale
 	$toolbar_system.scale *= toolbar_scale
+	$toolbar_mod.scale *= toolbar_scale
 	pass # Replace with function body.
 
 
@@ -69,4 +71,8 @@ func btn_mode_changed(id: String, coord: Vector2):
 			"btn_system_save": mode = Global.Mode.esave
 			"btn_system_load": mode = Global.Mode.eload
 		mode_changed.emit(mode)
+	if split[1] == "mod":
+		match(id):
+			"btn_mod_flip": mode = Global.Mode.eflip
+			"btn_mod_colour": mode = Global.Mode.eflip
 	pass
