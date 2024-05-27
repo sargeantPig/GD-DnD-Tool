@@ -1,7 +1,7 @@
 extends Node2D
 
 # area of effect cones, etc
-# move characters
+# move characters	
 # spell ranges/ movement
 # data structure for character sheets ------ longer term goal
 # forestry, stone, wooden textures
@@ -14,7 +14,7 @@ signal source_changed(source: TileSetAtlasSource)
 const object_res: PackedScene = preload("res://scenes/object/object.tscn")
 
 var selectedIndex: int = 0
-var tilesets: Array = [$grassy_terrain]
+var tilesets: Array = [$terrain]
 @export var atlas: Array[Texture2D]
 var mode: Global.Mode
 var source_id: int = 1
@@ -42,26 +42,25 @@ func _process(delta):
 	tilemap_coord = get_mouse_location_on_map()
 	display_ghost_tile()
 	mode = $ui.mode
-
 	pass
 
 func pick(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
 		print("picked at " + str(tilemap_coord))
-		palette_coord = $grassy_terrain.get_cell_atlas_coords(0, tilemap_coord)
-		print($grassy_terrain.get_cell_atlas_coords(0, tilemap_coord))
+		palette_coord = $terrain.get_cell_atlas_coords(0, tilemap_coord)
+		print($terrain.get_cell_atlas_coords(0, tilemap_coord))
 	pass
 
 func erase(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
 		print("erase at " + str(tilemap_coord))
-		$grassy_terrain.set_cell(0, tilemap_coord, source_id)
+		$terrain.set_cell(0, tilemap_coord, source_id)
 
 func paint(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
 		print("paint at " + str(tilemap_coord))
 		match palette_index:
-			0: $grassy_terrain.set_cell(0, tilemap_coord, source_id, palette_coord )
+			0: $terrain.set_cell(0, tilemap_coord, source_id, palette_coord )
 			_: pass
 				
 	if Input.is_action_just_released("select") && palette_index != 0:
@@ -73,6 +72,7 @@ func paint(tilemap_coord: Vector2):
 func create_object(tilemap_coord, palette_coord) -> Node2D:
 	var new_object = object_res.instantiate()
 	new_object.position = get_tilemap_coord()
+	new_object.atlas = palette_index
 	new_object.set_texture(atlas[palette_index])
 	new_object.set_region(Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32))
 	new_object.set_parent(self)
@@ -104,10 +104,18 @@ func palette_index_changed(value: int, coord: Vector2):
 
 func get_mouse_location_on_map():
 	var mouse = get_local_mouse_position()
-	var tilemap_coord = $grassy_terrain.local_to_map(mouse)
+	var tilemap_coord = $terrain.local_to_map(mouse)
 	return tilemap_coord
 
 func mode_changed(value: Global.Mode):
+	# Check for one shot modes, like saving and loading
+	match(value):
+		Global.Mode.esave: 
+			_save_objects()
+		Global.Mode.eload:
+			_load_objects()
+			return
+	
 	mode = value
 
 func modify_selected_index(value: int):
@@ -115,10 +123,54 @@ func modify_selected_index(value: int):
 	pass
 
 func get_tileset_atlas():
-	return $grassy_terrain.tile_set.get_source(source_id)
+	return $terrain.tile_set.get_source(source_id)
 
 func get_palette_coord():
 	return palette_coord
 	
 func get_tilemap_coord():
-	return $grassy_terrain.map_to_local(tilemap_coord)
+	return $terrain.map_to_local(tilemap_coord)
+
+func _save_objects():
+	var path = "dnd_saves"
+	var tosave: Array[Node] = get_tree().get_nodes_in_group("can_save")
+
+	var save_file = FileAccess.open("user://savegame.save", FileAccess.WRITE)
+	for item in tosave:
+		var data = item._save()
+		var json = JSON.stringify(data)
+		save_file.store_line(json)
+	save_file.close()
+	pass
+	
+func _load_objects():
+	if not FileAccess.file_exists("user://savegame.save"):
+		return 
+	
+	# Clear the terrain
+	$terrain.clear()
+	
+	var save_nodes = get_tree().get_nodes_in_group("persist")
+	for i in save_nodes:
+		print("removing ", i)
+		i.queue_free()
+		
+	var save_game = FileAccess.open("user://savegame.save", FileAccess.READ)
+	while save_game.get_position() < save_game.get_length():
+		var json_string = save_game.get_line()
+		var json = JSON.new()
+		var parse_result = json.parse(json_string)
+		var node_data = json.get_data()
+		
+		match(node_data["object_type"]):
+			"item": _load_item(node_data)
+			"tilemap": $terrain.load(node_data)
+	pass
+	
+func _load_item(data):
+	var new_object: Node = load(data["filename"]).instantiate()
+	new_object.set_parent(self)
+	new_object.atlas = data["atlas"]
+	new_object.set_texture(atlas[data["atlas"]])
+	new_object.load(data)
+	$misc.add_child(new_object)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://33d8mtwrggci"]
+[gd_scene load_steps=6 format=3 uid="uid://33d8mtwrggci"]
 
 [ext_resource type="Script" path="res://scenes/object/object.gd" id="1_ri8g6"]
 [ext_resource type="Texture2D" uid="uid://gkue1250nv1w" path="res://tilemaps/tilemap_weapons.png" id="2_ygpif"]
+[ext_resource type="Script" path="res://scenes/object/uibox.gd" id="3_wd2lu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xc3qt"]
 size = Vector2(32, 32)
@@ -13,7 +14,7 @@ expand_margin_top = 5.0
 expand_margin_right = 5.0
 expand_margin_bottom = 5.0
 
-[node name="object" type="Node2D"]
+[node name="object" type="Node2D" groups=["can_save", "persist"]]
 position = Vector2(76, 59)
 script = ExtResource("1_ri8g6")
 
@@ -35,6 +36,7 @@ offset_left = 26.0
 offset_top = -20.0
 offset_right = 66.0
 offset_bottom = 20.0
+script = ExtResource("3_wd2lu")
 
 [node name="lbl_name" type="TextEdit" parent="Control"]
 modulate = Color(0.509804, 0.835294, 0.843137, 1)

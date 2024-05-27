@@ -9,7 +9,7 @@ signal btn_clicked(id: String, coord: Vector2)
 @export var clicked_tex: Texture2D
 @export var hovered_tex: Texture2D
 @export var has_multiple_atlas: bool
-@export_enum("top", "left", "right", "bottom") var anchor = 0
+@export_enum("top", "left", "right", "bottom", "leftbottom") var anchor = 0
 @export var tile_names: Array[String]
 @export var name_format: String
 @export var padding: int
@@ -20,6 +20,7 @@ signal btn_clicked(id: String, coord: Vector2)
 @export var offset_y: int = 0
 @export var offset_x: int = 0
 @export var linked_maps: Array[ScrollContainer]
+@export var toggle_mode: bool = true
 
 var btn_count: int = 0
 var screen_center: float = 0
@@ -89,7 +90,7 @@ func handle_name(name: String, index: int):
 func create_button(name: String, index: int) -> TextureButton:
 	var processed_name = handle_name(name, index)
 	var newButton: TextureButton = TextureButton.new()
-	newButton.toggle_mode = true
+	newButton.toggle_mode = toggle_mode
 	newButton.name = processed_name
 	newButton.tooltip_text = processed_name.split("_")[2]
 	return newButton
@@ -112,19 +113,24 @@ func set_new_atlas(btn: TextureButton, x: int, y: int, s: int):
 		btn.texture_hover.atlas = default_tex
 
 func _process(delta):
-	if anchor == 0:
+	if anchor == 0: # TOP
 		screen_center = get_viewport().get_visible_rect().size.x / 2
 		var x: float = screen_center - ((size.x/2) *scale.x)
 		position = Vector2(x+padding + offset_x, 0 + offset_y)
-	elif anchor == 1:
-		position = Vector2(0+padding + offset_x, 0+padding + offset_y)
-	elif anchor == 2:
+	elif anchor == 1: # LEFT
+		position = Vector2(0+padding + offset_x, 0 + offset_y)
+	elif anchor == 2: # Right
 		var x: int 
 		x = get_viewport().get_visible_rect().size.x - size.x*scale.x
 		position = Vector2(x-padding + offset_x, 0+padding + offset_y)
-	elif anchor == 3:
+	elif anchor == 3: #Bottom
 		screen_center = get_viewport().get_visible_rect().size.x / 2
 		var x: int = screen_center - ((size.x /2) * scale.x)
+		var y: int = get_viewport().get_visible_rect().size.y - (size.y*scale.x)
+		position = Vector2(x + offset_x, y + offset_y)
+	elif anchor == 4: #Left Bottom
+		screen_center = get_viewport().get_visible_rect().size.x / 2
+		var x: int = 0+padding
 		var y: int = get_viewport().get_visible_rect().size.y - (size.y*scale.x)
 		position = Vector2(x + offset_x, y + offset_y)
 		

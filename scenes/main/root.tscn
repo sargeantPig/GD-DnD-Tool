@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cxm2nksgm0l7v" path="res://tilemaps/tilemap_characters.png" id="3_wgu7a"]
 [ext_resource type="PackedScene" uid="uid://clrnmamca4eq7" path="res://scenes/ui/ui_root.tscn" id="4_oemms"]
 [ext_resource type="Script" path="res://scenes/main/ghost.gd" id="5_70rwt"]
-[ext_resource type="PackedScene" uid="uid://33d8mtwrggci" path="res://scenes/object/object.tscn" id="5_qshvh"]
+[ext_resource type="Script" path="res://scenes/main/terrain_editor.gd" id="6_v0i3r"]
 [ext_resource type="Script" path="res://scenes/main/object_manager.gd" id="7_t4ocf"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_fj77e"]
@@ -72,16 +72,14 @@ region_enabled = true
 region_rect = Rect2(64, 0, 32, 32)
 script = ExtResource("5_70rwt")
 
-[node name="grassy_terrain" type="TileMap" parent="."]
+[node name="terrain" type="TileMap" parent="." groups=["can_save"]]
 tile_set = SubResource("TileSet_n282s")
 format = 2
 layer_0/z_index = -1
 layer_0/tile_data = PackedInt32Array(524304, 327681, 1, 589840, 196609, 1, 655376, 196609, 1, 720912, 1, 1, 786448, 1, 2, 786449, 131073, 1, 786450, 65537, 2, 720914, 65537, 0, 655378, 65537, 0, 589842, 65537, 1, 589841, 65537, 0, 524305, 65537, 0, 655377, 262145, 0, 720913, 1, 1, 524306, 327681, 2, 524307, 1, 0, 458771, 1, 0, 458770, 1, 0, 458769, 1, 0, 458768, 1, 0, 458767, 1, 0, 524303, 1, 0, 589839, 1, 1, 655375, 1, 0, 720911, 1, 0, 786447, 1, 0, 851983, 1, 0, 851984, 1, 0, 851985, 1, 0, 851986, 1, 0, 851987, 1, 0, 786451, 1, 0, 720915, 1, 0, 655379, 1, 0, 589843, 1, 0)
+script = ExtResource("6_v0i3r")
 
 [node name="ui" parent="." instance=ExtResource("4_oemms")]
 
 [node name="misc" type="Node2D" parent="."]
 script = ExtResource("7_t4ocf")
-
-[node name="test" parent="misc" instance=ExtResource("5_qshvh")]
-position = Vector2(354, 309)

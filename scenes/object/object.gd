@@ -7,9 +7,11 @@ var parent: Node2D
 var mouseHover: bool = false
 var selected: bool = false
 var mode: Global.Mode
+var atlas: int = 0
+var regionSize: int = 32
 
 func _ready():
-	$Control/lbl_name.text =  "%s" % self.name
+	#$Control/lbl_name.text =  "%s" % self.name
 	if not get_parent() is Window:
 		parent = get_parent()
 		object_selected.connect(parent._managed_object_selected)
@@ -108,3 +110,31 @@ func set_parent(node: Node2D):
 	
 func _mode_change(_mode: Global.Mode):
 	self.mode = _mode
+
+func _save():
+	var data = {
+		"object_type": "item",
+		"filename": get_scene_file_path(),
+		"nodepath": get_path(),
+		"name": self.name,
+		"pos_x": position.x,
+		"pos_y": position.y,
+		"atlas": atlas,
+		"region": $box/sprite.region_enabled,
+		"reg_x": $box/sprite.region_rect.position.x,
+		"reg_y": $box/sprite.region_rect.position.y,
+		"regionSize": regionSize,
+		"user_defined": $Control.save()
+	}
+	return data
+
+func load(data):
+	name = data["name"]
+	position = Vector2(data["pos_x"], data["pos_y"])
+	regionSize = data["regionSize"]
+	var x = data["reg_x"]
+	var y = data["reg_y"]
+	set_region(Rect2(x, y, 32, 32))
+	$Control.load(data["user_defined"])
+
+
