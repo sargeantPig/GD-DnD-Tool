@@ -18,3 +18,5 @@ func _managed_object_selected(id: String):
 
 func _mode_changed(mode: Global.Mode):
 	mode_change.emit(mode)
+
+

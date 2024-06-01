@@ -22,6 +22,11 @@ signal btn_clicked(id: String, coord: Vector2)
 @export var linked_maps: Array[ScrollContainer]
 @export var toggle_mode: bool = true
 @export var max_container_height: int = 400
+@export var one_shot: bool = false
+
+var normal_colour: Color = Color(1, 1, 1)
+var clicked_colour: Color =  Color(1, 0.5, 0.5)
+
 
 var btn_count: int = 0
 var screen_center: float = 0
@@ -145,9 +150,20 @@ func _process(delta):
 	pass
 
 func button_pressed(id):
-	if id == current_pressed:
-		return
 	for btn in buttons:
+		# Handle toggle buttons
+		print("----------")
+		print(btn.name)
+		print(id)
+		print("----------")
+		if (id == current_pressed && toggle_mode) && (btn.name == id):
+			toggle_click_colour(id, btn)
+			btn_clicked.emit(id, region_coord[id])
+			return
+		if (id == current_pressed && one_shot) && (btn.name == id):
+			toggle_click_colour(id, btn)
+			btn_clicked.emit(id, region_coord[id])
+			return
 		if btn.name == id:
 			if !has_multiple_atlas:
 				btn.modulate = Color(1, 0.5, 0.5)
@@ -166,3 +182,11 @@ func button_pressed(id):
 	if region_coord.has(id):
 		btn_clicked.emit(id, region_coord[id])
 	pass
+	
+func toggle_click_colour(id, btn):
+	if id == current_pressed:
+		btn.modulate = normal_colour
+		current_pressed = ""
+	else: 
+		current_pressed = id
+		btn.modulate = clicked_colour

@@ -81,6 +81,7 @@ func create_object(tilemap_coord, palette_coord) -> Node2D:
 	new_object.set_texture(atlas[palette_index])
 	new_object.set_region(Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32))
 	new_object.set_parent(self)
+	new_object.mode = mode
 	return new_object
 
 func add_misc_object():

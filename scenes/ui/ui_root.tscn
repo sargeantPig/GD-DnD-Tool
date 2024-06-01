@@ -54,6 +54,7 @@ default_tex = ExtResource("7_h6pas")
 anchor = 4
 name_format = "btn_terrain_%s"
 columns = 5
+toggle_mode = false
 max_container_height = 200
 
 [node name="toolbar_tools" parent="." instance=ExtResource("3_8m7s6")]
@@ -74,6 +75,7 @@ tile_names = Array[String](["btn_object_shield", "btn_object_sword_1", "btn_obje
 columns = 3
 offset_y = 400
 linked_maps = [NodePath("../toolbar_characters")]
+toggle_mode = false
 
 [node name="toolbar_characters" parent="." node_paths=PackedStringArray("linked_maps") instance=ExtResource("3_8m7s6")]
 z_index = 9
@@ -87,6 +89,7 @@ tile_names = Array[String](["btn_character_goblin", "btn_character_helf", "btn_c
 columns = 3
 offset_y = 200
 linked_maps = [NodePath("../toolbar_objects")]
+toggle_mode = false
 max_container_height = 50
 
 [node name="toolbar_system" parent="." instance=ExtResource("3_8m7s6")]
@@ -95,6 +98,7 @@ anchor = 1
 tile_names = Array[String](["btn_system_save", "btn_system_load"])
 columns = 2
 toggle_mode = false
+one_shot = true
 
 [node name="toolbar_mod" parent="." instance=ExtResource("3_8m7s6")]
 default_tex = ExtResource("11_bn0y4")

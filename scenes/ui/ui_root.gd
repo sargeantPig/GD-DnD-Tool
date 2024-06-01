@@ -40,7 +40,6 @@ func _input(event):
 		print("Mode set to scale")
 
 func btn_mode_changed(id: String, coord: Vector2):
-	print(id)
 	var split = id.split("_")
 	if split[1] == "tool":
 		match(id):
