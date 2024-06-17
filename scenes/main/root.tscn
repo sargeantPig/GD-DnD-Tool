@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dmknstb6k6kwb"]
+[gd_scene load_steps=14 format=3 uid="uid://dmknstb6k6kwb"]
 
 [ext_resource type="Script" path="res://scenes/main/root.gd" id="1_626pt"]
 [ext_resource type="Texture2D" uid="uid://djbbxdbbm73af" path="res://tilemaps/tilemap_grassy.png" id="2_bw2rs"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scenes/main/ghost.gd" id="5_70rwt"]
 [ext_resource type="Script" path="res://scenes/main/terrain_editor.gd" id="6_v0i3r"]
 [ext_resource type="Script" path="res://scenes/main/object_manager.gd" id="7_t4ocf"]
+[ext_resource type="Script" path="res://scenes/main/camera.gd" id="9_lppxb"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_fj77e"]
 tile_data = PackedInt32Array(0, 262144, 0, 65536, 262144, 0, 1, 262144, 0, 65537, 131072, 2)
@@ -79,7 +80,13 @@ layer_0/z_index = -1
 layer_0/tile_data = PackedInt32Array(524304, 327681, 1, 589840, 196609, 1, 655376, 196609, 1, 720912, 1, 1, 786448, 1, 2, 786449, 131073, 1, 786450, 65537, 2, 720914, 65537, 0, 655378, 65537, 0, 589842, 65537, 1, 589841, 65537, 0, 524305, 65537, 0, 655377, 262145, 0, 720913, 1, 1, 524306, 327681, 2, 524307, 1, 0, 458771, 1, 0, 458770, 1, 0, 458769, 1, 0, 458768, 1, 0, 458767, 1, 0, 524303, 1, 0, 589839, 1, 1, 655375, 1, 0, 720911, 1, 0, 786447, 1, 0, 851983, 1, 0, 851984, 1, 0, 851985, 1, 0, 851986, 1, 0, 851987, 1, 0, 786451, 1, 0, 720915, 1, 0, 655379, 1, 0, 589843, 1, 0)
 script = ExtResource("6_v0i3r")
 
-[node name="ui" parent="." instance=ExtResource("4_oemms")]
+[node name="canvas" type="CanvasLayer" parent="."]
+
+[node name="ui" parent="canvas" instance=ExtResource("4_oemms")]
+
+[node name="camera" type="Camera2D" parent="."]
+anchor_mode = 0
+script = ExtResource("9_lppxb")
 
 [node name="misc" type="Node2D" parent="."]
 script = ExtResource("7_t4ocf")

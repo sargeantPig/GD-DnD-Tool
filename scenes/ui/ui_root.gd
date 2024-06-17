@@ -56,14 +56,14 @@ func btn_mode_changed(id: String, coord: Vector2):
 		mode_changed.emit(mode)
 	if split[1] == "terrain":
 		terrain_idx = 0
-		palette_index_changed.emit(terrain_idx, coord)
+		palette_index_changed.emit(id, terrain_idx, coord)
 	if split[1] == "object":
 		terrain_idx = 1
-		palette_index_changed.emit(terrain_idx, coord)
+		palette_index_changed.emit(id, terrain_idx, coord)
 		pass
 	if split[1] == "character":
 		terrain_idx = 2
-		palette_index_changed.emit(terrain_idx, coord)
+		palette_index_changed.emit(id, terrain_idx, coord)
 		pass
 	if split[1] == "system":
 		match(id):

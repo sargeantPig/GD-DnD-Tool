@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://clrnmamca4eq7"]
+[gd_scene load_steps=11 format=3 uid="uid://clrnmamca4eq7"]
 
 [ext_resource type="Script" path="res://scenes/ui/ui_root.gd" id="1_hnd6y"]
 [ext_resource type="Script" path="res://console/console.gd" id="1_njcnl"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://cqpxi110381ya" path="res://tilemaps/icons_clicked.png" id="6_eaxss"]
 [ext_resource type="Texture2D" uid="uid://djbbxdbbm73af" path="res://tilemaps/tilemap_grassy.png" id="7_h6pas"]
 [ext_resource type="Texture2D" uid="uid://cxj47y8e8jcno" path="res://tilemaps/icons_hovered.png" id="7_jc3f7"]
-[ext_resource type="Script" path="res://scenes/ui/grid.gd" id="8_tpigs"]
 [ext_resource type="Texture2D" uid="uid://gkue1250nv1w" path="res://tilemaps/tilemap_weapons.png" id="8_vpl8x"]
 [ext_resource type="Texture2D" uid="uid://cxm2nksgm0l7v" path="res://tilemaps/tilemap_characters.png" id="9_fgeua"]
 [ext_resource type="Texture2D" uid="uid://cbgy336p8jtyw" path="res://tilemaps/tilemap_system.png" id="10_yoe2b"]
@@ -14,13 +13,6 @@
 
 [node name="ui" type="Node2D"]
 script = ExtResource("1_hnd6y")
-
-[node name="grid" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("8_tpigs")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 visible = false
@@ -43,6 +35,8 @@ script = ExtResource("1_njcnl")
 [node name="LineEdit" type="LineEdit" parent="GridContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
+caret_blink = true
+caret_blink_interval = 0.5
 
 [node name="MarginContainer" type="MarginContainer" parent="GridContainer"]
 layout_mode = 2

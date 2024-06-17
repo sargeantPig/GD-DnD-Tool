@@ -4,6 +4,7 @@ extends Node2D
 signal object_selected(id)
 
 var parent: Node2D
+var id: String
 var mouseHover: bool = false
 var selected: bool = false
 var mode: Global.Mode
@@ -16,18 +17,34 @@ func _ready():
 		parent = get_parent()
 		object_selected.connect(parent._managed_object_selected)
 		parent.mode_change.connect(_mode_change)
+	
 	pass # Replace with function body.
+
+func set_real_name():
+	if parent == null:
+		return
+	var num = parent.get_count_by_name(id)
+	var mod_name = id.split("_")[-1]
+	var real_name = mod_name + "_" + str(num + 1)
+	$Control/lbl_name.text = real_name
+	$name.text = real_name
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	#if parent != null:
 	#	mode = parent.mode
+	$name.text = $Control/lbl_name.text
 	if selected:
 		$box.modulate = Color("white", 0.75)
 		$Control.visible = true
 	else: 
 		$box.modulate = Color("white")
 		$Control.visible = false
+	
+	if mouseHover:
+		$name.visible = true
+	else: $name.visible = false
+	
 	pass
 
 func _physics_process(delta):
@@ -58,6 +75,7 @@ func _unhandled_input(event):
 		if event.is_action_pressed("mode_scale"):
 			mode = Global.Mode.escale
 			print("Mode set to scale")
+		
 
 func _input(event):
 
@@ -71,6 +89,9 @@ func manipulate_object(value: float):
 			handle_rotation(value)
 		Global.Mode.eposition:
 			handle_position(get_global_mouse_position())
+		Global.Mode.eerase:
+			handle_erase()
+
 
 func handle_rotation(rot: float):
 	rotation += rot
@@ -84,7 +105,9 @@ func handle_position(mousePosition: Vector2):
 func handle_scale(scaler: float):
 	scale.x += scaler
 	scale.y += scaler
-	pass
+	
+func handle_erase():
+	self.queue_free()
 
 func restore_defaults():
 	rotation = 0

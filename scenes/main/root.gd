@@ -14,24 +14,24 @@ signal source_changed(source: TileSetAtlasSource)
 const object_res: PackedScene = preload("res://scenes/object/object.tscn")
 
 var selectedIndex: int = 0
-var tilesets: Array = [$terrain]
+var tilesets: Array = []
 @export var atlas: Array[Texture2D]
 var mode: Global.Mode
 var source_id: int = 1
 var palette_index: int = 0
 var palette_coord: Vector2 = Vector2(0,0)
+var name_id: String
 var tilemap_coord: Vector2
 var misc_objects: Array[Node2D]
-
 
 # ONE SHOT VARS
 var flip: bool = false
 
 
 func _ready():
-	$ui.palette_index_changed.connect(palette_index_changed)
-	$ui.mode_changed.connect(mode_changed)
-	$ui.mode_changed.connect($misc._mode_changed)
+	$canvas/ui.palette_index_changed.connect(palette_index_changed)
+	$canvas/ui.mode_changed.connect(mode_changed)
+	$canvas/ui.mode_changed.connect($misc._mode_changed)
 	pass
 
 func _unhandled_input(event):
@@ -46,7 +46,7 @@ func _unhandled_input(event):
 func _process(delta):
 	tilemap_coord = get_mouse_location_on_map()
 	display_ghost_tile()
-	mode = $ui.mode
+	mode = $canvas/ui.mode
 	pass
 
 func pick(tilemap_coord: Vector2):
@@ -76,12 +76,14 @@ func paint(tilemap_coord: Vector2):
 
 func create_object(tilemap_coord, palette_coord) -> Node2D:
 	var new_object = object_res.instantiate()
+	new_object.id = name_id
 	new_object.position = get_tilemap_coord()
 	new_object.atlas = palette_index
 	new_object.set_texture(atlas[palette_index])
 	new_object.set_region(Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32))
-	new_object.set_parent(self)
+	new_object.set_parent($misc)
 	new_object.mode = mode
+	new_object.set_real_name()
 	return new_object
 
 func add_misc_object():
@@ -101,10 +103,11 @@ func display_ghost_tile():
 		$ghost.visible = false
 	pass
 
-func palette_index_changed(value: int, coord: Vector2):
+func palette_index_changed(id: String, value: int, coord: Vector2):
 	$ghost.texture = atlas[value]
 	palette_index = value
 	palette_coord = coord
+	name_id = id
 	print(str(value) + " recieved")
 	print(str(coord) + " recieved")
 

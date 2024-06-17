@@ -10,6 +10,14 @@ func _ready():
 func _process(delta):
 	pass
 
+func get_count_by_name(name: String):
+	var count = -1
+	var children = get_children()
+	for child in children:
+		if child.id == name:
+			count += 1
+	return count
+
 func _managed_object_selected(id: String):
 	for child in get_children():
 		if child.name != id:
