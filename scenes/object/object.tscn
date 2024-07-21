@@ -8,7 +8,9 @@
 size = Vector2(32, 32)
 
 [sub_resource type="LabelSettings" id="LabelSettings_kcab4"]
-font_color = Color(0.639216, 0.0784314, 0.615686, 1)
+font_color = Color(0.956863, 0.713726, 0.929412, 1)
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvcta"]
 bg_color = Color(0.270588, 0.270588, 0.270588, 0.894118)

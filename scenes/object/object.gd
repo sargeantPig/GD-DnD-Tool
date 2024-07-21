@@ -9,7 +9,7 @@ var mouseHover: bool = false
 var selected: bool = false
 var mode: Global.Mode
 var atlas: int = 0
-var regionSize: int = 32
+var orig_pos: Vector2
 
 func _ready():
 	#$Control/lbl_name.text =  "%s" % self.name
@@ -34,7 +34,7 @@ func _process(delta):
 	#if parent != null:
 	#	mode = parent.mode
 	$name.text = $Control/lbl_name.text
-	if selected:
+	if selected && mode != Global.Mode.emulti:
 		$box.modulate = Color("white", 0.75)
 		$Control.visible = true
 	else: 
@@ -48,8 +48,7 @@ func _process(delta):
 	pass
 
 func _physics_process(delta):
-	var mouseRect: Rect2 = Rect2(get_local_mouse_position(), Vector2.ONE)
-	if $box/CollisionShape2D.shape.get_rect().encloses(mouseRect):
+	if Global.check_mouse_in_rect(get_local_mouse_position(), get_box()):
 		mouseHover = true
 	elif !Input.is_action_pressed("select"): mouseHover = false 
 	
@@ -61,8 +60,14 @@ func _physics_process(delta):
 		if Input.is_action_pressed("increase"):
 			manipulate_object(0.1)
 
+func get_box() -> Rect2:
+	return $box/CollisionShape2D.shape.get_rect()
+
+func get_loc_rect() -> Rect2:
+	return Rect2(position, Vector2.ONE)
+
 func _unhandled_input(event):
-	if event.is_action_pressed("select") && !mouseHover:
+	if event.is_action_pressed("select") && !mouseHover && mode != Global.Mode.emulti:
 		selected = false
 		print("deselected")
 	if parent == null:
@@ -115,7 +120,7 @@ func restore_defaults():
 	pass
 
 func _on_box_input_event(viewport, event, shape_idx):
-	if event.is_action_pressed("select"):
+	if event.is_action_pressed("select") && mode != Global.Mode.emulti:
 		print("selected")
 		selected = true
 		object_selected.emit(name)
@@ -146,7 +151,6 @@ func _save():
 		"region": $box/sprite.region_enabled,
 		"reg_x": $box/sprite.region_rect.position.x,
 		"reg_y": $box/sprite.region_rect.position.y,
-		"regionSize": regionSize,
 		"user_defined": $Control.save()
 	}
 	return data
@@ -154,7 +158,6 @@ func _save():
 func load(data):
 	name = data["name"]
 	position = Vector2(data["pos_x"], data["pos_y"])
-	regionSize = data["regionSize"]
 	var x = data["reg_x"]
 	var y = data["reg_y"]
 	set_region(Rect2(x, y, 32, 32))

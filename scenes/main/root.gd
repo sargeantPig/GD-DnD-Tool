@@ -23,6 +23,9 @@ var palette_coord: Vector2 = Vector2(0,0)
 var name_id: String
 var tilemap_coord: Vector2
 var misc_objects: Array[Node2D]
+var multi_pos: Vector2
+var multi_rect: Rect2
+var multi_mouse_pos: Vector2
 
 # ONE SHOT VARS
 var flip: bool = false
@@ -41,6 +44,8 @@ func _unhandled_input(event):
 		erase(tilemap_coord)
 	if mode == Global.Mode.epicker:
 		pick(tilemap_coord)
+	if mode == Global.Mode.emulti:
+		multi_select()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -49,12 +54,39 @@ func _process(delta):
 	mode = $canvas/ui.mode
 	pass
 
+func _draw():
+	if Input.is_action_pressed("select") && !Global.check_mouse_in_rect(get_local_mouse_position(), multi_rect):
+		var size_vect = multi_pos - get_local_mouse_position()
+		multi_rect = Rect2(multi_pos, -size_vect)
+		draw_rect(multi_rect, Color(0.1, 0.1, 0.5, 0.3), true)
+	else: draw_rect(multi_rect, Color(0.1, 0.1, 0.5, 0.1), true)
+
 func pick(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
 		print("picked at " + str(tilemap_coord))
 		palette_coord = $terrain.get_cell_atlas_coords(0, tilemap_coord)
 		print($terrain.get_cell_atlas_coords(0, tilemap_coord))
 	pass
+
+func multi_select():
+	var is_in_multi = Global.check_mouse_in_rect(get_local_mouse_position(), multi_rect)
+	
+	
+	if is_in_multi && Input.is_action_just_pressed("select"):
+		multi_mouse_pos = get_local_mouse_position()
+	if is_in_multi && Input.is_action_pressed("select"):
+		$misc.move_group(multi_mouse_pos)
+		var diff = get_local_mouse_position() - multi_mouse_pos
+		multi_rect.position = multi_pos + diff
+		queue_redraw()
+		return
+	if Input.is_action_just_pressed("select"):
+		multi_pos = get_local_mouse_position()
+	if Input.is_action_just_released("select"):
+		multi_pos = multi_rect.position
+		$misc.select_objects(multi_rect)
+	queue_redraw()
+
 
 func erase(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
