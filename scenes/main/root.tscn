@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dmknstb6k6kwb"]
+[gd_scene load_steps=15 format=3 uid="uid://dmknstb6k6kwb"]
 
 [ext_resource type="Script" path="res://scenes/main/root.gd" id="1_626pt"]
 [ext_resource type="Texture2D" uid="uid://djbbxdbbm73af" path="res://tilemaps/tilemap_grassy.png" id="2_bw2rs"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scenes/main/ghost.gd" id="5_70rwt"]
 [ext_resource type="Script" path="res://scenes/main/terrain_editor.gd" id="6_v0i3r"]
 [ext_resource type="Script" path="res://scenes/main/object_manager.gd" id="7_t4ocf"]
+[ext_resource type="PackedScene" uid="uid://c8wwwpdtyt3xs" path="res://scenes/ui/object_details.tscn" id="8_e114s"]
 [ext_resource type="Script" path="res://scenes/main/camera.gd" id="9_lppxb"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_fj77e"]
@@ -83,6 +84,8 @@ script = ExtResource("6_v0i3r")
 [node name="canvas" type="CanvasLayer" parent="."]
 
 [node name="ui" parent="canvas" instance=ExtResource("4_oemms")]
+
+[node name="object_details" parent="canvas" instance=ExtResource("8_e114s")]
 
 [node name="camera" type="Camera2D" parent="."]
 anchor_mode = 0

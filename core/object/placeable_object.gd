@@ -8,17 +8,22 @@ var visual: Visual
 var details: Details
 var interactable: Interaction
 var input: InputHandler
+var orig_pos: Vector2
 
 func _ready():
-	interactable = Interaction.new(Rect2(get_real_pos() - Vector2(self.get_extents().x /2, self.get_extents().y/2), get_extents()))
-	visual = Visual.new()
-	details = Details.new()
-	input = InputHandler.new()
+	interactable = Interaction.new(Rect2(get_real_pos() - Vector2(region_rect.size.x /2, region_rect.size.y/2), region_rect.size))
 	if not get_parent() is Window:
 		parent = get_parent()
 		parent.mode_change.connect(_mode_change)
+		object_selected.connect(parent._managed_object_selected)
+		interactable.is_selected.connect(object_selected_emitter)
 	self.interactable.mouse_entered_rect.connect(_mouse_hovered)
 	self.interactable.log_event.connect(log_to_console)
+
+func _init():
+	visual = Visual.new()
+	details = Details.new()
+	input = InputHandler.new()
 
 func _process(delta):
 	input.get_input(self)
@@ -33,9 +38,12 @@ func _manipulate():
 		handle_position()
 
 func handle_position():
-	if (interactable.mouse_hover and input.pressed_left_click) or interactable.is_dragged:
-		interactable.is_dragged = true
+	if (interactable.mouse_hover and input.pressed_left_click and interactable.selected) or interactable.is_dragging:
+		interactable.is_dragging = true
 		position = input.global_mouse_position
+	if (!input.pressed_left_click and interactable.is_dragging):
+		interactable.is_dragging = false
+		
 
 func _unhandled_input(event: InputEvent):
 	interactable.check_input(event)
@@ -50,6 +58,9 @@ func set_region(rect: Rect2):
 func _draw():
 	draw_rect(interactable.rect, Color(0, 0, 0.5, 0.5), true)
 
+func object_selected_emitter():
+	object_selected.emit(name)
+
 func get_real_pos():
 	return Vector2(self.global_position.x - position.x, self.global_position.y - position.y)
 
@@ -59,9 +70,15 @@ func get_extents():
 func _mode_change(_mode: Global.Mode):
 	self.mode = _mode
 
+func set_parent(node: Node2D):
+	parent = node
+
 func log_to_console(msg: String, signal_val = ""):
 	print(self.name, " ", signal_val, msg)
 
+func get_loc_rect() -> Rect2:
+	return Rect2(position, Vector2.ONE)
+	
 func _save():
 	var data = {
 		"object_type": "item",
