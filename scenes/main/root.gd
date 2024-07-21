@@ -11,7 +11,7 @@ extends Node2D
 
 signal source_changed(source: TileSetAtlasSource)
 
-const object_res: PackedScene = preload("res://scenes/object/object.tscn")
+const object_res: PackedScene = preload("res://scenes/placeable_object/placeable_object.tscn")
 
 var selectedIndex: int = 0
 var tilesets: Array = []
@@ -107,16 +107,25 @@ func paint(tilemap_coord: Vector2):
 
 
 func create_object(tilemap_coord, palette_coord) -> Node2D:
-	var new_object = object_res.instantiate()
-	new_object.id = name_id
-	new_object.position = get_tilemap_coord()
-	new_object.atlas = palette_index
-	new_object.set_texture(atlas[palette_index])
-	new_object.set_region(Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32))
-	new_object.set_parent($misc)
-	new_object.mode = mode
-	new_object.set_real_name()
-	return new_object
+	var params = {
+		"name_id": name_id,
+		"tilemap_coord": get_tilemap_coord(),
+		"palette_index": palette_index,
+		"atlas": atlas[palette_index],
+		"region": Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32),
+		"parent": $misc,
+		"mode": mode
+	}
+	#var new_object = object_res.instantiate()
+	#new_object.id = name_id
+	#new_object.position = get_tilemap_coord()
+	#new_object.atlas = palette_index
+	#new_object.set_texture(atlas[palette_index])
+	#new_object.set_region(Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32))
+	#new_object.set_parent($misc)
+	#new_object.mode = mode
+	#new_object.set_real_name()
+	return ObjectFactory.create_placeable_object(object_res, params)
 
 func add_misc_object():
 	$misc.add_child(create_object(tilemap_coord, palette_coord))

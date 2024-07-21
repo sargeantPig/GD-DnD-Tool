@@ -23,7 +23,7 @@ func get_count_by_name(name: String):
 func _managed_object_selected(id: String):
 	for child in get_children():
 		if child.name != id:
-			child.selected = false
+			child.interactable.selected = false
 	pass
 
 func select_objects(box: Rect2):

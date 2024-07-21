@@ -1,0 +1,93 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8wwwpdtyt3xs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_86w34"]
+bg_color = Color(0.270588, 0.270588, 0.270588, 0.894118)
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[node name="object_details" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 509.0
+offset_top = 746.0
+offset_right = 509.0
+offset_bottom = 746.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="lbl_name" type="TextEdit" parent="."]
+self_modulate = Color(0.317647, 1, 1, 1)
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_left = 4.0
+offset_top = -36.0
+offset_right = 104.0
+offset_bottom = 4.0
+theme_override_colors/background_color = Color(0.270588, 0.270588, 0.270588, 1)
+theme_override_font_sizes/font_size = 20
+text = "test"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+clip_contents = false
+custom_minimum_size = Vector2(175, 100)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 469.0
+offset_bottom = 208.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_86w34")
+
+[node name="VBoxContainer" type="GridContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
+
+[node name="lbl_health" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
+clip_contents = false
+layout_mode = 2
+bbcode_enabled = true
+text = "[color=red]Health[/color]
+"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="lbl_status" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[color=lightblue]Status[/color]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="lbl_notes" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
+clip_contents = false
+layout_mode = 2
+text = "Notes"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="input_health" type="TextEdit" parent="ScrollContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.588235)
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "10"
+
+[node name="input_status" type="TextEdit" parent="ScrollContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.588235)
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "fire"
+
+[node name="input_notes" type="TextEdit" parent="ScrollContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.588235)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+wrap_mode = 1
