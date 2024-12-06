@@ -5,24 +5,20 @@ signal mode_changed(mode: Global.Mode)
 
 var mode: Global.Mode
 var terrain_idx: int
-
 @export var toolbar_scale: int = 2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$toolbar_terrain.btn_clicked.connect(btn_mode_changed)
 	$toolbar_tools.btn_clicked.connect(btn_mode_changed)
-	$toolbar_objects.btn_clicked.connect(btn_mode_changed)
 	$toolbar_characters.btn_clicked.connect(btn_mode_changed)
 	$toolbar_system.btn_clicked.connect(btn_mode_changed)
 	$toolbar_mod.btn_clicked.connect(btn_mode_changed)
 	$toolbar_terrain.scale *= toolbar_scale
 	$toolbar_tools.scale *= toolbar_scale
-	$toolbar_objects.scale *= toolbar_scale
 	$toolbar_characters.scale *= toolbar_scale
 	$toolbar_system.scale *= toolbar_scale
 	$toolbar_mod.scale *= toolbar_scale
 	pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -31,13 +27,10 @@ func _process(delta):
 func _input(event):
 	if event.is_action_pressed("mode_position"):
 		mode = Global.Mode.eposition
-		print("mode set to position")
 	if event.is_action_pressed("mode_rotation"):
 		mode = Global.Mode.erotation
-		print("Mode set to rotation")
 	if event.is_action_pressed("mode_scale"):
 		mode = Global.Mode.escale
-		print("Mode set to scale")
 
 func btn_mode_changed(id: String, coord: Vector2):
 	var split = id.split("_")
@@ -57,11 +50,7 @@ func btn_mode_changed(id: String, coord: Vector2):
 	if split[1] == "terrain":
 		terrain_idx = 0
 		palette_index_changed.emit(id, terrain_idx, coord)
-	if split[1] == "object":
-		terrain_idx = 1
-		palette_index_changed.emit(id, terrain_idx, coord)
-		pass
-	if split[1] == "character":
+	if split[1] == "interactable":
 		terrain_idx = 2
 		palette_index_changed.emit(id, terrain_idx, coord)
 		pass
@@ -72,6 +61,6 @@ func btn_mode_changed(id: String, coord: Vector2):
 		mode_changed.emit(mode)
 	if split[1] == "mod":
 		match(id):
-			"btn_mod_flip": mode = Global.Mode.eflip
-			"btn_mod_colour": mode = Global.Mode.eflip
+			"btn_mod_flip": mode_changed.emit(Global.Mode.eflip)
+			"btn_mod_colour": mode_changed.emit(Global.Mode.ecolour)
 	pass

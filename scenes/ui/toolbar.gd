@@ -24,6 +24,7 @@ signal btn_clicked(id: String, coord: Vector2)
 @export var max_container_height: int = 400
 @export var one_shot: bool = false
 
+
 var normal_colour: Color = Color(1, 1, 1)
 var clicked_colour: Color =  Color(1, 0.5, 0.5)
 
@@ -67,7 +68,6 @@ func _ready():
 			grid_container.add_child(button)
 			name_ind +=1
 			counter+=1
-			print(counter)
 			buttons.append(button)
 			name_ind = clampi(name_ind, 0, name_count-1)
 			region_coord[button.name] = Vector2(x, y)
@@ -85,8 +85,6 @@ func _ready():
 	else: 
 		size.y = clamp(real_height, 0, max_sizey)
 		self.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS
-
-	print(toolbar_width_halved)
 	pass # Replace with function body.
 
 func handle_name(name: String, index: int):
@@ -152,10 +150,6 @@ func _process(delta):
 func button_pressed(id):
 	for btn in buttons:
 		# Handle toggle buttons
-		print("----------")
-		print(btn.name)
-		print(id)
-		print("----------")
 		if (id == current_pressed && toggle_mode) && (btn.name == id):
 			toggle_click_colour(id, btn)
 			btn_clicked.emit(id, region_coord[id])

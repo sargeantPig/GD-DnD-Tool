@@ -11,7 +11,7 @@ extends Node2D
 
 signal source_changed(source: TileSetAtlasSource)
 
-const object_res: PackedScene = preload("res://scenes/object/object.tscn")
+const object_res: PackedScene = preload("res://scenes/placeable_object/placeable_object.tscn")
 
 var selectedIndex: int = 0
 var tilesets: Array = []
@@ -26,15 +26,21 @@ var misc_objects: Array[Node2D]
 var multi_pos: Vector2
 var multi_rect: Rect2
 var multi_mouse_pos: Vector2
-
+var ticker: Ticker
+var colourPicker: ColorPickerButton
 # ONE SHOT VARS
-var flip: bool = false
 
+var object_manager: ObjectManager
+var presets: PresetTree
 
 func _ready():
 	$canvas/ui.palette_index_changed.connect(palette_index_changed)
 	$canvas/ui.mode_changed.connect(mode_changed)
 	$canvas/ui.mode_changed.connect($misc._mode_changed)
+	object_manager = $misc
+	ticker = Ticker.new(0.5)
+	presets = $canvas/preset_tree
+	colourPicker = $canvas/colour_pick
 	pass
 
 func _unhandled_input(event):
@@ -52,6 +58,7 @@ func _process(delta):
 	tilemap_coord = get_mouse_location_on_map()
 	display_ghost_tile()
 	mode = $canvas/ui.mode
+	ticker._process(delta)
 	pass
 
 func _draw():
@@ -63,15 +70,11 @@ func _draw():
 
 func pick(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
-		print("picked at " + str(tilemap_coord))
 		palette_coord = $terrain.get_cell_atlas_coords(0, tilemap_coord)
-		print($terrain.get_cell_atlas_coords(0, tilemap_coord))
 	pass
 
 func multi_select():
 	var is_in_multi = Global.check_mouse_in_rect(get_local_mouse_position(), multi_rect)
-	
-	
 	if is_in_multi && Input.is_action_just_pressed("select"):
 		multi_mouse_pos = get_local_mouse_position()
 	if is_in_multi && Input.is_action_pressed("select"):
@@ -90,36 +93,45 @@ func multi_select():
 
 func erase(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
-		print("erase at " + str(tilemap_coord))
 		$terrain.set_cell(0, tilemap_coord, source_id)
 
 func paint(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
-		print("paint at " + str(tilemap_coord))
 		match palette_index:
 			0: $terrain.set_cell(0, tilemap_coord, source_id, palette_coord )
 			_: pass
 				
-	if Input.is_action_just_released("select") && palette_index != 0:
+	if Input.is_action_just_released("select") && palette_index != 0 && ticker.ticked:
 		add_misc_object()
-	print(palette_coord)
+		ticker.start()
 	pass
 
-
 func create_object(tilemap_coord, palette_coord) -> Node2D:
-	var new_object = object_res.instantiate()
-	new_object.id = name_id
-	new_object.position = get_tilemap_coord()
-	new_object.atlas = palette_index
-	new_object.set_texture(atlas[palette_index])
-	new_object.set_region(Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32))
-	new_object.set_parent($misc)
-	new_object.mode = mode
-	new_object.set_real_name()
-	return new_object
+	var params = {
+		"name_id": name_id,
+		"tilemap_coord": get_tilemap_coord(),
+		"palette_index": palette_index,
+		"atlas": atlas[palette_index],
+		"region": Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32),
+		"parent": $misc,
+		"mode": mode,
+		"preset": presets.get_selected_preset()
+	}
+	#var new_object = object_res.instantiate()
+	#new_object.id = name_id
+	#new_object.position = get_tilemap_coord()
+	#new_object.atlas = palette_index
+	#new_object.set_texture(atlas[palette_index])
+	#new_object.set_region(Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32))
+	#new_object.set_parent($misc)
+	#new_object.mode = mode
+	#new_object.set_real_name()
+	return ObjectFactory.create_placeable_object(object_res, params)
 
 func add_misc_object():
-	$misc.add_child(create_object(tilemap_coord, palette_coord))
+	object_manager.add_child(create_object(tilemap_coord, palette_coord))
+	object_manager._managed_object_selected(object_manager.get_last())
+	
 	
 func _input(event):
 	if event.is_action_pressed("tilemap_cycle_right"):
@@ -140,13 +152,20 @@ func palette_index_changed(id: String, value: int, coord: Vector2):
 	palette_index = value
 	palette_coord = coord
 	name_id = id
-	print(str(value) + " recieved")
-	print(str(coord) + " recieved")
 
 func get_mouse_location_on_map():
 	var mouse = get_local_mouse_position()
 	var tilemap_coord = $terrain.local_to_map(mouse)
 	return tilemap_coord
+
+func flip():
+	if object_manager.selected_object != null:
+		object_manager.selected_object.flip()
+
+func mod_colour():
+	if object_manager.selected_object != null:
+		var picker: ColorPicker = colourPicker.get_picker()
+		object_manager.selected_object.visual.orig_modulation = picker.color
 
 func mode_changed(value: Global.Mode):
 	# Check for one shot modes, like saving and loading
@@ -156,7 +175,10 @@ func mode_changed(value: Global.Mode):
 		Global.Mode.eload:
 			_load_objects()
 		Global.Mode.eflip:
-			flip = !flip
+			flip()
+			return
+		Global.Mode.ecolour:
+			mod_colour()
 			return
 	
 	mode = value
@@ -173,6 +195,12 @@ func get_palette_coord():
 	
 func get_tilemap_coord():
 	return $terrain.map_to_local(tilemap_coord)
+
+func get_ui_object_details():
+	return $canvas/object_details
+
+func get_ui_object_tree():
+	return $canvas/object_tree
 
 func _save_objects():
 	var path = "dnd_saves"
@@ -195,7 +223,6 @@ func _load_objects():
 	
 	var save_nodes = get_tree().get_nodes_in_group("persist")
 	for i in save_nodes:
-		print("removing ", i)
 		i.queue_free()
 		
 	var save_game = FileAccess.open("user://savegame.save", FileAccess.READ)
@@ -212,8 +239,8 @@ func _load_objects():
 	
 func _load_item(data):
 	var new_object: Node = load(data["filename"]).instantiate()
-	new_object.set_parent(self)
-	new_object.atlas = data["atlas"]
-	new_object.set_texture(atlas[data["atlas"]])
+	new_object.set_parent(object_manager)
+	new_object.set_texture(atlas[data["atlas"]["atlas_index"]])
 	new_object.load(data)
 	$misc.add_child(new_object)
+	object_manager.object_tree.add_interactable_to_tree(new_object)
