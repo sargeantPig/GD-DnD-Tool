@@ -1,12 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://clrnmamca4eq7"]
+[gd_scene load_steps=10 format=3 uid="uid://clrnmamca4eq7"]
 
 [ext_resource type="Script" path="res://scenes/ui/ui_root.gd" id="1_hnd6y"]
 [ext_resource type="Script" path="res://console/console.gd" id="1_njcnl"]
 [ext_resource type="PackedScene" uid="uid://da0a71achm7x4" path="res://scenes/toolbar/toolbar_root.tscn" id="3_8m7s6"]
+[ext_resource type="Texture2D" uid="uid://dcenedmgvvuwb" path="res://tilemaps/tilemap_terrain_features.png" id="4_mif7h"]
 [ext_resource type="Texture2D" uid="uid://cqpxi110381ya" path="res://tilemaps/icons_clicked.png" id="6_eaxss"]
-[ext_resource type="Texture2D" uid="uid://djbbxdbbm73af" path="res://tilemaps/tilemap_grassy.png" id="7_h6pas"]
 [ext_resource type="Texture2D" uid="uid://cxj47y8e8jcno" path="res://tilemaps/icons_hovered.png" id="7_jc3f7"]
-[ext_resource type="Texture2D" uid="uid://gkue1250nv1w" path="res://tilemaps/tilemap_weapons.png" id="8_vpl8x"]
 [ext_resource type="Texture2D" uid="uid://cxm2nksgm0l7v" path="res://tilemaps/tilemap_characters.png" id="9_fgeua"]
 [ext_resource type="Texture2D" uid="uid://cbgy336p8jtyw" path="res://tilemaps/tilemap_system.png" id="10_yoe2b"]
 [ext_resource type="Texture2D" uid="uid://dfj627lvm5kpr" path="res://tilemaps/tilemap_mod.png" id="11_bn0y4"]
@@ -44,12 +43,13 @@ layout_mode = 2
 [node name="toolbar_terrain" parent="." instance=ExtResource("3_8m7s6")]
 process_priority = 9
 mouse_filter = 0
-default_tex = ExtResource("7_h6pas")
+vertical_scroll_mode = 2
+default_tex = ExtResource("4_mif7h")
 anchor = 4
 name_format = "btn_terrain_%s"
-columns = 5
+columns = 4
 toggle_mode = false
-max_container_height = 200
+max_container_height = 10
 
 [node name="toolbar_tools" parent="." instance=ExtResource("3_8m7s6")]
 z_index = 9
@@ -60,18 +60,7 @@ has_multiple_atlas = true
 tile_names = Array[String](["btn_tool_rotate", "btn_tool_move", "btn_tool_resize", "btn_tool_multiselect", "btn_tool_select", "btn_tool_cancel", "btn_tool_paint", "btn_tool_erase", "btn_tool_bucket", "btn_tool_picker"])
 columns = 10
 
-[node name="toolbar_objects" parent="." node_paths=PackedStringArray("linked_maps") instance=ExtResource("3_8m7s6")]
-z_index = 9
-mouse_filter = 0
-default_tex = ExtResource("8_vpl8x")
-anchor = 2
-tile_names = Array[String](["btn_object_shield", "btn_object_sword_1", "btn_object_sword_2", "btn_object_sword_3", "btn_object_sword_4", "btn_object_sword_5"])
-columns = 3
-offset_y = 400
-linked_maps = [NodePath("../toolbar_characters")]
-toggle_mode = false
-
-[node name="toolbar_characters" parent="." node_paths=PackedStringArray("linked_maps") instance=ExtResource("3_8m7s6")]
+[node name="toolbar_characters" parent="." instance=ExtResource("3_8m7s6")]
 z_index = 9
 offset_left = 5.0
 offset_top = 5.0
@@ -79,10 +68,9 @@ offset_right = 35.0
 offset_bottom = 15.0
 default_tex = ExtResource("9_fgeua")
 anchor = 2
-tile_names = Array[String](["btn_character_goblin", "btn_character_helf", "btn_character_gnome", "btn_character_dborn", "btn_character_human", "btn_character_unicorn", "btn_character_wolf", "btn_character_skeleton"])
+tile_names = Array[String](["btn_interactable_goblin", "btn_interactable_helf", "btn_interactable_gnome", "btn_interactable_dborn", "btn_interactable_human", "btn_interactable_unicorn", "btn_interactable_wolf", "btn_interactable_skeleton", "btn_interactable_shield", "btn_interactable_sword_1", "btn_interactable_sword_2", "btn_interactable_sword_3", "btn_interactable_sword_4", "btn_interactable_sword_5"])
 columns = 3
 offset_y = 200
-linked_maps = [NodePath("../toolbar_objects")]
 toggle_mode = false
 max_container_height = 50
 
@@ -99,3 +87,5 @@ default_tex = ExtResource("11_bn0y4")
 anchor = 2
 tile_names = Array[String](["btn_mod_flip", "btn_mod_colour"])
 columns = 2
+toggle_mode = false
+one_shot = true

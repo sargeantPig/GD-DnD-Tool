@@ -69,17 +69,13 @@ func get_loc_rect() -> Rect2:
 func _unhandled_input(event):
 	if event.is_action_pressed("select") && !mouseHover && mode != Global.Mode.emulti:
 		selected = false
-		print("deselected")
 	if parent == null:
 		if event.is_action_pressed("mode_position"):
 			mode = Global.Mode.eposition
-			print("mode set to position")
 		if event.is_action_pressed("mode_rotation"):
 			mode = Global.Mode.erotation
-			print("Mode set to rotation")
 		if event.is_action_pressed("mode_scale"):
 			mode = Global.Mode.escale
-			print("Mode set to scale")
 		
 
 func _input(event):
@@ -121,7 +117,6 @@ func restore_defaults():
 
 func _on_box_input_event(viewport, event, shape_idx):
 	if event.is_action_pressed("select") && mode != Global.Mode.emulti:
-		print("selected")
 		selected = true
 		object_selected.emit(name)
 	pass # Replace with function body.

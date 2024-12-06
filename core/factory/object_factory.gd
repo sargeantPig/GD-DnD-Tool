@@ -8,5 +8,7 @@ func create_placeable_object(object_res: PackedScene, parameters: Dictionary):
 	new_object.set_region(parameters["region"])
 	new_object.set_parent(parameters["parent"])
 	new_object.mode = parameters["mode"]
+	if parameters["preset"] != null:
+		new_object.details.update_details(parameters["preset"])
 	#	new_object.set_real_name()
 	return new_object
