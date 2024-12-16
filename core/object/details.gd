@@ -13,11 +13,21 @@ var con: String
 var intelligence: String
 var wis: String
 var cha: String
+var armour_class: String
+var initiative_bonus: String
+var tab_group: Dictionary = {
+	"actions": {},
+	"abilities": {},
+	"skills": {},
+	"other": {}
+}
 
 func update(dis_name: String, int_name: String, notes: String, 
 			status: String, health: String, max_health: String, 
 			initiative: String, str: String, dex: String,
-			con: String, intelligence: String, wis: String, cha: String):
+			con: String, intelligence: String, wis: String, cha: String,
+			ac: String, initiative_bonus: String, actions: Dictionary,
+			abilities: Dictionary, skills: Dictionary, other: Dictionary):
 	self.display_name = dis_name
 	self.internal_name = int_name
 	self.notes = notes
@@ -31,6 +41,12 @@ func update(dis_name: String, int_name: String, notes: String,
 	self.intelligence = intelligence
 	self.wis = wis
 	self.cha = cha
+	self.armour_class = ac
+	self.initiative_bonus = initiative_bonus
+	self.actions = actions
+	self.abilities = abilities
+	self.skills = skills
+	self.other = other
 
 func update_details(details: Details):
 	self.display_name = details.display_name
@@ -46,6 +62,14 @@ func update_details(details: Details):
 	self.con = details.con
 	self.intelligence = details.intelligence
 	self.cha = details.cha
+	self.armour_class = details.armour_class
+	self.initiative_bonus = details.initiative_bonus
+	tab_group["actions"] = details.tab_group["actions"]
+	tab_group["abilities"] = details.tab_group["abilities"]
+	tab_group["skills"] = details.tab_group["skills"]
+	#self.actions = details.actions
+	#self.skills = details.skills
+	#self.other = details.other
 
 func set_display_name(name: String):
 	self.display_name = name
@@ -82,7 +106,9 @@ func _save():
 		"constitution": con,
 		"intelligence": intelligence,
 		"wisdom": wis,
-		"charisma": cha
+		"charisma": cha,
+		"armour_class": armour_class,
+		"initiative_bonus": initiative_bonus,
 	}
 	return data
 
@@ -101,3 +127,9 @@ func load(data):
 	intelligence = data["intelligence"]
 	wis = data["wisdom"]
 	cha = data["charisma"]
+	armour_class = data["armour_class"]
+	initiative_bonus = data["initiative_bonus"]
+	tab_group["actions"] = data["actions"]
+	tab_group["abilities"] = data["abilities"]
+	tab_group["skills"] = data["skills"]
+	#tab_group["other"] = data["other"]

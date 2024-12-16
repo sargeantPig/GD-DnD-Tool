@@ -1,18 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8wwwpdtyt3xs"]
+[gd_scene load_steps=6 format=3 uid="uid://c8wwwpdtyt3xs"]
 
 [ext_resource type="Script" path="res://scenes/ui/object_details.gd" id="1_spyp2"]
+[ext_resource type="StyleBox" uid="uid://dyjnbc8lntjtq" path="res://styles/flat_black_box_shadowed.tres" id="2_cu6ij"]
 [ext_resource type="Script" path="res://scenes/ui/input_notes.gd" id="2_u60b2"]
+[ext_resource type="StyleBox" uid="uid://cr7mc23mtheer" path="res://styles/flat_grey_box.tres" id="3_dw4so"]
+[ext_resource type="Theme" uid="uid://c1od6bts362uv" path="res://styles/tab_theme.tres" id="4_uxign"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_86w34"]
-bg_color = Color(0.270588, 0.270588, 0.270588, 0.894118)
-expand_margin_left = 5.0
-expand_margin_top = 5.0
-expand_margin_right = 5.0
-expand_margin_bottom = 5.0
-
-[sub_resource type="CodeHighlighter" id="CodeHighlighter_2jt8i"]
-
-[node name="object_details" type="Control"]
+[node name="object_details" type="Control" node_paths=PackedStringArray("display_name", "health", "max_health", "notes", "tabs", "initiative", "strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma", "initiative_bonus", "armour_class")]
 custom_minimum_size = Vector2(400, 215)
 layout_mode = 3
 anchors_preset = 7
@@ -26,16 +20,30 @@ offset_right = 16.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("1_spyp2")
+display_name = NodePath("ScrollContainer/GridContainer/GridContainer/base/lbl_name")
+health = NodePath("ScrollContainer/GridContainer/GridContainer/base/input_health")
+max_health = NodePath("ScrollContainer/GridContainer/GridContainer/base/input_max_health")
+notes = NodePath("ScrollContainer/GridContainer/GridContainer/extra/input_notes")
+tabs = NodePath("ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container")
+initiative = NodePath("ScrollContainer/GridContainer/GridContainer/base/input_initiative")
+strength = NodePath("ScrollContainer/GridContainer/GridContainer2/input_str")
+dexterity = NodePath("ScrollContainer/GridContainer/GridContainer2/input_dex")
+constitution = NodePath("ScrollContainer/GridContainer/GridContainer2/input_con")
+intelligence = NodePath("ScrollContainer/GridContainer/GridContainer2/input_int")
+wisdom = NodePath("ScrollContainer/GridContainer/GridContainer2/input_wis")
+charisma = NodePath("ScrollContainer/GridContainer/GridContainer2/input_cha")
+initiative_bonus = NodePath("ScrollContainer/GridContainer/GridContainer/base/input_initiative_bonus")
+armour_class = NodePath("ScrollContainer/GridContainer/GridContainer/base/input_armour_class")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 clip_contents = false
 custom_minimum_size = Vector2(175, 100)
 layout_mode = 0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = 810.0
-offset_bottom = 208.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_86w34")
+offset_left = 13.0
+offset_top = -90.0
+offset_right = 833.0
+offset_bottom = 210.0
+theme_override_styles/panel = ExtResource("2_cu6ij")
 
 [node name="GridContainer" type="GridContainer" parent="ScrollContainer"]
 layout_mode = 2
@@ -44,13 +52,13 @@ size_flags_vertical = 3
 columns = 2
 
 [node name="GridContainer2" type="GridContainer" parent="ScrollContainer/GridContainer"]
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(124, 0)
 layout_mode = 2
 size_flags_vertical = 3
 columns = 2
 
 [node name="lbl_str" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 bbcode_enabled = true
@@ -59,16 +67,17 @@ text = "[color=#d9ead3]Str[/color]
 fit_content = true
 
 [node name="input_str" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+clip_contents = false
+custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 bbcode_enabled = true
-text = "1 (+3)
+text = "30 (+30)
 "
 fit_content = true
 
 [node name="lbl_dex" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 bbcode_enabled = true
@@ -77,15 +86,15 @@ text = "[color=#d0e0e3]Dex[/color]
 fit_content = true
 
 [node name="input_dex" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 bbcode_enabled = true
 text = "1"
 fit_content = true
 
 [node name="lbl_con" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 bbcode_enabled = true
@@ -94,15 +103,15 @@ text = "[color=#f4cccc]Con[/color]
 fit_content = true
 
 [node name="input_con" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 bbcode_enabled = true
 text = "1"
 fit_content = true
 
 [node name="lbl_int" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 bbcode_enabled = true
@@ -110,15 +119,15 @@ text = "[color=#cfe2f3]Int[/color]"
 fit_content = true
 
 [node name="input_int" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 bbcode_enabled = true
 text = "1"
 fit_content = true
 
 [node name="lbl_wis" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 bbcode_enabled = true
@@ -126,15 +135,15 @@ text = "[color=#ead1dc]Wis[/color]"
 fit_content = true
 
 [node name="input_wis" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 text = "1
 "
 fit_content = true
 
 [node name="lbl_cha" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 bbcode_enabled = true
@@ -142,9 +151,9 @@ text = "[color=#e6b8af]Cha[/color]"
 fit_content = true
 
 [node name="input_cha" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 text = "1
 "
 fit_content = true
@@ -155,15 +164,15 @@ size_flags_horizontal = 3
 
 [node name="base" type="GridContainer" parent="ScrollContainer/GridContainer/GridContainer"]
 layout_mode = 2
-columns = 7
+columns = 10
 
 [node name="lbl_name" type="LineEdit" parent="ScrollContainer/GridContainer/GridContainer/base"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.764706, 0.635294, 0.396078, 1)
+theme_override_styles/normal = ExtResource("3_dw4so")
 text = "name"
-middle_mouse_paste_enabled = false
 
 [node name="lbl_health" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer/base"]
 clip_contents = false
@@ -176,8 +185,8 @@ scroll_active = false
 autowrap_mode = 0
 
 [node name="input_health" type="LineEdit" parent="ScrollContainer/GridContainer/GridContainer/base"]
-self_modulate = Color(1, 1, 1, 0.588235)
 layout_mode = 2
+theme_override_styles/normal = ExtResource("3_dw4so")
 text = "10"
 
 [node name="lbl_health2" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer/base"]
@@ -190,9 +199,9 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="input_health2" type="LineEdit" parent="ScrollContainer/GridContainer/GridContainer/base"]
-self_modulate = Color(1, 1, 1, 0.588235)
+[node name="input_max_health" type="LineEdit" parent="ScrollContainer/GridContainer/GridContainer/base"]
 layout_mode = 2
+theme_override_styles/normal = ExtResource("3_dw4so")
 text = "10"
 
 [node name="lbl_initiative" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer/base"]
@@ -207,43 +216,64 @@ autowrap_mode = 0
 
 [node name="input_initiative" type="LineEdit" parent="ScrollContainer/GridContainer/GridContainer/base"]
 layout_mode = 2
+theme_override_styles/normal = ExtResource("3_dw4so")
+
+[node name="input_initiative_bonus" type="LineEdit" parent="ScrollContainer/GridContainer/GridContainer/base"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_dw4so")
+
+[node name="lbl_armour_class" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer/base"]
+clip_contents = false
+layout_mode = 2
+bbcode_enabled = true
+text = "[color=#a07419]AC[/color]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="input_armour_class" type="LineEdit" parent="ScrollContainer/GridContainer/GridContainer/base"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_dw4so")
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/GridContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="tab_container" type="TabContainer" parent="ScrollContainer/GridContainer/GridContainer/GridContainer"]
+custom_minimum_size = Vector2(285, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_uxign")
+
+[node name="Actions" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
+layout_mode = 2
+
+[node name="Abilities" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
+visible = false
+layout_mode = 2
+
+[node name="Skills" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
+visible = false
+layout_mode = 2
+
+[node name="Other" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
+visible = false
+layout_mode = 2
 
 [node name="extra" type="GridContainer" parent="ScrollContainer/GridContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-columns = 2
-
-[node name="lbl_status" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer/extra"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[color=lightblue]Status[/color]"
-fit_content = true
-scroll_active = false
-autowrap_mode = 0
-
-[node name="input_status" type="TextEdit" parent="ScrollContainer/GridContainer/GridContainer/extra"]
-self_modulate = Color(1, 1, 1, 0.588235)
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-text = "fire"
-
-[node name="lbl_notes" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer/extra"]
-clip_contents = false
-layout_mode = 2
-text = "Notes"
-fit_content = true
-scroll_active = false
-autowrap_mode = 0
 
 [node name="input_notes" type="TextEdit" parent="ScrollContainer/GridContainer/GridContainer/extra"]
-self_modulate = Color(1, 1, 1, 0.588235)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/normal = ExtResource("3_dw4so")
 text = "Multiattack: The knight makes two melee attacks.\\nGreatsword: Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) slashing damage."
 wrap_mode = 1
-syntax_highlighter = SubResource("CodeHighlighter_2jt8i")
 script = ExtResource("2_u60b2")
 
-[connection signal="text_changed" from="ScrollContainer/GridContainer/GridContainer/base/input_initiative" to="." method="_on_input_initiative_text_changed"]
+[connection signal="text_submitted" from="ScrollContainer/GridContainer/GridContainer/base/input_health" to="." method="_on_input_health_text_submitted"]
+[connection signal="text_submitted" from="ScrollContainer/GridContainer/GridContainer/base/input_initiative" to="." method="_on_input_initiative_text_submitted"]
+[connection signal="tab_changed" from="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container" to="." method="_on_tab_container_tab_changed"]

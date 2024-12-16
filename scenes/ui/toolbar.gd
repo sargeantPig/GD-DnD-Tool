@@ -1,10 +1,9 @@
-
+@tool
 extends ScrollContainer
 
 signal btn_clicked(id: String, coord: Vector2)
 
 @export var tile_size: float
-
 @export var default_tex: Texture2D
 @export var clicked_tex: Texture2D
 @export var hovered_tex: Texture2D
@@ -24,7 +23,7 @@ signal btn_clicked(id: String, coord: Vector2)
 @export var max_container_height: int = 400
 @export var one_shot: bool = false
 
-
+var preview: bool = false
 var normal_colour: Color = Color(1, 1, 1)
 var clicked_colour: Color =  Color(1, 0.5, 0.5)
 
@@ -39,6 +38,16 @@ var current_pressed: String = ""
 var max_sizey: float
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	update_layout()
+
+func update_layout():
+	# Clear existing buttons
+	for button in buttons:
+		grid_container.remove_child(button)
+	buttons.clear()
+	region_coord.clear()
+	
+	# ...existing code...
 	var sheet_width = default_tex.get_width()
 	var sheet_height = default_tex.get_height()
 	var name_count: int = tile_names.size()
@@ -118,6 +127,10 @@ func set_new_atlas(btn: TextureButton, x: int, y: int, s: int):
 		btn.texture_hover.atlas = default_tex
 
 func _process(delta):
+	if Engine.is_editor_hint() and !preview:
+		preview = true
+		update_layout()
+	# ...existing code...
 	if anchor == 0: # TOP
 		screen_center = get_viewport().get_visible_rect().size.x / 2
 		var x: float = screen_center - ((size.x/2) *scale.x)

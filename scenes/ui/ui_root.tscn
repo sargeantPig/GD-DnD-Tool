@@ -42,10 +42,15 @@ layout_mode = 2
 
 [node name="toolbar_terrain" parent="." instance=ExtResource("3_8m7s6")]
 process_priority = 9
+offset_left = 10.0
+offset_top = 750.0
+offset_right = 168.0
+offset_bottom = 846.0
 mouse_filter = 0
 vertical_scroll_mode = 2
 default_tex = ExtResource("4_mif7h")
 anchor = 4
+tile_names = Array[String](["-"])
 name_format = "btn_terrain_%s"
 columns = 4
 toggle_mode = false
@@ -53,6 +58,9 @@ max_container_height = 10
 
 [node name="toolbar_tools" parent="." instance=ExtResource("3_8m7s6")]
 z_index = 9
+offset_left = 452.5
+offset_right = 818.5
+offset_bottom = 42.0
 mouse_filter = 0
 clicked_tex = ExtResource("6_eaxss")
 hovered_tex = ExtResource("7_jc3f7")
@@ -62,10 +70,11 @@ columns = 10
 
 [node name="toolbar_characters" parent="." instance=ExtResource("3_8m7s6")]
 z_index = 9
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 35.0
-offset_bottom = 15.0
+offset_left = 1119.0
+offset_top = 200.0
+offset_right = 1241.0
+offset_bottom = 328.0
+vertical_scroll_mode = 2
 default_tex = ExtResource("9_fgeua")
 anchor = 2
 tile_names = Array[String](["btn_interactable_goblin", "btn_interactable_helf", "btn_interactable_gnome", "btn_interactable_dborn", "btn_interactable_human", "btn_interactable_unicorn", "btn_interactable_wolf", "btn_interactable_skeleton", "btn_interactable_shield", "btn_interactable_sword_1", "btn_interactable_sword_2", "btn_interactable_sword_3", "btn_interactable_sword_4", "btn_interactable_sword_5"])
@@ -75,6 +84,9 @@ toggle_mode = false
 max_container_height = 50
 
 [node name="toolbar_system" parent="." instance=ExtResource("3_8m7s6")]
+offset_left = 10.0
+offset_right = 88.0
+offset_bottom = 42.0
 default_tex = ExtResource("10_yoe2b")
 anchor = 1
 tile_names = Array[String](["btn_system_save", "btn_system_load"])
@@ -83,6 +95,9 @@ toggle_mode = false
 one_shot = true
 
 [node name="toolbar_mod" parent="." instance=ExtResource("3_8m7s6")]
+offset_left = 1163.0
+offset_right = 1241.0
+offset_bottom = 42.0
 default_tex = ExtResource("11_bn0y4")
 anchor = 2
 tile_names = Array[String](["btn_mod_flip", "btn_mod_colour"])
