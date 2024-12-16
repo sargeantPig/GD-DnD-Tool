@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Global="*res://global.gd"
 ObjectFactory="*res://core/factory/object_factory.gd"
+SimpleCalculator="*res://simple_calculator.gd"
 
 [display]
 

@@ -46,3 +46,7 @@ func get_texture_from_sprite(sprite: Sprite2D):
 	interactives_icon_cache[key] = region_texture.create_from_image(region_map)
 	return interactives_icon_cache[key]
 
+func required_variables_set(variables: Array, object):
+	for v in variables:
+		if v == null:
+			print("Required variable not set on ", typeof(object))

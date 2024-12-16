@@ -77,7 +77,7 @@ func compare_item(a, b):
 		return false
 	a = int(a)
 	b = int(b)
-	return a > b
+	return a < b
 
 func add_interactable_to_tree(child: PlaceableObject):
 	var id = child.name
