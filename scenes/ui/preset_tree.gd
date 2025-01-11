@@ -1,25 +1,26 @@
-class_name PresetTree extends Control
+class_name PresetTree extends Tree
 
 var character_presets: Dictionary
 var npc_presets: Dictionary
-var tree: Tree
 var character_root: TreeItem 
 var npc_root: TreeItem
+@export var parent: Control
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	tree = get_node("Tree")
 	load_presets()
-	var root: TreeItem = tree.create_item()
+	var root: TreeItem = self.create_item()
 	root.set_text(0, "Presets")
-	character_root = tree.create_item()
+	character_root = self.create_item()
 	character_root.set_text(0, "Characters")
-	npc_root = tree.create_item()
+	npc_root = self.create_item()
 	npc_root.set_text(0, "NPCs")
 	populate_tree()
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	custom_minimum_size = parent.custom_minimum_size
+	size = parent.size
 	pass
 
 func populate_tree():
@@ -28,11 +29,11 @@ func populate_tree():
 		
 func populate_leaves(parent: TreeItem, presets: Dictionary):
 	for item in presets:
-		var newItem: TreeItem = tree.create_item(parent)
+		var newItem: TreeItem = self.create_item(parent)
 		newItem.set_text(0, item)
 
 func get_selected_preset():
-	var selected: TreeItem = tree.get_selected()
+	var selected: TreeItem = self.get_selected()
 	
 	if selected == null:
 		return null

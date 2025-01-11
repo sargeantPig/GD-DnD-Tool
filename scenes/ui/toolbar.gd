@@ -13,7 +13,6 @@ signal btn_clicked(id: String, coord: Vector2)
 @export var name_format: String
 @export var padding: int
 @export var backdrop: Panel 
-@export var scroll_container: ScrollContainer 
 @export var grid_container: GridContainer 
 @export var columns: int = 0
 @export var offset_y: int = 0
@@ -22,6 +21,7 @@ signal btn_clicked(id: String, coord: Vector2)
 @export var toggle_mode: bool = true
 @export var max_container_height: int = 400
 @export var one_shot: bool = false
+@export var tab: bool = false
 
 var preview: bool = false
 var normal_colour: Color = Color(1, 1, 1)
@@ -40,23 +40,15 @@ var max_sizey: float
 func _ready():
 	update_layout()
 
-func update_layout():
-	# Clear existing buttons
+func create_buttons():
 	for button in buttons:
 		grid_container.remove_child(button)
 	buttons.clear()
 	region_coord.clear()
 	
-	# ...existing code...
 	var sheet_width = default_tex.get_width()
 	var sheet_height = default_tex.get_height()
 	var name_count: int = tile_names.size()
-	grid_container.columns = columns
-	max_sizey = get_viewport().get_visible_rect().size.y * 0.3
-	
-	#scale = Vector2(2, 2)
-	screen_center = get_viewport().get_visible_rect().size.x / 2
-	
 	var i: int = 0
 	var x_range: int = sheet_width/tile_size
 	var y_range: int = sheet_height/tile_size
@@ -80,7 +72,24 @@ func update_layout():
 			buttons.append(button)
 			name_ind = clampi(name_ind, 0, name_count-1)
 			region_coord[button.name] = Vector2(x, y)
-			
+
+func update_layout():
+	self.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	# Clear existing buttons
+	
+	
+	# ...existing code...
+	
+	grid_container.columns = columns
+	max_sizey = get_viewport().get_visible_rect().size.y * 0.3
+	
+	#scale = Vector2(2, 2)
+	screen_center = get_viewport().get_visible_rect().size.x / 2
+	
+	create_buttons()
+	
+
+	
 	btn_count = buttons.size()
 	var row_count = (buttons.size() / columns)
 	var scaledx = tile_size*scale.x
@@ -89,11 +98,20 @@ func update_layout():
 	var real_height = row_count*tile_size
 	var icon_height = row_count * scaledy
 	toolbar_width_halved = real_width/2
-	if icon_height < max_container_height: 
-		size.y = real_height + padding
-	else: 
-		size.y = clamp(real_height, 0, max_sizey)
+	#size.x = (columns*scaledx) + padding
+	if icon_height > max_container_height: 
+		size.y = clamp(real_height, 0, max_container_height)
 		self.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS
+	else: 
+		size.y = real_height + (padding*row_count)
+	
+	if row_count > 1:
+		size.y += padding*2
+	
+	if tab:
+		self.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS
+		#custom_minimum_size.y = real_height + (padding*row_count) * 5
+		size.y = 100
 	pass # Replace with function body.
 
 func handle_name(name: String, index: int):
@@ -127,10 +145,16 @@ func set_new_atlas(btn: TextureButton, x: int, y: int, s: int):
 		btn.texture_hover.atlas = default_tex
 
 func _process(delta):
-	if Engine.is_editor_hint() and !preview:
+	if Engine.is_editor_hint() and not preview:
 		preview = true
 		update_layout()
 	# ...existing code...
+	if tab:
+		self.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS
+		size.x = clamp(size.x, 0, 100)
+		size.y = 100
+		return
+	
 	if anchor == 0: # TOP
 		screen_center = get_viewport().get_visible_rect().size.x / 2
 		var x: float = screen_center - ((size.x/2) *scale.x)

@@ -15,11 +15,13 @@ var wis: String
 var cha: String
 var armour_class: String
 var initiative_bonus: String
+var url: String
 var tab_group: Dictionary = {
 	"actions": {},
 	"abilities": {},
 	"skills": {},
-	"other": {}
+	"saving throws": {},
+	"other": {},
 }
 
 func update(dis_name: String, int_name: String, notes: String, 
@@ -27,7 +29,7 @@ func update(dis_name: String, int_name: String, notes: String,
 			initiative: String, str: String, dex: String,
 			con: String, intelligence: String, wis: String, cha: String,
 			ac: String, initiative_bonus: String, actions: Dictionary,
-			abilities: Dictionary, skills: Dictionary, other: Dictionary):
+			abilities: Dictionary, skills: Dictionary, other: Dictionary, url: String):
 	self.display_name = dis_name
 	self.internal_name = int_name
 	self.notes = notes
@@ -47,6 +49,7 @@ func update(dis_name: String, int_name: String, notes: String,
 	self.abilities = abilities
 	self.skills = skills
 	self.other = other
+	self.url = url
 
 func update_details(details: Details):
 	self.display_name = details.display_name
@@ -64,9 +67,12 @@ func update_details(details: Details):
 	self.cha = details.cha
 	self.armour_class = details.armour_class
 	self.initiative_bonus = details.initiative_bonus
+	self.url = details.url
 	tab_group["actions"] = details.tab_group["actions"]
 	tab_group["abilities"] = details.tab_group["abilities"]
 	tab_group["skills"] = details.tab_group["skills"]
+	tab_group["saving throws"] = details.tab_group["saving throws"]
+	tab_group["other"] = details.tab_group["other"]
 	#self.actions = details.actions
 	#self.skills = details.skills
 	#self.other = details.other
@@ -132,4 +138,7 @@ func load(data):
 	tab_group["actions"] = data["actions"]
 	tab_group["abilities"] = data["abilities"]
 	tab_group["skills"] = data["skills"]
-	#tab_group["other"] = data["other"]
+	tab_group["other"] = { "CR": data["challenge_rating"], "Proficiency": data["proficiency"], 
+	"Spell Casting Ability mod": data["spellcasting_ability_modifier"], "Spell DC": data["spell_difficulty_class"], "Misc": data["notes"]}
+	tab_group["saving throws"] = data["saving_throws"]
+	url = data["url"]

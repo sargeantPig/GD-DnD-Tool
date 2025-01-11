@@ -19,6 +19,7 @@ var details: Details
 @export var charisma: RichTextLabel
 @export var initiative_bonus: LineEdit
 @export var armour_class: LineEdit
+@export var url: RichTextLabel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -74,8 +75,14 @@ func recieve_object_details(_details: Details):
 	charisma.text = _details.cha
 	initiative_bonus.text = _details.initiative_bonus
 	armour_class.text = _details.armour_class
+	url.text = url_display(_details.url)
+	
 	display_tabbed_text(_details)
 	pass
+
+func url_display(url: String):
+	var split = url.split("/")
+	return "Source: [url=%s][color='lightblue']%s[/color][/url]" % [url,  split[-1]]
 
 func display_tabbed_text(_details: Details):
 	var current_tab = tabs.get_tab_title(tabs.current_tab).to_lower()
@@ -98,7 +105,10 @@ func _on_input_initiative_text_submitted(new_text):
 	connected_tree.sort()
 	pass # Replace with function body.
 
-
 func _on_tab_container_tab_changed(tab):
 	display_tabbed_text(details)
+	pass # Replace with function body.
+
+func _on_url_meta_clicked(meta):
+	OS.shell_open(meta)
 	pass # Replace with function body.

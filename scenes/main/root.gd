@@ -15,6 +15,7 @@ const object_res: PackedScene = preload("res://scenes/placeable_object/placeable
 
 var selectedIndex: int = 0
 var tilesets: Array = []
+@export var server: Server
 @export var atlas: Array[Texture2D]
 var mode: Global.Mode
 var source_id: int = 1
@@ -28,10 +29,12 @@ var multi_rect: Rect2
 var multi_mouse_pos: Vector2
 var ticker: Ticker
 var colourPicker: ColorPickerButton
+@export var world_canvas: WorldCanvas
 # ONE SHOT VARS
 
 var object_manager: ObjectManager
 var presets: PresetTree
+var fps: float
 
 func _ready():
 	$canvas/ui.palette_index_changed.connect(palette_index_changed)
@@ -39,8 +42,9 @@ func _ready():
 	$canvas/ui.mode_changed.connect($misc._mode_changed)
 	object_manager = $misc
 	ticker = Ticker.new(0.5)
-	presets = $canvas/preset_tree
+	presets = $canvas/ui/TabContainer/preset_tree
 	colourPicker = $canvas/colour_pick
+	server.set_console($canvas/ui/console)
 	pass
 
 func _unhandled_input(event):
@@ -68,9 +72,10 @@ func _draw():
 		draw_rect(multi_rect, Color(0.1, 0.1, 0.5, 0.3), true)
 	else: draw_rect(multi_rect, Color(0.1, 0.1, 0.5, 0.1), true)
 
+
 func pick(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
-		palette_coord = $terrain.get_cell_atlas_coords(0, tilemap_coord)
+		palette_coord = world_canvas.get_cell_atlas_coords(0, tilemap_coord)
 	pass
 
 func multi_select():
@@ -93,12 +98,12 @@ func multi_select():
 
 func erase(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
-		$terrain.set_cell(0, tilemap_coord, source_id)
+		world_canvas.set_cell(0, tilemap_coord, source_id)
 
 func paint(tilemap_coord: Vector2):
 	if Input.is_action_pressed("select"):
 		match palette_index:
-			0: $terrain.set_cell(0, tilemap_coord, source_id, palette_coord )
+			0: world_canvas.set_cell(0, tilemap_coord, source_id, palette_coord )
 			_: pass
 				
 	if Input.is_action_just_released("select") && palette_index != 0 && ticker.ticked:
@@ -155,7 +160,7 @@ func palette_index_changed(id: String, value: int, coord: Vector2):
 
 func get_mouse_location_on_map():
 	var mouse = get_local_mouse_position()
-	var tilemap_coord = $terrain.local_to_map(mouse)
+	var tilemap_coord = world_canvas.local_to_map(mouse)
 	return tilemap_coord
 
 func flip():
@@ -188,19 +193,19 @@ func modify_selected_index(value: int):
 	pass
 
 func get_tileset_atlas():
-	return $terrain.tile_set.get_source(source_id)
+	return world_canvas.tile_set.get_source(source_id)
 
 func get_palette_coord():
 	return palette_coord
 	
 func get_tilemap_coord():
-	return $terrain.map_to_local(tilemap_coord)
+	return world_canvas.map_to_local(tilemap_coord)
 
 func get_ui_object_details():
-	return $canvas/object_details
+	return $canvas/ui/object_details
 
 func get_ui_object_tree():
-	return $canvas/object_tree
+	return $canvas/ui/object_tree
 
 func _save_objects():
 	var path = "dnd_saves"
@@ -219,7 +224,7 @@ func _load_objects():
 		return 
 	
 	# Clear the terrain
-	$terrain.clear()
+	world_canvas.clear()
 	
 	var save_nodes = get_tree().get_nodes_in_group("persist")
 	for i in save_nodes:
@@ -234,7 +239,7 @@ func _load_objects():
 		
 		match(node_data["object_type"]):
 			"item": _load_item(node_data)
-			"tilemap": $terrain.load(node_data)
+			"tilemap": world_canvas.load(node_data)
 	pass
 	
 func _load_item(data):

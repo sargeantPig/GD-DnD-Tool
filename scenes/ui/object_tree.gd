@@ -8,8 +8,9 @@ var root: TreeItem
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	root = $Tree.create_item()
-	root.set_text(0, "Interactables------")
-	root.set_text(2, "Initiative")
+	root.set_text(0, "Interactables----")
+	root.set_text(1, "HP")
+	root.set_text(2, "Init")
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -6,7 +6,7 @@
 [ext_resource type="StyleBox" uid="uid://cr7mc23mtheer" path="res://styles/flat_grey_box.tres" id="3_dw4so"]
 [ext_resource type="Theme" uid="uid://c1od6bts362uv" path="res://styles/tab_theme.tres" id="4_uxign"]
 
-[node name="object_details" type="Control" node_paths=PackedStringArray("display_name", "health", "max_health", "notes", "tabs", "initiative", "strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma", "initiative_bonus", "armour_class")]
+[node name="object_details" type="Control" node_paths=PackedStringArray("display_name", "health", "max_health", "notes", "tabs", "initiative", "strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma", "initiative_bonus", "armour_class", "url")]
 custom_minimum_size = Vector2(400, 215)
 layout_mode = 3
 anchors_preset = 7
@@ -34,6 +34,7 @@ wisdom = NodePath("ScrollContainer/GridContainer/GridContainer2/input_wis")
 charisma = NodePath("ScrollContainer/GridContainer/GridContainer2/input_cha")
 initiative_bonus = NodePath("ScrollContainer/GridContainer/GridContainer/base/input_initiative_bonus")
 armour_class = NodePath("ScrollContainer/GridContainer/GridContainer/base/input_armour_class")
+url = NodePath("ScrollContainer/GridContainer/GridContainer/GridContainer/url")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 clip_contents = false
@@ -238,10 +239,12 @@ theme_override_styles/normal = ExtResource("3_dw4so")
 [node name="GridContainer" type="GridContainer" parent="ScrollContainer/GridContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+columns = 2
 
 [node name="tab_container" type="TabContainer" parent="ScrollContainer/GridContainer/GridContainer/GridContainer"]
-custom_minimum_size = Vector2(285, 0)
+custom_minimum_size = Vector2(417, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("4_uxign")
 
@@ -256,9 +259,21 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[node name="Saving Throws" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
+visible = false
+layout_mode = 2
+
 [node name="Other" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
 visible = false
 layout_mode = 2
+
+[node name="url" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "test"
+scroll_active = false
 
 [node name="extra" type="GridContainer" parent="ScrollContainer/GridContainer/GridContainer"]
 layout_mode = 2
@@ -277,3 +292,4 @@ script = ExtResource("2_u60b2")
 [connection signal="text_submitted" from="ScrollContainer/GridContainer/GridContainer/base/input_health" to="." method="_on_input_health_text_submitted"]
 [connection signal="text_submitted" from="ScrollContainer/GridContainer/GridContainer/base/input_initiative" to="." method="_on_input_initiative_text_submitted"]
 [connection signal="tab_changed" from="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container" to="." method="_on_tab_container_tab_changed"]
+[connection signal="meta_clicked" from="ScrollContainer/GridContainer/GridContainer/GridContainer/url" to="." method="_on_url_meta_clicked"]

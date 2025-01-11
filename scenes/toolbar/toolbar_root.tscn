@@ -16,8 +16,9 @@ corner_radius_bottom_left = 5
 
 [node name="toolbar_root" type="ScrollContainer" node_paths=PackedStringArray("grid_container")]
 layout_direction = 1
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 506.5
+offset_right = 764.5
+offset_bottom = 42.0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_s3ksq")
 horizontal_scroll_mode = 0
@@ -25,6 +26,7 @@ vertical_scroll_mode = 3
 script = ExtResource("1_2bano")
 tile_size = 32.0
 default_tex = ExtResource("2_a55es")
+tile_names = Array[String](["-"])
 name_format = "btn_test_%s"
 padding = 10
 grid_container = NodePath("toolbar")
@@ -34,4 +36,4 @@ columns = 7
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-columns = 3
+columns = 7
