@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c93a5baeebda68c8eccaf7a55d4a126ea5e6913f2d28fc9103cba032ee535a98
-size 180
+[gd_resource type="CompressedTexture2D" format=3 uid="uid://dutbfcpds06of"]
+
+[resource]
+load_path = "res://.godot/imported/icons_hovered.png-9142c0fea1fa94fc8ad4caebe37fb52f.ctex"

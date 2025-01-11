@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf3b1c91c6ca8b50f177083a32424e1a14bffc78247034267527f2a0c28727bd
-size 391
+[gd_resource type="StyleBoxFlat" format=3 uid="uid://cr7mc23mtheer"]
+
+[resource]
+bg_color = Color(0.207843, 0.207843, 0.207843, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.258824, 0.364706, 0.462745, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
