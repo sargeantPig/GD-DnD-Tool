@@ -1,20 +1,41 @@
-[gd_scene load_steps=10 format=3 uid="uid://clrnmamca4eq7"]
+[gd_scene load_steps=19 format=3 uid="uid://clrnmamca4eq7"]
 
 [ext_resource type="Script" path="res://scenes/ui/ui_root.gd" id="1_hnd6y"]
 [ext_resource type="Script" path="res://console/console.gd" id="1_njcnl"]
 [ext_resource type="PackedScene" uid="uid://da0a71achm7x4" path="res://scenes/toolbar/toolbar_root.tscn" id="3_8m7s6"]
+[ext_resource type="PackedScene" uid="uid://qwvwhibtgrta" path="res://scenes/ui/preset_tree.tscn" id="3_v23lj"]
+[ext_resource type="Theme" uid="uid://c1od6bts362uv" path="res://styles/tab_theme.tres" id="3_vxlkh"]
+[ext_resource type="Script" path="res://scenes/ui/tab_cont_sizing.gd" id="4_31nmc"]
 [ext_resource type="Texture2D" uid="uid://dcenedmgvvuwb" path="res://tilemaps/tilemap_terrain_features.png" id="4_mif7h"]
 [ext_resource type="Texture2D" uid="uid://cqpxi110381ya" path="res://tilemaps/icons_clicked.png" id="6_eaxss"]
+[ext_resource type="PackedScene" uid="uid://c875odieog1pj" path="res://scenes/toolbar/new_toolbar.tscn" id="7_1frj2"]
 [ext_resource type="Texture2D" uid="uid://cxj47y8e8jcno" path="res://tilemaps/icons_hovered.png" id="7_jc3f7"]
 [ext_resource type="Texture2D" uid="uid://cxm2nksgm0l7v" path="res://tilemaps/tilemap_characters.png" id="9_fgeua"]
 [ext_resource type="Texture2D" uid="uid://cbgy336p8jtyw" path="res://tilemaps/tilemap_system.png" id="10_yoe2b"]
 [ext_resource type="Texture2D" uid="uid://dfj627lvm5kpr" path="res://tilemaps/tilemap_mod.png" id="11_bn0y4"]
+[ext_resource type="PackedScene" uid="uid://c8wwwpdtyt3xs" path="res://scenes/ui/object_details.tscn" id="14_7hop8"]
+[ext_resource type="PackedScene" uid="uid://cs5qp11uqp3vi" path="res://scenes/ui/object_tree.tscn" id="15_s0gfl"]
+[ext_resource type="PackedScene" uid="uid://cysnpfnsnairu" path="res://scenes/ui/console.tscn" id="16_p57iy"]
 
-[node name="ui" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyeyo"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8jixj"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_hnd6y")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 visible = false
+layout_mode = 0
 offset_right = 67.0
 offset_bottom = 40.0
 columns = 3
@@ -40,19 +61,63 @@ caret_blink_interval = 0.5
 [node name="MarginContainer" type="MarginContainer" parent="GridContainer"]
 layout_mode = 2
 
-[node name="toolbar_terrain" parent="." instance=ExtResource("3_8m7s6")]
-process_priority = 9
-mouse_filter = 0
+[node name="TabContainer" type="TabContainer" parent="." node_paths=PackedStringArray("child")]
+z_index = 3
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 0.006
+anchor_bottom = 1.0
+offset_top = -227.0
+offset_right = 274.4
+offset_bottom = -21.0004
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("3_vxlkh")
+clip_tabs = false
+all_tabs_in_front = true
+use_hidden_tabs_for_min_size = true
+script = ExtResource("4_31nmc")
+child = NodePath("characters")
+metadata/_edit_use_anchors_ = true
+
+[node name="terrain" parent="TabContainer" instance=ExtResource("7_1frj2")]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hyeyo")
 vertical_scroll_mode = 2
+tile_size = 32.0
 default_tex = ExtResource("4_mif7h")
-anchor = 4
+tile_names = Array[String](["-"])
 name_format = "btn_terrain_%s"
 columns = 4
 toggle_mode = false
-max_container_height = 10
+tab = true
+
+[node name="characters" parent="TabContainer" instance=ExtResource("7_1frj2")]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8jixj")
+vertical_scroll_mode = 2
+tile_size = 32.0
+default_tex = ExtResource("9_fgeua")
+tile_names = Array[String](["btn_interactable_goblin", "btn_interactable_helf", "btn_interactable_gnome", "btn_interactable_dborn", "btn_interactable_human", "btn_interactable_unicorn", "btn_interactable_wolf", "btn_interactable_skeleton", "btn_interactable_shield", "btn_interactable_sword_1", "btn_interactable_sword_2", "btn_interactable_sword_3", "btn_interactable_sword_4", "btn_interactable_sword_5"])
+name_format = "btn_test_%s"
+columns = 4
+toggle_mode = false
+tab = true
+
+[node name="preset_tree" parent="TabContainer" node_paths=PackedStringArray("parent") instance=ExtResource("3_v23lj")]
+visible = false
+layout_mode = 2
+parent = NodePath("..")
 
 [node name="toolbar_tools" parent="." instance=ExtResource("3_8m7s6")]
 z_index = 9
+layout_mode = 0
+offset_left = -172.0
+offset_right = 194.0
 mouse_filter = 0
 clicked_tex = ExtResource("6_eaxss")
 hovered_tex = ExtResource("7_jc3f7")
@@ -60,21 +125,10 @@ has_multiple_atlas = true
 tile_names = Array[String](["btn_tool_rotate", "btn_tool_move", "btn_tool_resize", "btn_tool_multiselect", "btn_tool_select", "btn_tool_cancel", "btn_tool_paint", "btn_tool_erase", "btn_tool_bucket", "btn_tool_picker"])
 columns = 10
 
-[node name="toolbar_characters" parent="." instance=ExtResource("3_8m7s6")]
-z_index = 9
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 35.0
-offset_bottom = 15.0
-default_tex = ExtResource("9_fgeua")
-anchor = 2
-tile_names = Array[String](["btn_interactable_goblin", "btn_interactable_helf", "btn_interactable_gnome", "btn_interactable_dborn", "btn_interactable_human", "btn_interactable_unicorn", "btn_interactable_wolf", "btn_interactable_skeleton", "btn_interactable_shield", "btn_interactable_sword_1", "btn_interactable_sword_2", "btn_interactable_sword_3", "btn_interactable_sword_4", "btn_interactable_sword_5"])
-columns = 3
-offset_y = 200
-toggle_mode = false
-max_container_height = 50
-
 [node name="toolbar_system" parent="." instance=ExtResource("3_8m7s6")]
+layout_mode = 0
+offset_left = 10.0
+offset_right = 88.0
 default_tex = ExtResource("10_yoe2b")
 anchor = 1
 tile_names = Array[String](["btn_system_save", "btn_system_load"])
@@ -83,9 +137,38 @@ toggle_mode = false
 one_shot = true
 
 [node name="toolbar_mod" parent="." instance=ExtResource("3_8m7s6")]
+layout_mode = 0
+offset_left = -86.0
+offset_right = -8.0
 default_tex = ExtResource("11_bn0y4")
 anchor = 2
 tile_names = Array[String](["btn_mod_flip", "btn_mod_colour"])
 columns = 2
 toggle_mode = false
 one_shot = true
+
+[node name="object_details" parent="." instance=ExtResource("14_7hop8")]
+layout_mode = 1
+
+[node name="object_tree" parent="." instance=ExtResource("15_s0gfl")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.998875
+anchor_right = 1.0
+anchor_bottom = 1.001
+offset_left = -272.0
+offset_top = -462.92
+offset_bottom = 0.039978
+grow_horizontal = 0
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="console" parent="." instance=ExtResource("16_p57iy")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.255
+anchor_bottom = 0.255
+offset_top = 0.200012
+offset_bottom = 0.200012
+metadata/_edit_use_anchors_ = true

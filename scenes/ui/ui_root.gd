@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 signal palette_index_changed(id: int)
 signal mode_changed(mode: Global.Mode)
@@ -8,14 +8,14 @@ var terrain_idx: int
 @export var toolbar_scale: int = 2
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$toolbar_terrain.btn_clicked.connect(btn_mode_changed)
+	$TabContainer/terrain.btn_clicked.connect(btn_mode_changed)
 	$toolbar_tools.btn_clicked.connect(btn_mode_changed)
-	$toolbar_characters.btn_clicked.connect(btn_mode_changed)
+	$TabContainer/characters.btn_clicked.connect(btn_mode_changed)
 	$toolbar_system.btn_clicked.connect(btn_mode_changed)
 	$toolbar_mod.btn_clicked.connect(btn_mode_changed)
-	$toolbar_terrain.scale *= toolbar_scale
+	$TabContainer/terrain.scale *= toolbar_scale
 	$toolbar_tools.scale *= toolbar_scale
-	$toolbar_characters.scale *= toolbar_scale
+	$TabContainer/characters.scale *= toolbar_scale
 	$toolbar_system.scale *= toolbar_scale
 	$toolbar_mod.scale *= toolbar_scale
 	pass # Replace with function body.
