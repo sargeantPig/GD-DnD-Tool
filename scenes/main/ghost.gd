@@ -1,7 +1,5 @@
 extends Sprite2D
 
-
-
 var source_texture: Texture2D 
 
 var selected_index: int = 0
