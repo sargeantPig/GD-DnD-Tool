@@ -61,5 +61,3 @@ func move_group(mouse_pos: Vector2):
 
 func _mode_changed(mode: Global.Mode):
 	mode_change.emit(mode)
-
-

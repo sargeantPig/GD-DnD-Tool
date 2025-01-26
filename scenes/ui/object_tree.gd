@@ -38,7 +38,7 @@ func refresh(object: PlaceableObject):
 
 func sort():
 	if not can_be_sorted(2):
-		print("cannot be sorted")
+		#print("cannot be sorted")
 		return
 	sort_tree_by_column(2)
 
@@ -107,4 +107,3 @@ func _on_tree_item_selected():
 	var object: PlaceableObject = objectsByID[id]
 	object.interactable.select()
 	pass # Replace with function body.
-

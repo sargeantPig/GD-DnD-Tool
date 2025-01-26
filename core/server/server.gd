@@ -19,7 +19,7 @@ func _process(delta):
 		console_connected = true
 	
 	peer.poll()
-	print(peer.get_available_packet_count())
+	#print(peer.get_available_packet_count())
 	while peer.get_available_packet_count() > 0:
 		var id = peer.get_packet_peer()
 		var packet = peer.get_packet()

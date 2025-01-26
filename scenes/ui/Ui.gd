@@ -6,8 +6,8 @@ func _ready():
 	
 	for file in DirAccess.open("res://weapon_icons").get_files():
 		if !file.contains(".import"):
-			
-			print(file)
+			#print(file)
+			pass
 		
 	
 	pass # Replace with function body.

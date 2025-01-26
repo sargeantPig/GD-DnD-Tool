@@ -13,7 +13,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var parent = get_parent()
-	var coord: Vector2 = parent.get_palette_coord()
+	var coord: Vector2 = parent.palette_coord
 	var tile_coord: Vector2 = parent.get_tilemap_coord()
 	var rect = Rect2(coord.x * 32, coord.y * 32, 32, 32 )
 	

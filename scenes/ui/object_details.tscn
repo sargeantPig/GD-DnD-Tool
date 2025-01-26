@@ -247,25 +247,31 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("4_uxign")
+current_tab = 0
 
 [node name="Actions" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="Abilities" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Skills" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 2
 
 [node name="Saving Throws" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 3
 
 [node name="Other" type="Control" parent="ScrollContainer/GridContainer/GridContainer/GridContainer/tab_container"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 4
 
 [node name="url" type="RichTextLabel" parent="ScrollContainer/GridContainer/GridContainer/GridContainer"]
 layout_mode = 2

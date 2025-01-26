@@ -75,6 +75,7 @@ offset_bottom = -21.0004
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("3_vxlkh")
+current_tab = 0
 clip_tabs = false
 all_tabs_in_front = true
 use_hidden_tabs_for_min_size = true
@@ -94,6 +95,7 @@ name_format = "btn_terrain_%s"
 columns = 4
 toggle_mode = false
 tab = true
+metadata/_tab_index = 0
 
 [node name="characters" parent="TabContainer" instance=ExtResource("7_1frj2")]
 visible = false
@@ -107,11 +109,13 @@ name_format = "btn_test_%s"
 columns = 4
 toggle_mode = false
 tab = true
+metadata/_tab_index = 1
 
 [node name="preset_tree" parent="TabContainer" node_paths=PackedStringArray("parent") instance=ExtResource("3_v23lj")]
 visible = false
 layout_mode = 2
 parent = NodePath("..")
+metadata/_tab_index = 2
 
 [node name="toolbar_tools" parent="." instance=ExtResource("3_8m7s6")]
 z_index = 9

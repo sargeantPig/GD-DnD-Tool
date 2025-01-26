@@ -157,5 +157,3 @@ func load(data):
 	var y = data["reg_y"]
 	set_region(Rect2(x, y, 32, 32))
 	$Control.load(data["user_defined"])
-
-

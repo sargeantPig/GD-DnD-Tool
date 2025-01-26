@@ -92,7 +92,8 @@ func set_parent(node: Node2D):
 	parent = node
 
 func log_to_console(msg: String, signal_val = ""):
-	print(self.name, " ", signal_val, msg)
+	#print(self.name, " ", signal_val, msg)
+	pass
 
 func get_loc_rect() -> Rect2:
 	return Rect2(position, Vector2.ONE)

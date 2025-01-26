@@ -1,4 +1,4 @@
-extends Node2D
+class_name AppRoot extends Node2D
 
 # area of effect cones, etc
 # move characters	
@@ -37,7 +37,7 @@ var presets: PresetTree
 var fps: float
 
 func _ready():
-	$canvas/ui.palette_index_changed.connect(palette_index_changed)
+	$canvas/ui.palette_index_changed.connect(world_canvas.palette_index_changed)
 	$canvas/ui.mode_changed.connect(mode_changed)
 	$canvas/ui.mode_changed.connect($misc._mode_changed)
 	object_manager = $misc
@@ -48,19 +48,16 @@ func _ready():
 	pass
 
 func _unhandled_input(event):
+	match palette_index:
+		0: world_canvas.interaction(mode)
 	if mode == Global.Mode.epaint:
 		paint(tilemap_coord)
-	if mode == Global.Mode.eerase:
-		erase(tilemap_coord)
-	if mode == Global.Mode.epicker:
-		pick(tilemap_coord)
 	if mode == Global.Mode.emulti:
 		multi_select()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	tilemap_coord = get_mouse_location_on_map()
-	display_ghost_tile()
 	mode = $canvas/ui.mode
 	ticker._process(delta)
 	pass
@@ -71,12 +68,6 @@ func _draw():
 		multi_rect = Rect2(multi_pos, -size_vect)
 		draw_rect(multi_rect, Color(0.1, 0.1, 0.5, 0.3), true)
 	else: draw_rect(multi_rect, Color(0.1, 0.1, 0.5, 0.1), true)
-
-
-func pick(tilemap_coord: Vector2):
-	if Input.is_action_pressed("select"):
-		palette_coord = world_canvas.get_cell_atlas_coords(0, tilemap_coord)
-	pass
 
 func multi_select():
 	var is_in_multi = Global.check_mouse_in_rect(get_local_mouse_position(), multi_rect)
@@ -95,17 +86,7 @@ func multi_select():
 		$misc.select_objects(multi_rect)
 	queue_redraw()
 
-
-func erase(tilemap_coord: Vector2):
-	if Input.is_action_pressed("select"):
-		world_canvas.set_cell(0, tilemap_coord, source_id)
-
 func paint(tilemap_coord: Vector2):
-	if Input.is_action_pressed("select"):
-		match palette_index:
-			0: world_canvas.set_cell(0, tilemap_coord, source_id, palette_coord )
-			_: pass
-				
 	if Input.is_action_just_released("select") && palette_index != 0 && ticker.ticked:
 		add_misc_object()
 		ticker.start()
@@ -122,19 +103,10 @@ func create_object(tilemap_coord, palette_coord) -> Node2D:
 		"mode": mode,
 		"preset": presets.get_selected_preset()
 	}
-	#var new_object = object_res.instantiate()
-	#new_object.id = name_id
-	#new_object.position = get_tilemap_coord()
-	#new_object.atlas = palette_index
-	#new_object.set_texture(atlas[palette_index])
-	#new_object.set_region(Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32))
-	#new_object.set_parent($misc)
-	#new_object.mode = mode
-	#new_object.set_real_name()
 	return ObjectFactory.create_placeable_object(object_res, params)
 
 func add_misc_object():
-	object_manager.add_child(create_object(tilemap_coord, palette_coord))
+	object_manager.add_child(create_object(world_canvas.mouse_tile_location, world_canvas.palette_coord))
 	object_manager._managed_object_selected(object_manager.get_last())
 	
 	
@@ -143,13 +115,6 @@ func _input(event):
 		modify_selected_index(1)
 	elif event.is_action_pressed("tilemap_cycle_left"):
 		modify_selected_index(-1)
-	pass
-
-func display_ghost_tile():
-	if mode == Global.Mode.epaint:
-		$ghost.visible = true
-	else: 
-		$ghost.visible = false
 	pass
 
 func palette_index_changed(id: String, value: int, coord: Vector2):

@@ -19,11 +19,11 @@ func _get_line_syntax_highlighting(line) -> Dictionary:
 	for m in matches:
 		var start =  m.get_start(0)
 		var end = m.get_end(0)
-		print("Match found: ", m.get_string(0), " at positions: ", start, "-", end)
+		#print("Match found: ", m.get_string(0), " at positions: ", start, "-", end)
 		var group_names = m.get_names()
 		for group_name in group_names:
 			var match_string = m.get_string(group_name)
-			print("Group: ", group_name, " Match: ", match_string)
+			#print("Group: ", group_name, " Match: ", match_string)
 			if group_name == "dice":
 				highlights[start] = {"color": Color(0.957, 0.7, 0.7)}
 			elif group_name == "title":
@@ -31,4 +31,3 @@ func _get_line_syntax_highlighting(line) -> Dictionary:
 			highlights[end] = {"color": Color(1, 1, 1)}
 
 	return highlights
-
