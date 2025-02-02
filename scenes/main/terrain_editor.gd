@@ -41,8 +41,9 @@ func get_mouse_location_on_map():
 func palette_index_changed(id: String, value: int, coord: Vector2):
 	$ghost.texture = parent.atlas[value]
 	parent.palette_index = value
-	palette_coord = coord
 	parent.name_id = id
+	palette_coord = coord
+
 
 func display_ghost_tile():
 	if parent.mode == Global.Mode.epaint:

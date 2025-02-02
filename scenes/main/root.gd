@@ -13,23 +13,22 @@ signal source_changed(source: TileSetAtlasSource)
 
 const object_res: PackedScene = preload("res://scenes/placeable_object/placeable_object.tscn")
 
-var selectedIndex: int = 0
-var tilesets: Array = []
 @export var server: Server
 @export var atlas: Array[Texture2D]
+@export var world_canvas: WorldCanvas
+var selectedIndex: int = 0
+var tilesets: Array = []
 var mode: Global.Mode
 var source_id: int = 1
 var palette_index: int = 0
-var palette_coord: Vector2 = Vector2(0,0)
 var name_id: String
-var tilemap_coord: Vector2
 var misc_objects: Array[Node2D]
 var multi_pos: Vector2
 var multi_rect: Rect2
 var multi_mouse_pos: Vector2
 var ticker: Ticker
 var colourPicker: ColorPickerButton
-@export var world_canvas: WorldCanvas
+
 # ONE SHOT VARS
 
 var object_manager: ObjectManager
@@ -51,13 +50,12 @@ func _unhandled_input(event):
 	match palette_index:
 		0: world_canvas.interaction(mode)
 	if mode == Global.Mode.epaint:
-		paint(tilemap_coord)
+		paint()
 	if mode == Global.Mode.emulti:
 		multi_select()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	tilemap_coord = get_mouse_location_on_map()
 	mode = $canvas/ui.mode
 	ticker._process(delta)
 	pass
@@ -86,19 +84,19 @@ func multi_select():
 		$misc.select_objects(multi_rect)
 	queue_redraw()
 
-func paint(tilemap_coord: Vector2):
+func paint():
 	if Input.is_action_just_released("select") && palette_index != 0 && ticker.ticked:
 		add_misc_object()
 		ticker.start()
 	pass
 
-func create_object(tilemap_coord, palette_coord) -> Node2D:
+func create_object() -> Node2D:
 	var params = {
 		"name_id": name_id,
-		"tilemap_coord": get_tilemap_coord(),
+		"tilemap_coord": world_canvas.get_tilemap_coord(),
 		"palette_index": palette_index,
 		"atlas": atlas[palette_index],
-		"region": Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32),
+		"region": Rect2(world_canvas.palette_coord.x*32, world_canvas.palette_coord.y*32, 32, 32),
 		"parent": $misc,
 		"mode": mode,
 		"preset": presets.get_selected_preset()
@@ -106,27 +104,15 @@ func create_object(tilemap_coord, palette_coord) -> Node2D:
 	return ObjectFactory.create_placeable_object(object_res, params)
 
 func add_misc_object():
-	object_manager.add_child(create_object(world_canvas.mouse_tile_location, world_canvas.palette_coord))
+	object_manager.add_child(create_object())
 	object_manager._managed_object_selected(object_manager.get_last())
-	
-	
+
 func _input(event):
 	if event.is_action_pressed("tilemap_cycle_right"):
 		modify_selected_index(1)
 	elif event.is_action_pressed("tilemap_cycle_left"):
 		modify_selected_index(-1)
 	pass
-
-func palette_index_changed(id: String, value: int, coord: Vector2):
-	$ghost.texture = atlas[value]
-	palette_index = value
-	palette_coord = coord
-	name_id = id
-
-func get_mouse_location_on_map():
-	var mouse = get_local_mouse_position()
-	var tilemap_coord = world_canvas.local_to_map(mouse)
-	return tilemap_coord
 
 func flip():
 	if object_manager.selected_object != null:
@@ -159,12 +145,6 @@ func modify_selected_index(value: int):
 
 func get_tileset_atlas():
 	return world_canvas.tile_set.get_source(source_id)
-
-func get_palette_coord():
-	return palette_coord
-	
-func get_tilemap_coord():
-	return world_canvas.map_to_local(tilemap_coord)
 
 func get_ui_object_details():
 	return $canvas/ui/object_details
