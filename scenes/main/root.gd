@@ -16,6 +16,8 @@ const object_res: PackedScene = preload("res://scenes/placeable_object/placeable
 @export var server: Server
 @export var atlas: Array[Texture2D]
 @export var world_canvas: WorldCanvas
+@export var uimanager: UIManager
+
 var selectedIndex: int = 0
 var tilesets: Array = []
 var mode: Global.Mode
@@ -35,6 +37,7 @@ var object_manager: ObjectManager
 var presets: PresetTree
 var fps: float
 
+
 func _ready():
 	$canvas/ui.palette_index_changed.connect(world_canvas.palette_index_changed)
 	$canvas/ui.mode_changed.connect(mode_changed)
@@ -43,10 +46,13 @@ func _ready():
 	ticker = Ticker.new(0.5)
 	presets = $canvas/ui/TabContainer/preset_tree
 	colourPicker = $canvas/colour_pick
-	server.set_console($canvas/ui/console)
+	server.set_console(uimanager.console)
+	world_canvas.set_console(uimanager.console)
+	
 	pass
 
 func _unhandled_input(event):
+	world_canvas.layer_interaction()
 	match palette_index:
 		0: world_canvas.interaction(mode)
 	if mode == Global.Mode.epaint:

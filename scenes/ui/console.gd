@@ -1,6 +1,7 @@
 class_name Console extends Panel 
 
 signal send_message(msg)
+signal internal_message(msg)
 
 @export var last_child: Control
 @export var output: RichTextLabel
@@ -41,3 +42,18 @@ func command_execute(cmd: String):
 			"content": cmd.split(" ")[1]
 		}
 		send_message.emit(payload)
+	elif cmd.begins_with("quad_brush"):
+		var params = cmd.split(" ")
+		
+		if params.size() < 3:
+			self.receive_text("Error: Incorrect params provided")
+			return
+
+		var payload = {
+			"type": params[0],
+			"width": params[1],
+			"height": params[2]
+		}
+
+		internal_message.emit(payload)
+		

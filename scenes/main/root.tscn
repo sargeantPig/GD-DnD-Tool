@@ -42,11 +42,12 @@ sources/1 = SubResource("TileSetAtlasSource_ghfku")
 pattern_0 = SubResource("TileMapPattern_fj77e")
 pattern_1 = SubResource("TileMapPattern_767ui")
 
-[node name="root" type="Node2D" node_paths=PackedStringArray("server", "world_canvas")]
+[node name="root" type="Node2D" node_paths=PackedStringArray("server", "world_canvas", "uimanager")]
 script = ExtResource("1_626pt")
 server = NodePath("server")
 atlas = Array[Texture2D]([ExtResource("6_nxgbm"), ExtResource("2_w845l"), ExtResource("3_wgu7a")])
 world_canvas = NodePath("terrain")
+uimanager = NodePath("canvas/ui")
 
 [node name="server" type="Node2D" parent="."]
 script = ExtResource("5_iit5a")
