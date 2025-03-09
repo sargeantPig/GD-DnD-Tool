@@ -25,7 +25,7 @@ func _process(delta):
 		if Vector2i(last_viewport_size) != window_size:
 			maintain_aspect_ration()
 	queue_redraw()
-	
+
 	last_viewport_size = get_window().size
 	pass
 

@@ -13,7 +13,7 @@ var grid_lines: Array = []
 var conv_zoom: float
 var first_draw: bool = false
 var ticker: Ticker
-var zoom_max = Vector2(1, 1)
+var zoom_max = Vector2(2.0, 2.0)
 var zoom_min = Vector2(0.3, 0.3)
 var zoom_step = Vector2(0.1, 0.1)
 var scroll_mod: int = 1

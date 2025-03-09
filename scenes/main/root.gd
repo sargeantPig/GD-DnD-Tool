@@ -37,29 +37,31 @@ var object_manager: ObjectManager
 var presets: PresetTree
 var fps: float
 
+var operations: Operations
 
 func _ready():
-	$canvas/ui.palette_index_changed.connect(world_canvas.palette_index_changed)
-	$canvas/ui.mode_changed.connect(mode_changed)
-	$canvas/ui.mode_changed.connect($misc._mode_changed)
+	operations = Operations.new()
+	uimanager.palette_index_changed.connect(world_canvas.palette_index_changed)
+	uimanager.mode_changed.connect(mode_changed)
+	uimanager.mode_changed.connect($misc._mode_changed)
+	uimanager.mode_changed.connect(world_canvas.mode_changed)
 	object_manager = $misc
 	ticker = Ticker.new(0.5)
 	presets = $canvas/ui/TabContainer/preset_tree
 	colourPicker = $canvas/colour_pick
 	server.set_console(uimanager.console)
 	world_canvas.set_console(uimanager.console)
-	
-	pass
+	uimanager.console.operation_message.connect(command_process)
 
 func _unhandled_input(event):
-	world_canvas.layer_interaction()
-	match palette_index:
-		0: world_canvas.interaction(mode)
+	if palette_index == 0:
+		return
+
 	if mode == Global.Mode.epaint:
 		paint()
 	if mode == Global.Mode.emulti:
 		multi_select()
-	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	mode = $canvas/ui.mode
@@ -157,6 +159,16 @@ func get_ui_object_details():
 
 func get_ui_object_tree():
 	return $canvas/ui/object_tree
+
+func command_process(payload: Dictionary):
+	match payload["type"]:
+		"save_terrain":
+			operations.save_terrain(world_canvas, payload["filepath"])
+		"load_terrain":
+			operations.load_terrain(world_canvas, payload["filepath"])
+		"ls":
+			operations.list_files(uimanager.console, payload["path"])
+	pass
 
 func _save_objects():
 	var path = "dnd_saves"

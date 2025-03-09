@@ -2,6 +2,7 @@ class_name Console extends Panel
 
 signal send_message(msg)
 signal internal_message(msg)
+signal operation_message(msg)
 
 @export var last_child: Control
 @export var output: RichTextLabel
@@ -9,8 +10,11 @@ signal internal_message(msg)
 
 var input_format = "\n\n> %s"
 var output_format = "\n%s"
+
+var commands: ConsoleCommands
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	commands = ConsoleCommands.new()
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,32 +32,13 @@ func _on_line_edit_text_submitted(new_text):
 	pass # Replace with function body.
 
 func command_execute(cmd: String):
-	if cmd.begins_with("roll"):
-		var payload = {
-			"type": "roll",
-			"user": "DM",
-			"content": cmd.split(" ")[1]
-		}
-		send_message.emit(payload)
-	elif cmd.begins_with("server"):
-		var payload = {
-			"type": "server",
-			"user": "DM",
-			"content": cmd.split(" ")[1]
-		}
-		send_message.emit(payload)
-	elif cmd.begins_with("quad_brush"):
-		var params = cmd.split(" ")
-		
-		if params.size() < 3:
-			self.receive_text("Error: Incorrect params provided")
-			return
-
-		var payload = {
-			"type": params[0],
-			"width": params[1],
-			"height": params[2]
-		}
-
-		internal_message.emit(payload)
-		
+	var payload = commands.process_command(cmd)
+	
+	if payload.has("ERROR"):
+		self.receive_text(payload["ERROR"])
+		return
+	
+	match payload["emitter"]:
+		"internal": internal_message.emit(payload)
+		"external": send_message.emit(payload)
+		"operation": operation_message.emit(payload)

@@ -5,19 +5,28 @@ var source_id: int = 1
 var palette_coord: Vector2 = Vector2(0,0)
 var mouse_tile_location: Vector2
 var console: Console
+var brush: GhostBrush
 @export var parent: AppRoot
 
 var onion_skin: bool = false
+
+var mode: Global.Mode
+var modulation: Color
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	brush = get_node("brush")
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	mouse_tile_location = get_mouse_location_on_map()
 	display_ghost_tile()
+	layer_interaction()
 	if onion_skin:
 		apply_onion_skins()
+
+func _unhandled_input(event: InputEvent) -> void:
+	interaction()
 
 func layer_interaction():
 	if Input.is_action_just_pressed("change_layer_down"):
@@ -31,7 +40,7 @@ func layer_interaction():
 		if not onion_skin:
 			reset_onion_skin()
 
-func interaction(mode: Global.Mode):
+func interaction():
 	if Input.is_action_pressed("select"):
 		match mode:
 			Global.Mode.epaint: paint_cell()
@@ -39,11 +48,11 @@ func interaction(mode: Global.Mode):
 			Global.Mode.epicker: pick()
 
 func paint_cell():
-	$ghost.paint(self, current_layer, mouse_tile_location, source_id, palette_coord)
+	brush.paint(self, current_layer, mouse_tile_location, source_id, palette_coord)
 	#set_cell(current_layer, mouse_tile_location, source_id, palette_coord )
 
 func erase_cellf():
-	erase_cell(current_layer, mouse_tile_location)
+	brush.erase(self, current_layer, mouse_tile_location)
 
 func pick():
 	palette_coord = get_cell_atlas_coords(0, mouse_tile_location)
@@ -95,17 +104,17 @@ func get_mouse_location_on_map():
 	var mouse = get_local_mouse_position()
 	return local_to_map(mouse)
 
-func palette_index_changed(id: String, value: int, coord: Vector2):
-	$ghost.texture = parent.atlas[value]
-	parent.palette_index = value
+func palette_index_changed(id: String, palette_index: int, palette_coord: Vector2):
+	brush.update_brush(palette_index, palette_coord, parent.atlas[palette_index])
+	parent.palette_index = palette_index
 	parent.name_id = id
-	palette_coord = coord
+	self.palette_coord = palette_coord
 
 func display_ghost_tile():
-	if parent.mode == Global.Mode.epaint:
-		$ghost.visible = true
+	if parent.mode == Global.Mode.epaint or parent.mode == Global.Mode.eerase:
+		brush.visible = true
 	else: 
-		$ghost.visible = false
+		brush.visible = false
 	pass
 
 func get_tilemap_coord():
@@ -116,33 +125,46 @@ func __clamp_layer():
 
 func set_console(console: Console):
 	self.console = console
-	$ghost.set_console(console)
+	brush.set_console(console)
+
+func mode_changed(mode: Global.Mode):
+	self.mode = mode
+	
+	if self.mode == Global.Mode.eerase or Global.Mode.epaint:
+		brush.update_brush(parent.palette_index, self.palette_coord, parent.atlas[parent.palette_index])
 
 func _save():
 	# get the extents of used cells
-	var layer: int = 0
-	var rect = self.get_used_rect()
 	var tiles: Array[String]
 	var data: Dictionary = {}
 	data["object_type"] = "tilemap"
-	for x in range(rect.position.x, rect.position.x + rect.size.x):
-		for y in range(rect.position.y, rect.position.y + rect.size.y):
-			var tile_coords = self.get_cell_atlas_coords(layer, Vector2(x, y))
+	
+	for layer in range(get_layers_count()):
+		var rect = self.get_used_cells(layer)
+		for cell in rect:
+			var tile_coords = self.get_cell_atlas_coords(layer, Vector2(cell[0], cell[1]))
 			# convert tile_coords and position into strings
 			# position, coords
-			var key: String = "%s,%s" % [x, y]
+			var key: String = "%s,%s" % [cell[0], cell[1]]
 			var position: String = "%s,%s" % [tile_coords.x, tile_coords.y]
-			data["tile_%s" % [key]] = position
+			data["tile_%s_%s" % [layer, key]] = position
 	return data
-	pass
 
 func load(data):
+	var layer_count = get_layers_count()
 	for tile in data:
 		if tile == "object_type":
 			continue
+		
 		var splitkey = tile.split("_")
-		var pos = splitkey[1].split(",")
+		var pos = splitkey[2].split(",")
 		var tilepos = Vector2(float(pos[0]), float(pos[1]))
 		var tileIndex = data[tile].split(",")
 		var tilecoord = Vector2(float(tileIndex[0]), float(tileIndex[1]))
-		set_cell(0, tilepos, 1, tilecoord)
+		var layer = splitkey[1]
+		
+		if int(layer) >= get_layers_count():
+			add_new_layer(str(layer_count), layer_count)
+			layer_count+=1 
+		
+		set_cell(int(layer), tilepos, 1, tilecoord)

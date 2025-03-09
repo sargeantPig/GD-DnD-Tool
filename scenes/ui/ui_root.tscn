@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://clrnmamca4eq7"]
+[gd_scene load_steps=20 format=3 uid="uid://clrnmamca4eq7"]
 
 [ext_resource type="Script" path="res://scenes/ui/ui_root.gd" id="1_hnd6y"]
 [ext_resource type="Script" path="res://console/console.gd" id="1_njcnl"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://c8wwwpdtyt3xs" path="res://scenes/ui/object_details.tscn" id="14_7hop8"]
 [ext_resource type="PackedScene" uid="uid://cs5qp11uqp3vi" path="res://scenes/ui/object_tree.tscn" id="15_s0gfl"]
 [ext_resource type="PackedScene" uid="uid://cysnpfnsnairu" path="res://scenes/ui/console.tscn" id="16_p57iy"]
+[ext_resource type="PackedScene" uid="uid://bk0s345t1uvrj" path="res://scenes/hotkey_helper/hotkey_helper.tscn" id="17_nmmr1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyeyo"]
 bg_color = Color(0, 0, 0, 1)
@@ -120,8 +121,8 @@ metadata/_tab_index = 2
 [node name="toolbar_tools" parent="." instance=ExtResource("3_8m7s6")]
 z_index = 9
 layout_mode = 0
-offset_left = -172.0
-offset_right = 194.0
+offset_left = 515.5
+offset_right = 881.5
 mouse_filter = 0
 clicked_tex = ExtResource("6_eaxss")
 hovered_tex = ExtResource("7_jc3f7")
@@ -142,8 +143,8 @@ one_shot = true
 
 [node name="toolbar_mod" parent="." instance=ExtResource("3_8m7s6")]
 layout_mode = 0
-offset_left = -86.0
-offset_right = -8.0
+offset_left = 1289.0
+offset_right = 1367.0
 default_tex = ExtResource("11_bn0y4")
 anchor = 2
 tile_names = Array[String](["btn_mod_flip", "btn_mod_colour"])
@@ -176,3 +177,16 @@ anchor_bottom = 0.255
 offset_top = 0.200012
 offset_bottom = 0.200012
 metadata/_edit_use_anchors_ = true
+
+[node name="hotkey_helper" parent="." instance=ExtResource("17_nmmr1")]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.922
+anchor_top = 0.5
+anchor_right = 0.961
+anchor_bottom = 0.5
+offset_left = -219.0
+offset_top = -100.0
+offset_bottom = 100.0
+grow_horizontal = 0
