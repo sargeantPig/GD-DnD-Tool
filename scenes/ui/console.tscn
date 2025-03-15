@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cysnpfnsnairu"]
 
 [ext_resource type="StyleBox" uid="uid://cr7mc23mtheer" path="res://styles/flat_grey_box.tres" id="1_u2wu4"]
-[ext_resource type="Script" path="res://scenes/ui/console.gd" id="2_pag1b"]
+[ext_resource type="Script" uid="uid://bhday46mtxkei" path="res://scenes/ui/console.gd" id="2_pag1b"]
 
 [node name="console" type="Panel" node_paths=PackedStringArray("last_child", "output", "input")]
 size_flags_vertical = 3

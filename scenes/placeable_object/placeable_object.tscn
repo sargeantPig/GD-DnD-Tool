@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dtwf7q70sivfq"]
 
 [ext_resource type="Texture2D" uid="uid://bihn7vc7foaj1" path="res://icon.svg" id="1_405jf"]
-[ext_resource type="Script" path="res://core/object/placeable_object.gd" id="2_75emw"]
+[ext_resource type="Script" uid="uid://prbvb54ib6sg" path="res://core/object/placeable_object.gd" id="2_75emw"]
 
 [node name="test" type="Sprite2D" groups=["can_save"]]
 position = Vector2(760, 108)

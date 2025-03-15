@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c875odieog1pj"]
 
-[ext_resource type="Script" path="res://scenes/ui/toolbar.gd" id="1_p6eki"]
+[ext_resource type="Script" uid="uid://n3cjy3wyh2ul" path="res://scenes/ui/toolbar.gd" id="1_p6eki"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t0pli"]
 bg_color = Color(0, 0, 0, 0.768627)

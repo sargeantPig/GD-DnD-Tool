@@ -1,6 +1,9 @@
+## Creates brushes by returning an array of cells that represent a requested brush
 class_name Brushes
 
-func quad_brush(payload: Dictionary):
+## Creates a quadrilateral brush with a given width, height and fill.
+## Example payload {"border": "false", "width": "10", "height": "5"}
+func quad_brush(payload: Dictionary) -> Array:
 	var brush_cells: Array = []
 	var width = int(payload["width"])
 	var height = int(payload["height"])
@@ -13,7 +16,9 @@ func quad_brush(payload: Dictionary):
 				continue
 	return brush_cells
 
-func circle_brush(payload: Dictionary):
+## Creates a circle brush with a given diameter and fill.
+## Example payload {"border": "false", "diameter": "10"}
+func circle_brush(payload: Dictionary) -> Array:
 	var brush_cells: Array = []
 	var diameter = payload["diameter"]
 	var radius = diameter*0.5
@@ -32,12 +37,13 @@ func circle_brush(payload: Dictionary):
 				continue
 	return brush_cells
 
-### Check four points of square on grid is within a circle
+## Check center of square on grid is within a circle
 func vertex_in_circle(coord: Vector2, radius: int) -> bool:
 	var cell_center: Vector2 = coord + Vector2(1.0/2.0, 1.0/2.0)
 	return cell_center.distance_to(Vector2.ZERO) <= radius
 
-func vertex_not_on_border(coord: Vector2, radius: int):
+## Check if a cell is the outline/border
+func vertex_not_on_border(coord: Vector2, radius: int) -> bool:
 	var cell_center = coord + Vector2(1.0/2.0, 1.0/2.0)
 	var distance = cell_center.distance_to(Vector2.ZERO)
 	return abs(distance - radius) >= 1.0

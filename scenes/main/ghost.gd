@@ -1,3 +1,4 @@
+## Brush Cursor that displays the preview and handles manages brush type and cell painting
 class_name GhostBrush extends Sprite2D
 
 enum BrushTypes {
@@ -92,12 +93,14 @@ func __create_ghost_segment(x: int, y: int):
 
 	return segment
 
+## Paints cell(s) onto a canvas depending on brush size
 func paint(world: WorldCanvas, current_layer: int, mouse_tile_location: Vector2, source_id: int, palette_coord: Vector2):
 	if palette_index == 2:
 		return
 	for cell in brush:
 		world.set_cell(current_layer, mouse_tile_location+cell, source_id, palette_coord)
 
+## Erases cell(s) on the canvas depending on brush size
 func erase(world: WorldCanvas, current_layer: int, mouse_tile_location: Vector2):
 	for cell in brush:
 		world.erase_cell(current_layer, mouse_tile_location+cell)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://da0a71achm7x4"]
 
-[ext_resource type="Script" path="res://scenes/ui/toolbar.gd" id="1_2bano"]
+[ext_resource type="Script" uid="uid://n3cjy3wyh2ul" path="res://scenes/ui/toolbar.gd" id="1_2bano"]
 [ext_resource type="Texture2D" uid="uid://s84hytwyq300" path="res://tilemaps/icons_default.png" id="2_a55es"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s3ksq"]

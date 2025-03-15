@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bk0s345t1uvrj"]
 
-[ext_resource type="Script" path="res://scenes/hotkey_helper/hotkey_hints.gd" id="1_gvw1d"]
+[ext_resource type="Script" uid="uid://sujnhu0jjilc" path="res://scenes/hotkey_helper/hotkey_hints.gd" id="1_gvw1d"]
 
 [node name="Panel" type="Panel"]
 offset_right = 40.0

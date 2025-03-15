@@ -1,7 +1,6 @@
 @tool
 extends Control
 
-
 @export var tile_size: int = 32 
 var columns: int = 0
 var rows: int = 0
@@ -13,7 +12,6 @@ func _ready():
 	viewport_size = get_viewport_rect().size
 	last_viewport_size = viewport_size
 	pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

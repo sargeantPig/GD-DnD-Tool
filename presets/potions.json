@@ -46,7 +46,7 @@
     },
     "tether": {
         "name": "Potion of Tether",
-        "description": "Any damage you take is also dealt to the attacker. Any damage the attacker takes it also dealt to you. Lasts 2 rounds. ",
+        "description": "Any damage you take is also dealt to the attacker. Any damage the attacker takes it also dealt to you. Lasts 2 rounds.",
         "price": "10"
     }
 }
