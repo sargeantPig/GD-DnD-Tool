@@ -1,11 +1,11 @@
 [gd_scene load_steps=20 format=3 uid="uid://clrnmamca4eq7"]
 
-[ext_resource type="Script" uid="uid://iqe3lkf0vqk" path="res://scenes/ui/ui_root.gd" id="1_hnd6y"]
+[ext_resource type="Script" uid="uid://38jo1bgwax3g" path="res://scenes/ui/ui_root.gd" id="1_hnd6y"]
 [ext_resource type="Script" uid="uid://3ctg4oagwjbt" path="res://console/console.gd" id="1_njcnl"]
 [ext_resource type="PackedScene" uid="uid://da0a71achm7x4" path="res://scenes/toolbar/toolbar_root.tscn" id="3_8m7s6"]
 [ext_resource type="PackedScene" uid="uid://qwvwhibtgrta" path="res://scenes/ui/preset_tree.tscn" id="3_v23lj"]
 [ext_resource type="Theme" uid="uid://c1od6bts362uv" path="res://styles/tab_theme.tres" id="3_vxlkh"]
-[ext_resource type="Script" uid="uid://cagw4l0hk5r51" path="res://scenes/ui/tab_cont_sizing.gd" id="4_31nmc"]
+[ext_resource type="Script" uid="uid://bbsje2deyuqg7" path="res://scenes/ui/tab_cont_sizing.gd" id="4_31nmc"]
 [ext_resource type="Texture2D" uid="uid://dcenedmgvvuwb" path="res://tilemaps/tilemap_terrain_features.png" id="4_mif7h"]
 [ext_resource type="Texture2D" uid="uid://cqpxi110381ya" path="res://tilemaps/icons_clicked.png" id="6_eaxss"]
 [ext_resource type="PackedScene" uid="uid://c875odieog1pj" path="res://scenes/toolbar/new_toolbar.tscn" id="7_1frj2"]
@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://dfj627lvm5kpr" path="res://tilemaps/tilemap_mod.png" id="11_bn0y4"]
 [ext_resource type="PackedScene" uid="uid://c8wwwpdtyt3xs" path="res://scenes/ui/object_details.tscn" id="14_7hop8"]
 [ext_resource type="PackedScene" uid="uid://cs5qp11uqp3vi" path="res://scenes/ui/object_tree.tscn" id="15_s0gfl"]
-[ext_resource type="PackedScene" uid="uid://cysnpfnsnairu" path="res://scenes/ui/console.tscn" id="16_p57iy"]
+[ext_resource type="PackedScene" uid="uid://cysnpfnsnairu" path="res://scenes/ui/console/console.tscn" id="16_p57iy"]
 [ext_resource type="PackedScene" uid="uid://bk0s345t1uvrj" path="res://scenes/hotkey_helper/hotkey_helper.tscn" id="17_nmmr1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyeyo"]
@@ -121,8 +121,8 @@ metadata/_tab_index = 2
 [node name="toolbar_tools" parent="." instance=ExtResource("3_8m7s6")]
 z_index = 9
 layout_mode = 0
-offset_left = 515.5
-offset_right = 881.5
+offset_left = -172.0
+offset_right = 194.0
 mouse_filter = 0
 clicked_tex = ExtResource("6_eaxss")
 hovered_tex = ExtResource("7_jc3f7")
@@ -143,8 +143,8 @@ one_shot = true
 
 [node name="toolbar_mod" parent="." instance=ExtResource("3_8m7s6")]
 layout_mode = 0
-offset_left = 1289.0
-offset_right = 1367.0
+offset_left = -86.0
+offset_right = -8.0
 default_tex = ExtResource("11_bn0y4")
 anchor = 2
 tile_names = Array[String](["btn_mod_flip", "btn_mod_colour"])
