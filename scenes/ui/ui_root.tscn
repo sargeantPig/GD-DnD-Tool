@@ -1,7 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://clrnmamca4eq7"]
+[gd_scene load_steps=18 format=3 uid="uid://clrnmamca4eq7"]
 
 [ext_resource type="Script" uid="uid://38jo1bgwax3g" path="res://scenes/ui/ui_root.gd" id="1_hnd6y"]
-[ext_resource type="Script" uid="uid://3ctg4oagwjbt" path="res://console/console.gd" id="1_njcnl"]
 [ext_resource type="PackedScene" uid="uid://da0a71achm7x4" path="res://scenes/ui/toolbar/toolbar_root.tscn" id="3_8m7s6"]
 [ext_resource type="PackedScene" uid="uid://qwvwhibtgrta" path="res://scenes/ui/preset_tree/preset_tree.tscn" id="3_v23lj"]
 [ext_resource type="Theme" uid="uid://c1od6bts362uv" path="res://styles/tab_theme.tres" id="3_vxlkh"]
@@ -32,34 +31,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_hnd6y")
-
-[node name="GridContainer" type="GridContainer" parent="."]
-visible = false
-layout_mode = 0
-offset_right = 67.0
-offset_bottom = 40.0
-columns = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GridContainer"]
-layout_mode = 2
-
-[node name="console" type="RichTextLabel" parent="GridContainer/VBoxContainer"]
-visible = false
-clip_contents = false
-layout_mode = 2
-mouse_filter = 2
-fit_content = true
-scroll_active = false
-script = ExtResource("1_njcnl")
-
-[node name="LineEdit" type="LineEdit" parent="GridContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-caret_blink = true
-caret_blink_interval = 0.5
-
-[node name="MarginContainer" type="MarginContainer" parent="GridContainer"]
-layout_mode = 2
 
 [node name="TabContainer" type="TabContainer" parent="."]
 z_index = 3
@@ -118,8 +89,8 @@ metadata/_tab_index = 2
 [node name="toolbar_tools" parent="." instance=ExtResource("3_8m7s6")]
 z_index = 9
 layout_mode = 0
-offset_left = -172.0
-offset_right = 194.0
+offset_left = 452.0
+offset_right = 818.0
 mouse_filter = 0
 clicked_tex = ExtResource("6_eaxss")
 hovered_tex = ExtResource("7_jc3f7")
@@ -140,8 +111,8 @@ one_shot = true
 
 [node name="toolbar_mod" parent="." instance=ExtResource("3_8m7s6")]
 layout_mode = 0
-offset_left = -86.0
-offset_right = -8.0
+offset_left = 1162.0
+offset_right = 1240.0
 default_tex = ExtResource("11_bn0y4")
 anchor = 2
 tile_names = Array[String](["btn_mod_flip", "btn_mod_colour"])
