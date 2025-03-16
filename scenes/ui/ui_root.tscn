@@ -1,11 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://clrnmamca4eq7"]
+[gd_scene load_steps=19 format=3 uid="uid://clrnmamca4eq7"]
 
 [ext_resource type="Script" uid="uid://38jo1bgwax3g" path="res://scenes/ui/ui_root.gd" id="1_hnd6y"]
 [ext_resource type="Script" uid="uid://3ctg4oagwjbt" path="res://console/console.gd" id="1_njcnl"]
 [ext_resource type="PackedScene" uid="uid://da0a71achm7x4" path="res://scenes/ui/toolbar/toolbar_root.tscn" id="3_8m7s6"]
 [ext_resource type="PackedScene" uid="uid://qwvwhibtgrta" path="res://scenes/ui/preset_tree/preset_tree.tscn" id="3_v23lj"]
 [ext_resource type="Theme" uid="uid://c1od6bts362uv" path="res://styles/tab_theme.tres" id="3_vxlkh"]
-[ext_resource type="Script" uid="uid://bbsje2deyuqg7" path="res://scenes/ui/tab_cont_sizing.gd" id="4_31nmc"]
 [ext_resource type="Texture2D" uid="uid://dcenedmgvvuwb" path="res://tilemaps/tilemap_terrain_features.png" id="4_mif7h"]
 [ext_resource type="Texture2D" uid="uid://cqpxi110381ya" path="res://tilemaps/icons_clicked.png" id="6_eaxss"]
 [ext_resource type="PackedScene" uid="uid://c875odieog1pj" path="res://scenes/ui/toolbar/new_toolbar.tscn" id="7_1frj2"]
@@ -62,7 +61,7 @@ caret_blink_interval = 0.5
 [node name="MarginContainer" type="MarginContainer" parent="GridContainer"]
 layout_mode = 2
 
-[node name="TabContainer" type="TabContainer" parent="." node_paths=PackedStringArray("child")]
+[node name="TabContainer" type="TabContainer" parent="."]
 z_index = 3
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 1
@@ -80,8 +79,6 @@ current_tab = 0
 clip_tabs = false
 all_tabs_in_front = true
 use_hidden_tabs_for_min_size = true
-script = ExtResource("4_31nmc")
-child = NodePath("characters")
 metadata/_edit_use_anchors_ = true
 
 [node name="terrain" parent="TabContainer" instance=ExtResource("7_1frj2")]
