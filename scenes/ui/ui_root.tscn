@@ -89,8 +89,8 @@ metadata/_tab_index = 2
 [node name="toolbar_tools" parent="." instance=ExtResource("3_8m7s6")]
 z_index = 9
 layout_mode = 0
-offset_left = 452.0
-offset_right = 818.0
+offset_left = -172.0
+offset_right = 194.0
 mouse_filter = 0
 clicked_tex = ExtResource("6_eaxss")
 hovered_tex = ExtResource("7_jc3f7")
@@ -111,8 +111,8 @@ one_shot = true
 
 [node name="toolbar_mod" parent="." instance=ExtResource("3_8m7s6")]
 layout_mode = 0
-offset_left = 1162.0
-offset_right = 1240.0
+offset_left = -86.0
+offset_right = -8.0
 default_tex = ExtResource("11_bn0y4")
 anchor = 2
 tile_names = Array[String](["btn_mod_flip", "btn_mod_colour"])

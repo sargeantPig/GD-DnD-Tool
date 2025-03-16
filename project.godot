@@ -35,6 +35,17 @@ project/assembly_name="DnD-mapper"
 
 enabled=PackedStringArray("res://addons/signal_lens/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://core/": "purple",
+"res://presets/": "orange",
+"res://scenes/": "yellow",
+"res://scenes/ui/": "teal",
+"res://styles/": "red",
+"res://tilemaps/": "blue"
+}
+
 [input]
 
 tilemap_cycle_right={
