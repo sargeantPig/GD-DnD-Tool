@@ -11,7 +11,7 @@ class_name AppRoot extends Node2D
 
 signal source_changed(source: TileSetAtlasSource)
 
-const object_res: PackedScene = preload("res://scenes/placeable_object/placeable_object.tscn")
+const object_res: PackedScene = preload("res://scenes/placeable_object/PlaceableObject.tscn")
 
 @export var server: Server
 @export var atlas: Array[Texture2D]
