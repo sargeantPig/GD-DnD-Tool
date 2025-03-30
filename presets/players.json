@@ -1,0 +1,625 @@
+[
+  {
+    "name": "Sirin Galanodel",
+    "source": "character_presets",
+    "size": "",
+    "type": "",
+    "subtype": "",
+    "alignment": "",
+    "ac": 12,
+    "hp": 6,
+    "hit_dice": "",
+    "speed": "30ft",
+    "stats": [
+      8,
+      14,
+      9,
+      14,
+      14,
+      15
+    ],
+    "saves": [
+      {
+        "strength": -1
+      },
+      {
+        "dexterity": 2
+      },
+      {
+        "constitution": 2
+      },
+      {
+        "intelligence": 2
+      },
+      {
+        "wisdom": 2
+      },
+      {
+        "charisma": 4
+      }
+    ],
+    "skillsaves": [
+        {
+            "acrobatics": 2
+        },
+        {
+            "animal handling": 2
+        },
+        {
+            "arcana": 2
+        },
+        {
+            "athletics": -1
+        },
+        {
+            "deception": 4
+        },
+        {
+            "history": 2
+        },
+        {
+            "insight": 4
+        },
+        {
+            "intimidation": 4
+        },
+        {
+            "investigation": 2
+        },
+        {
+            "medicine": 2
+        },
+        {
+            "nature": 2
+        },
+        {
+            "perception": 4
+        },
+        {
+            "performance": 2
+        },
+        {
+            "persuasion": 2
+        },
+        {
+            "religion": 4
+        },
+        {
+            "sleight of hand": 2
+        },
+        {
+            "stealth": 2
+        },
+        {
+            "survival": 2
+        }
+    ],
+    "damage_vulnerabilities": "",
+    "damage_resistances": "",
+    "damage_immunities": "",
+    "condition_immunities": "",
+    "senses": "",
+    "languages": "",
+    "cr": "",
+    "bestiary": false,
+    "traits": [],
+    "actions": [
+      {
+        "name": "Quarter Staff",
+        "desc": "Melee Weapon Attack: reach 5 ft., one target. AtkBonus+1 (1d8+1) blunt damage.",
+        "attack_bonus": 0
+      },
+      {
+        "name": "Dagger",
+        "desc": "Melee Weapon Attack: reach 5 ft., one target. AtkBonus+1 (1d4+1) piercing damage.",
+        "attack_bonus": 0
+      }
+    ],
+    "spells": [
+        "Sirin is a spellcaster. Her spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks).",
+        {
+            "Cantrips (at will)": "infestation, poison-spray, blade-ward, minor-illusion, dancing-lights"
+        },
+        {
+            "1st level (2 slots)": "ray-of-sickness, mage-armor"
+        }
+    ],
+    "legendary_actions": []
+  },
+  {
+    "name": "Corax",
+    "source": "character_presets",
+    "size": "",
+    "type": "",
+    "subtype": "",
+    "alignment": "",
+    "ac": 16,
+    "hp": 10,
+    "hit_dice": "",
+    "speed": "25ft/50ft",
+    "stats": [
+      12,
+      16,
+      11,
+      12,
+      13,
+      9
+    ],
+    "saves": [
+      {
+        "strength": 3
+      },
+      {
+        "dexterity": 5
+      },
+      {
+        "constitution": 0
+      },
+      {
+        "intelligence": 1
+      },
+      {
+        "wisdom": 1
+      },
+      {
+        "charisma": 0
+      }
+    ],
+    "skillsaves": [
+        {
+            "acrobatics": 5
+        },
+        {
+            "animal handling": 1
+        },
+        {
+            "arcana": 1
+        },
+        {
+            "athletics": 3
+        },
+        {
+            "deception": 0
+        },
+        {
+            "history": 1
+        },
+        {
+            "insight": 3
+        },
+        {
+            "intimidation": 0
+        },
+        {
+            "investigation": 1
+        },
+        {
+            "medicine": 1
+        },
+        {
+            "nature": 1
+        },
+        {
+            "perception": 1
+        },
+        {
+            "performance": 1
+        },
+        {
+            "persuasion": 0
+        },
+        {
+            "religion": 1
+        },
+        {
+            "sleight of hand": 3
+        },
+        {
+            "stealth": 3
+        },
+        {
+            "survival": 3
+        }
+    ],
+    "damage_vulnerabilities": "",
+    "damage_resistances": "",
+    "damage_immunities": "",
+    "condition_immunities": "",
+    "senses": "",
+    "languages": "",
+    "cr": "",
+    "bestiary": false,
+    "traits": [],
+    "actions": [
+      {
+        "name": "Longbow",
+        "desc": "Ranged Weapon Attack: +5 to hit, range 150/600 ft., one target. Hit: 7 (1d8 + 3) piercing damage.",
+        "attack_bonus": 5
+      },
+      {
+        "name": "Shortsword x2",
+        "desc": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 5) piercing damage.",
+        "attack_bonus": 3
+      }
+    ],
+    "legendary_actions": []
+  },
+  {
+    "name": "Jolly",
+    "source": "character_presets",
+    "size": "",
+    "type": "",
+    "subtype": "",
+    "alignment": "",
+    "ac": 15,
+    "hp": 15,
+    "hit_dice": "",
+    "speed": "30ft",
+    "stats": [
+      18,
+      15,
+      16,
+      9,
+      11,
+      12
+    ],
+    "saves": [
+      {
+        "strength": 6
+      },
+      {
+        "dexterity": 2
+      },
+      {
+        "constitution": 5
+      },
+      {
+        "intelligence": 0
+      },
+      {
+        "wisdom": 0
+      },
+      {
+        "charisma": 1
+      }
+    ],
+    "skillsaves": [
+        {
+            "acrobatics": 2
+        },
+        {
+            "animal handling": 2
+        },
+        {
+            "arcana": 0
+        },
+        {
+            "athletics": 6
+        },
+        {
+            "deception": 1
+        },
+        {
+            "history": 0
+        },
+        {
+            "insight": 0
+        },
+        {
+            "intimidation": 3
+        },
+        {
+            "investigation": 0
+        },
+        {
+            "medicine": 0
+        },
+        {
+            "nature": 0
+        },
+        {
+            "perception": 2
+        },
+        {
+            "performance": 1
+        },
+        {
+            "persuasion": 1
+        },
+        {
+            "religion": 0
+        },
+        {
+            "sleight of hand": 2
+        },
+        {
+            "stealth": 2
+        },
+        {
+            "survival": 2
+        }
+    ],
+    "damage_vulnerabilities": "",
+    "damage_resistances": "",
+    "damage_immunities": "",
+    "condition_immunities": "",
+    "senses": "",
+    "languages": "",
+    "cr": "",
+    "bestiary": false,
+    "traits": [],
+    "actions": [
+      {
+        "name": "Greataxe",
+        "desc": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 11 (1d12 + 4) slashing damage.",
+        "attack_bonus": 8
+      },
+      {
+        "name": "Hand Axe",
+        "desc": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 6 (1d6 + 4) slashing damage.",
+        "attack_bonus": 6
+      },
+      {
+        "name": "Javelin",
+        "desc": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 30/120 ft., one target. Hit: 6 (1d6 + 4) piercing damage.",
+        "attack_bonus": 6
+      }
+    ],
+    "legendary_actions": []
+  },
+  {
+    "name": "StarFlower",
+    "source": "character_presets",
+    "size": "",
+    "type": "",
+    "subtype": "",
+    "alignment": "",
+    "ac": 14,
+    "hp": 10,
+    "hit_dice": "",
+    "speed": "35ft",
+    "stats": [
+      11,
+      16,
+      14,
+      11,
+      12,
+      14
+    ],
+    "saves": [
+      {
+        "strength": 0
+      },
+      {
+        "dexterity": 5
+      },
+      {
+        "constitution": 2
+      },
+      {
+        "intelligence": 2
+      },
+      {
+        "wisdom": 1
+      },
+      {
+        "charisma": 2
+      }
+    ],
+    "skillsaves": [
+        {
+            "acrobatics": 5
+        },
+        {
+            "animal handling": 1
+        },
+        {
+            "arcana": 0
+        },
+        {
+            "athletics": 0
+        },
+        {
+            "deception": 4
+        },
+        {
+            "history": 0
+        },
+        {
+            "insight": 1
+        },
+        {
+            "intimidation": 4
+        },
+        {
+            "investigation": 0
+        },
+        {
+            "medicine": 1
+        },
+        {
+            "nature": 0
+        },
+        {
+            "perception": 3
+        },
+        {
+            "performance": 2
+        },
+        {
+            "persuasion": 4
+        },
+        {
+            "religion": 0
+        },
+        {
+            "sleight of hand": 5
+        },
+        {
+            "stealth": 5
+        },
+        {
+            "survival": 1
+        }
+    ],
+    "damage_vulnerabilities": "",
+    "damage_resistances": "",
+    "damage_immunities": "",
+    "condition_immunities": "",
+    "senses": "",
+    "languages": "",
+    "cr": "",
+    "bestiary": false,
+    "traits": [],
+    "actions": [
+      {
+        "name": "Shortsword",
+        "desc": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 3) piercing damage.",
+        "attack_bonus": 5
+      },
+      {
+        "name": "Shortbow",
+        "desc": "Ranged Weapon Attack: +5 to hit, range 80/320 ft., one target. Hit: 6 (1d6 + 3) piercing damage.",
+        "attack_bonus": 5
+      },
+      {
+        "name": "Dagger",
+        "desc": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 5 (1d4 + 3) piercing damage.",
+        "attack_bonus": 5
+      }
+    ],
+    "legendary_actions": []
+  },
+  {
+    "name": "CN",
+    "source": "character_presets",
+    "size": "",
+    "type": "",
+    "subtype": "",
+    "alignment": "",
+    "ac": 13,
+    "hp": 10,
+    "hit_dice": "",
+    "speed": "30ft",
+    "stats": [
+      11,
+      13,
+      14,
+      17,
+      11,
+      10
+    ],
+    "saves": [
+      {
+        "strength": 0
+      },
+      {
+        "dexterity": 1
+      },
+      {
+        "constitution": 4
+      },
+      {
+        "intelligence": 5
+      },
+      {
+        "wisdom": 0
+      },
+      {
+        "charisma": 0
+      }
+    ],
+    "skillsaves": [
+        {
+            "acrobatics": 1
+        },
+        {
+            "animal handling": 2
+        },
+        {
+            "arcana": 5
+        },
+        {
+            "athletics": 0
+        },
+        {
+            "deception": 0
+        },
+        {
+            "history": 3
+        },
+        {
+            "insight": 0
+        },
+        {
+            "intimidation": 0
+        },
+        {
+            "investigation": 3
+        },
+        {
+            "medicine": 2
+        },
+        {
+            "nature": 3
+        },
+        {
+            "perception": 0
+        },
+        {
+            "performance": 0
+        },
+        {
+            "persuasion": 0
+        },
+        {
+            "religion": 3
+        },
+        {
+            "sleight of hand": 1
+        },
+        {
+            "stealth": 1
+        },
+        {
+            "survival": 2
+        }
+    ],
+    "damage_vulnerabilities": "",
+    "damage_resistances": "fire",
+    "damage_immunities": "",
+    "condition_immunities": "",
+    "senses": "darkvision 60 ft.",
+    "languages": "",
+    "cr": "",
+    "bestiary": false,
+    "traits": [],
+    "actions": [
+      {
+        "name": "Quarter Staff",
+        "desc": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 10 (1d6 + 1) blunt damage.",
+        "attack_bonus": 3
+      },
+      {
+        "name": "Sling",
+        "desc": "Ranged Weapon Attack: +3 to hit, range 30/120 ft., one target. Hit: 10 (1d4 + 1) blunt damage.",
+        "attack_bonus": 3
+      },
+      {
+        "name": "Light Crossbow",
+        "desc": "Ranged Weapon Attack: +3 to hit, range 80/320 ft., one target. Hit: 10 (1d8 + 1) piercing damage.",
+        "attack_bonus": 3
+      }
+    ],
+    "spells": [
+        "Name here is a spellcaster. His spellcasting ability is Intelligence (spell save DC 13, +5 to hit with spell attacks).",
+        {
+            "Cantrips (at will)": "produce-flame, green-flame-blade, fire-bolt"
+        },
+        {
+            "1st level (2 slots)": "cure-wounds, tashas-caustic-brew"
+        }
+    ],
+    "legendary_actions": []
+  }
+]

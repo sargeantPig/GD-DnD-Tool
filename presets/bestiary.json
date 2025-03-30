@@ -21832,5 +21832,67 @@
     ],
     "creature": "Goblin",
     "layout": "Basic 5e Layout"
+  },
+  {
+    "name": "Oaken Valor Goblin",
+    "source": "5e SRD",
+    "size": "Small",
+    "type": "humanoid",
+    "subtype": "goblinoid",
+    "alignment": "neutral good",
+    "ac": 17,
+    "hp": 12,
+    "hit_dice": "2d8",
+    "speed": "30 ft.",
+    "stats": [
+      10,
+      14,
+      10,
+      10,
+      8,
+      8
+    ],
+    "skillsaves": [
+      {
+        "stealth": 6
+      }
+    ],
+    "damage_vulnerabilities": "",
+    "damage_resistances": "",
+    "damage_immunities": "",
+    "condition_immunities": "",
+    "senses": "darkvision 60 ft., passive Perception 9",
+    "languages": "Common, Goblin",
+    "cr": "1/2",
+    "bestiary": true,
+    "traits": [
+      {
+        "name": "Nimble Escape",
+        "desc": "The goblin can take the Disengage or Hide action as a bonus action on each of its turns.",
+        "attack_bonus": 0
+      },
+      {
+        "name": "Shielded",
+        "desc": "Carries a shield"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Scimitar",
+        "desc": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage.",
+        "attack_bonus": 4,
+        "damage_dice": "1d6",
+        "damage_bonus": 2
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Parry",
+        "desc": "The knight adds 2 to its AC against one melee attack that would hit it. To do so, the knight must see the attacker and be wielding a melee weapon.",
+        "attack_bonus": 0
+      }
+    ],
+    "creature": "Goblin",
+    "layout": "Basic 5e Layout"
   }
 ]

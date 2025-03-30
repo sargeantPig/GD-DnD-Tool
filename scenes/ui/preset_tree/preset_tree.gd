@@ -8,6 +8,7 @@ var npc_root: TreeItem
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	load_bestiary()
+	load_characters()
 	var root: TreeItem = self.create_item()
 	root.set_text(0, "Presets")
 	character_root = self.create_item()
@@ -58,6 +59,17 @@ func load_presets():
 			load_preset(npc_presets, data[k])
 	pass
 
+func load_characters():
+	var bestiary = FileAccess.open("res://presets/players.json", FileAccess.READ)
+	var objects = bestiary.get_as_text()
+	var json: JSON = JSON.new()
+	json.parse(objects)
+	
+	var data = json.get_data()
+	
+	for object in data:
+		load_player(object)
+
 func load_bestiary():
 	var bestiary = FileAccess.open("res://presets/bestiary.json", FileAccess.READ)
 	var objects = bestiary.get_as_text()
@@ -72,7 +84,10 @@ func load_bestiary():
 func load_creature(creature: Dictionary):
 	var statblock: StatBlock = StatBlock.new(creature)
 	npc_presets[statblock.get_value("name")] = statblock
-		
+
+func load_player(player: Dictionary):
+	var statblock: StatBlock = StatBlock.new(player)
+	character_presets[statblock.get_value("name")] = statblock
 
 func load_preset(dict: Dictionary, data: Dictionary):
 	for k in data:

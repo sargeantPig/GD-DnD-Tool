@@ -38,4 +38,6 @@ var XP_by_CR = {
 }
 
 func get_xp_by_cr(cr: String) -> String:
-	return XP_by_CR[cr]
+	if XP_by_CR.has(cr):
+		return XP_by_CR[cr]
+	else: return "0"
