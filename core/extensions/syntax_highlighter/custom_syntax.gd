@@ -17,7 +17,7 @@ func _get_line_syntax_highlighting(line) -> Dictionary:
 	var matches: Array[RegExMatch] = regex.search_all(line_content)
 	var line_end = len(line_content)
 	for m in matches:
-		var start =  m.get_start(0)
+		var start = m.get_start(0)
 		var end = m.get_end(0)
 		#print("Match found: ", m.get_string(0), " at positions: ", start, "-", end)
 		var group_names = m.get_names()

@@ -27,14 +27,14 @@ func remove(id: String):
 
 func refresh(object: PlaceableObject):
 	var id = object.name
-	var name = object.details.display_name
+	var name = object.statblock.get_value("name")
 	if not treeItemsByID.has(id):
 		return
 	if name != "":
 		treeItemsByID[id].set_text(0, name)
 	else: treeItemsByID[id].set_text(0, id)
-	treeItemsByID[id].set_text(1, object.details.health + "/" +  object.details.max_health)
-	treeItemsByID[id].set_text(2, object.details.initiative)
+	treeItemsByID[id].set_text(1, object.statblock.get_value("hp") + "/" +  object.statblock.get_extra_data(("max_hp")))
+	treeItemsByID[id].set_text(2, object.statblock.get_extra_data("initiative"))
 
 func sort():
 	if not can_be_sorted(2):
@@ -82,7 +82,7 @@ func compare_item(a, b):
 
 func add_interactable_to_tree(child: PlaceableObject):
 	var id = child.name
-	var name = child.details.display_name
+	var name = child.statblock.get_value("name")
 	if not is_interactable_in_tree(id):
 		var newChild: TreeItem = $Tree.create_item(root)
 		treeItemsByID[id] = newChild

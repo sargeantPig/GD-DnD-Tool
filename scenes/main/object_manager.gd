@@ -34,7 +34,7 @@ func _managed_object_selected(id: String):
 			child.interactable.selected = false
 		else: 
 			selected_object = child
-			object_details.recieve_object_details(child.details)
+			object_details.set_stats(child.statblock)
 			object_details.connected_object = child
 			object_tree.add_interactable_to_tree(child)
 	pass
