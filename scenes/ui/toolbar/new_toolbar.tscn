@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://c875odieog1pj"]
+
+[ext_resource type="Script" uid="uid://8s243iaqs5jm" path="res://scenes/ui/toolbar/toolbar.gd" id="1_p6eki"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t0pli"]
+bg_color = Color(0, 0, 0, 0.768627)
+
+[node name="scroll_container" type="ScrollContainer" node_paths=PackedStringArray("grid_container")]
+offset_left = 625.5
+offset_right = 625.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_t0pli")
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+script = ExtResource("1_p6eki")
+grid_container = NodePath("grid")
+
+[node name="grid" type="GridContainer" parent="."]
+self_modulate = Color(0.0901961, 0.0901961, 0.0901961, 0.690196)
+layout_mode = 2
+columns = 4

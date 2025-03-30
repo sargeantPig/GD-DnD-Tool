@@ -1,4 +1,4 @@
-extends Node2D
+class_name AppRoot extends Node2D
 
 # area of effect cones, etc
 # move characters	
@@ -11,56 +11,59 @@ extends Node2D
 
 signal source_changed(source: TileSetAtlasSource)
 
-const object_res: PackedScene = preload("res://scenes/placeable_object/placeable_object.tscn")
+const object_res: PackedScene = preload("res://scenes/placeable_object/PlaceableObject.tscn")
+
+@export var server: Server
+@export var atlas: Array[Texture2D]
+@export var world_canvas: WorldCanvas
+@export var uimanager: UIManager
 
 var selectedIndex: int = 0
 var tilesets: Array = []
-@export var server: Server
-@export var atlas: Array[Texture2D]
 var mode: Global.Mode
 var source_id: int = 1
 var palette_index: int = 0
-var palette_coord: Vector2 = Vector2(0,0)
 var name_id: String
-var tilemap_coord: Vector2
 var misc_objects: Array[Node2D]
 var multi_pos: Vector2
 var multi_rect: Rect2
 var multi_mouse_pos: Vector2
 var ticker: Ticker
 var colourPicker: ColorPickerButton
-@export var world_canvas: WorldCanvas
+
 # ONE SHOT VARS
 
 var object_manager: ObjectManager
 var presets: PresetTree
 var fps: float
 
+var operations: Operations
+
 func _ready():
-	$canvas/ui.palette_index_changed.connect(palette_index_changed)
-	$canvas/ui.mode_changed.connect(mode_changed)
-	$canvas/ui.mode_changed.connect($misc._mode_changed)
+	operations = Operations.new()
+	uimanager.palette_index_changed.connect(world_canvas.palette_index_changed)
+	uimanager.mode_changed.connect(mode_changed)
+	uimanager.mode_changed.connect($misc._mode_changed)
+	uimanager.mode_changed.connect(world_canvas.mode_changed)
 	object_manager = $misc
 	ticker = Ticker.new(0.5)
 	presets = $canvas/ui/TabContainer/preset_tree
 	colourPicker = $canvas/colour_pick
-	server.set_console($canvas/ui/console)
-	pass
+	server.set_console(uimanager.console)
+	world_canvas.set_console(uimanager.console)
+	uimanager.console.operation_message.connect(command_process)
 
 func _unhandled_input(event):
+	if palette_index == 0:
+		return
+
 	if mode == Global.Mode.epaint:
-		paint(tilemap_coord)
-	if mode == Global.Mode.eerase:
-		erase(tilemap_coord)
-	if mode == Global.Mode.epicker:
-		pick(tilemap_coord)
+		paint()
 	if mode == Global.Mode.emulti:
 		multi_select()
-	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	tilemap_coord = get_mouse_location_on_map()
-	display_ghost_tile()
 	mode = $canvas/ui.mode
 	ticker._process(delta)
 	pass
@@ -71,12 +74,6 @@ func _draw():
 		multi_rect = Rect2(multi_pos, -size_vect)
 		draw_rect(multi_rect, Color(0.1, 0.1, 0.5, 0.3), true)
 	else: draw_rect(multi_rect, Color(0.1, 0.1, 0.5, 0.1), true)
-
-
-func pick(tilemap_coord: Vector2):
-	if Input.is_action_pressed("select"):
-		palette_coord = world_canvas.get_cell_atlas_coords(0, tilemap_coord)
-	pass
 
 func multi_select():
 	var is_in_multi = Global.check_mouse_in_rect(get_local_mouse_position(), multi_rect)
@@ -95,73 +92,35 @@ func multi_select():
 		$misc.select_objects(multi_rect)
 	queue_redraw()
 
-
-func erase(tilemap_coord: Vector2):
-	if Input.is_action_pressed("select"):
-		world_canvas.set_cell(0, tilemap_coord, source_id)
-
-func paint(tilemap_coord: Vector2):
-	if Input.is_action_pressed("select"):
-		match palette_index:
-			0: world_canvas.set_cell(0, tilemap_coord, source_id, palette_coord )
-			_: pass
-				
+func paint():
 	if Input.is_action_just_released("select") && palette_index != 0 && ticker.ticked:
 		add_misc_object()
 		ticker.start()
 	pass
 
-func create_object(tilemap_coord, palette_coord) -> Node2D:
+func create_object() -> Node2D:
 	var params = {
 		"name_id": name_id,
-		"tilemap_coord": get_tilemap_coord(),
+		"tilemap_coord": world_canvas.get_tilemap_coord(),
 		"palette_index": palette_index,
 		"atlas": atlas[palette_index],
-		"region": Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32),
+		"region": Rect2(world_canvas.palette_coord.x*32, world_canvas.palette_coord.y*32, 32, 32),
 		"parent": $misc,
 		"mode": mode,
 		"preset": presets.get_selected_preset()
 	}
-	#var new_object = object_res.instantiate()
-	#new_object.id = name_id
-	#new_object.position = get_tilemap_coord()
-	#new_object.atlas = palette_index
-	#new_object.set_texture(atlas[palette_index])
-	#new_object.set_region(Rect2(palette_coord.x*32, palette_coord.y*32, 32, 32))
-	#new_object.set_parent($misc)
-	#new_object.mode = mode
-	#new_object.set_real_name()
 	return ObjectFactory.create_placeable_object(object_res, params)
 
 func add_misc_object():
-	object_manager.add_child(create_object(tilemap_coord, palette_coord))
+	object_manager.add_child(create_object())
 	object_manager._managed_object_selected(object_manager.get_last())
-	
-	
+
 func _input(event):
 	if event.is_action_pressed("tilemap_cycle_right"):
 		modify_selected_index(1)
 	elif event.is_action_pressed("tilemap_cycle_left"):
 		modify_selected_index(-1)
 	pass
-
-func display_ghost_tile():
-	if mode == Global.Mode.epaint:
-		$ghost.visible = true
-	else: 
-		$ghost.visible = false
-	pass
-
-func palette_index_changed(id: String, value: int, coord: Vector2):
-	$ghost.texture = atlas[value]
-	palette_index = value
-	palette_coord = coord
-	name_id = id
-
-func get_mouse_location_on_map():
-	var mouse = get_local_mouse_position()
-	var tilemap_coord = world_canvas.local_to_map(mouse)
-	return tilemap_coord
 
 func flip():
 	if object_manager.selected_object != null:
@@ -195,17 +154,21 @@ func modify_selected_index(value: int):
 func get_tileset_atlas():
 	return world_canvas.tile_set.get_source(source_id)
 
-func get_palette_coord():
-	return palette_coord
-	
-func get_tilemap_coord():
-	return world_canvas.map_to_local(tilemap_coord)
-
 func get_ui_object_details():
 	return $canvas/ui/object_details
 
 func get_ui_object_tree():
 	return $canvas/ui/object_tree
+
+func command_process(payload: Dictionary):
+	match payload["type"]:
+		"save_terrain":
+			operations.save_terrain(world_canvas, payload["filepath"])
+		"load_terrain":
+			operations.load_terrain(world_canvas, payload["filepath"])
+		"ls":
+			operations.list_files(uimanager.console, payload["path"])
+	pass
 
 func _save_objects():
 	var path = "dnd_saves"

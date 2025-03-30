@@ -1,3 +1,4 @@
+## Simple ticker that can be started and stopped
 class_name Ticker
 
 var ticked: bool = true
@@ -15,9 +16,12 @@ func _process(delta):
 		self.finish()
 	pass
 
+## Start the ticker
 func start():
 	ticked = false
 
+## Stop the Ticker -
+## Call this manually to stop the ticker early
 func finish():
 	ticked = true
 	ticker = 0

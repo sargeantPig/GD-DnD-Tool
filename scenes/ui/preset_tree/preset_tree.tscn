@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://qwvwhibtgrta"]
+
+[ext_resource type="Script" uid="uid://dempglji23rwf" path="res://scenes/ui/preset_tree/preset_tree.gd" id="1_qdgyu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_33hin"]
+bg_color = Color(0.188235, 0.188235, 0.188235, 1)
+
+[node name="preset_tree" type="Tree"]
+offset_left = 24.0
+offset_top = 35.0
+offset_right = 241.0
+offset_bottom = 328.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_33hin")
+column_titles_visible = true
+script = ExtResource("1_qdgyu")

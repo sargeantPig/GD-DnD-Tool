@@ -50,3 +50,4 @@ func required_variables_set(variables: Array, object):
 	for v in variables:
 		if v == null:
 			print("Required variable not set on ", typeof(object))
+			pass

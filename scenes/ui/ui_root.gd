@@ -1,4 +1,4 @@
-extends Control
+class_name UIManager extends Control 
 
 signal palette_index_changed(id: int)
 signal mode_changed(mode: Global.Mode)
@@ -6,8 +6,11 @@ signal mode_changed(mode: Global.Mode)
 var mode: Global.Mode
 var terrain_idx: int
 @export var toolbar_scale: int = 2
+
+var console: Console
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	console = $console
 	$TabContainer/terrain.btn_clicked.connect(btn_mode_changed)
 	$toolbar_tools.btn_clicked.connect(btn_mode_changed)
 	$TabContainer/characters.btn_clicked.connect(btn_mode_changed)

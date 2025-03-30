@@ -1,0 +1,52 @@
+{
+    "amplified_healing": {
+        "name": "Potion of Amplified Healing",
+        "description": "1d (current dmg) + 5",
+        "price": "3"
+    },
+    "encased_stone": {
+        "name": "Potion of Encased Stone",
+        "description": "Armour class increased by 1d (AC/2), lasts 2 rounds",
+        "price": "16"
+    },
+    "over_heal": {
+        "name": "Potion of Over Heal",
+        "description": "1d (hp)",
+        "price": "5"
+    },
+    "absconded_stars": {
+        "name": "Potion of Absconded Stars",
+        "description": "Regain Spell slots (uses) equal to 1d (maximum spell slots)",
+        "price": "7"
+    },
+    "uncanny_reactions": {
+        "name": "Potion of Uncanny Reactions",
+        "description": "Allows a reaction to be taken to any opponent's action (1 round)",
+        "price": "6"
+    },
+    "fleetfoot": {
+        "name": "Potion of Fleetfoot",
+        "description": "Each round your speed increases by (movement last round) + 50%. This lasts for 2 rounds. Ends if no movement taken.",
+        "price": "8"
+    },
+    "miracle_shield": {
+        "name": "Potion of Miracle Shield",
+        "description": "If a hit would reduce you to 0 hp, you are instead reduced to 1 hp. Lasts 1 round.",
+        "price": "10"
+    },
+    "devils_deal": {
+        "name": "Potion of Devils Deal",
+        "description": "Health decreased to 1, damage taken as a result is added to the next attack. Lasts 1 round. Can be used as a bonus acton.",
+        "price": "8"
+    },
+    "atttribute_whispers": {
+        "name": "Potion of attribute whispers",
+        "description": "Pick any atttibute (strength, dexterity, constitution, intelligence, wisdom, charisma) and increase it by 1d (attribute total). Lasts 1 round.",
+        "price": "6"
+    },
+    "tether": {
+        "name": "Potion of Tether",
+        "description": "Any damage you take is also dealt to the attacker. Any damage the attacker takes it also dealt to you. Lasts 2 rounds.",
+        "price": "10"
+    }
+}

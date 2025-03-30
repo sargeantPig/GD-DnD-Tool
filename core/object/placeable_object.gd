@@ -6,6 +6,7 @@ var parent: ObjectManager
 var mode: Global.Mode = Global.Mode.eposition
 var visual: Visual
 var details: Details
+var statblock: StatBlock
 var interactable: Interaction
 var input: InputHandler
 var orig_pos: Vector2
@@ -24,8 +25,9 @@ func _ready():
 
 func _init():
 	visual = Visual.new(self.modulate)
-	details = Details.new()
 	input = InputHandler.new()
+	statblock = StatBlock.new({})
+	
 
 func _process(delta):
 	input.get_input(self)
@@ -92,7 +94,8 @@ func set_parent(node: Node2D):
 	parent = node
 
 func log_to_console(msg: String, signal_val = ""):
-	print(self.name, " ", signal_val, msg)
+	#print(self.name, " ", signal_val, msg)
+	pass
 
 func get_loc_rect() -> Rect2:
 	return Rect2(position, Vector2.ONE)

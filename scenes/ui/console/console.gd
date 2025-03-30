@@ -1,0 +1,44 @@
+class_name Console extends Panel 
+
+signal send_message(msg)
+signal internal_message(msg)
+signal operation_message(msg)
+
+@export var last_child: Control
+@export var output: RichTextLabel
+@export var input: LineEdit
+
+var input_format = "\n\n> %s"
+var output_format = "\n%s"
+
+var commands: ConsoleCommands
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	commands = ConsoleCommands.new()
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	custom_minimum_size = Vector2(last_child.position.x + last_child.size.x, last_child.position.y + last_child.size.y)
+	pass
+
+func receive_text(text: String):
+	output.append_text(output_format % [text])
+
+func _on_line_edit_text_submitted(new_text):
+	output.append_text(input_format % [new_text])
+	command_execute(new_text)
+	input.clear()
+	pass # Replace with function body.
+
+func command_execute(cmd: String):
+	var payload = commands.process_command(cmd)
+	
+	if payload.has("ERROR"):
+		self.receive_text(payload["ERROR"])
+		return
+	
+	match payload["emitter"]:
+		"internal": internal_message.emit(payload)
+		"external": send_message.emit(payload)
+		"operation": operation_message.emit(payload)
