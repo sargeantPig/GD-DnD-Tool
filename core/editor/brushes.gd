@@ -11,7 +11,7 @@ func quad_brush(payload: Dictionary) -> Array:
 		for y in range(height):
 			if payload["border"] and x != width-1 and y != height-1 and x != 0 and y != 0:
 				continue
-			brush_cells.append(Vector2(x, y))
+			brush_cells.append(TileCell.new(Vector3(x, y, -1), Vector2.ZERO))
 			if x == 0 and y == 0:
 				continue
 	return brush_cells
@@ -23,7 +23,7 @@ func circle_brush(payload: Dictionary) -> Array:
 	var diameter = payload["diameter"]
 	var radius = diameter*0.5
 	if diameter == 0:
-		brush_cells.append(Vector2(0,0))
+		brush_cells.append(TileCell.new(Vector3.ZERO, Vector2.ZERO))
 		return brush_cells
 	
 	for x in range(-diameter, diameter):
@@ -32,7 +32,7 @@ func circle_brush(payload: Dictionary) -> Array:
 				continue
 			if (payload["border"] and vertex_not_on_border(Vector2(x,y), radius)):
 				continue
-			brush_cells.append(Vector2(x, y))
+			brush_cells.append(TileCell.new(Vector3(x, y, -1), Vector2.ZERO))
 			if x == 0 and y == 0:
 				continue
 	return brush_cells
