@@ -54,13 +54,12 @@ func _ready():
 	uimanager.console.operation_message.connect(command_process)
 
 func _unhandled_input(event):
-	if palette_index == 0:
-		return
-
-	if mode == Global.Mode.epaint:
-		paint()
 	if mode == Global.Mode.emulti:
 		multi_select()
+	if palette_index == 0:
+		return
+	if mode == Global.Mode.epaint:
+		paint()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -168,6 +167,10 @@ func command_process(payload: Dictionary):
 			operations.load_terrain(world_canvas, payload["filepath"])
 		"ls":
 			operations.list_files(uimanager.console, payload["path"])
+		"save_pattern":
+			operations.save_pattern(world_canvas, payload["filepath"])
+		"load_pattern":
+			operations.load_pattern(world_canvas, payload["filepath"])
 	pass
 
 func _save_objects():
