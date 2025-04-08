@@ -54,7 +54,6 @@ func remove_tile_from_selection():
 	for layer in range(current_layer, selection_depth+1):
 		selected_tiles.erase(mouse_tile_location)
 
-
 func _draw() -> void:
 	if selected_tiles.size() == 0:
 		return
