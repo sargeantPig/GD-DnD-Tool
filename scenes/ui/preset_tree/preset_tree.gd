@@ -27,7 +27,7 @@ func _process(delta):
 func populate_tree():
 	populate_leaves(character_root, character_presets)
 	populate_leaves(npc_root, npc_presets)
-		
+
 func populate_leaves(parent: TreeItem, presets: Dictionary):
 	for item in presets:
 		var newItem: TreeItem = self.create_item(parent)
@@ -38,9 +38,9 @@ func get_selected_preset():
 	
 	if selected == null:
 		return null
-
-	var parent: TreeItem = selected.get_parent()
 	
+	var parent: TreeItem = selected.get_parent()
+
 	if parent.get_text(0) == "Characters":
 		return character_presets[selected.get_text(0)]
 	elif parent.get_text(0) == "NPCs":
@@ -80,7 +80,7 @@ func load_bestiary():
 	
 	for object in data:
 		load_creature(object)
-	
+
 func load_creature(creature: Dictionary):
 	var statblock: StatBlock = StatBlock.new(creature)
 	npc_presets[statblock.get_value("name")] = statblock
@@ -94,5 +94,3 @@ func load_preset(dict: Dictionary, data: Dictionary):
 		var details: Details = Details.new()
 		details.load(data[k])
 		dict[k] = details
-	
-	

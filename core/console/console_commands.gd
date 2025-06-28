@@ -19,6 +19,12 @@ func process_command(cmd: String) -> Dictionary:
 			return __load_terrain_payload(params)
 		"ls":
 			return __list_files(params)
+		"save_pattern":
+			return __save_pattern_payload(params)
+		"ls_patterns":
+			return __list_patterns(params)
+		"load_pattern":
+			return __load_pattern_payload(params)
 	return {"ERROR": "Invalid command"}
 
 func __format_error(error: String):
@@ -96,5 +102,35 @@ func __list_files(params: Array):
 		"emitter": "operation",
 		"type": params[0],
 		"path": params[1] if params.size() > 1 else ""
+	}
+	return payload
+
+func __save_pattern_payload(params: Array):
+	if params.size() != 2:
+		return __format_error("Required 1 (int) parameter FILEPATH")
+	
+	var payload = {
+		"emitter": "operation",
+		"type": params[0],
+		"filepath": params[1]
+	}
+	return payload
+
+func __list_patterns(params: Array):
+	var payload = {
+		"emitter": "operation",
+		"type": params[0],
+		"path": params[1] if params.size() > 1 else ""
+	}
+	return payload
+
+func __load_pattern_payload(params: Array):
+	if params.size() != 2:
+		return __format_error("Required 1 (int) parameter FILEPATH")
+	
+	var payload = {
+		"emitter": "operation",
+		"type": params[0],
+		"filepath": params[1]
 	}
 	return payload

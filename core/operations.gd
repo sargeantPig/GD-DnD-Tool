@@ -12,10 +12,14 @@ func save_terrain(terrain: WorldCanvas, filepath: String):
 func load_terrain(terrain: WorldCanvas, filepath: String):
 	terrain.clear()
 	var save_game = FileAccess.open("user://saves/%s" % filepath, FileAccess.READ)
+	
+	if not save_game:
+		return
+	
 	while save_game.get_position() < save_game.get_length():
 		var json_string = save_game.get_line()
 		var json = JSON.new()
-		var parse_result = json.parse(json_string)
+		json.parse(json_string)
 		var node_data = json.get_data()
 		terrain.load(node_data)
 	save_game.close()
@@ -27,4 +31,3 @@ func list_files(console: Console, path: String):
 	root_files.append_array(directories)
 	var normal = ExArray.new(root_files)
 	console.receive_text(normal.join("\n"))
-	

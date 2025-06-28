@@ -103,6 +103,10 @@ func is_interactable_in_tree(id: String) -> bool:
 func _on_tree_item_selected():
 	var selected:  TreeItem = $Tree.get_selected()
 	var index = selected.get_index()
+	
+	if len(IDs) == 0:
+		return
+	
 	var id = IDs[index]
 	var object: PlaceableObject = objectsByID[id]
 	object.interactable.select()

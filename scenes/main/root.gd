@@ -35,6 +35,7 @@ var colourPicker: ColorPickerButton
 
 var object_manager: ObjectManager
 var presets: PresetTree
+@export var pattern_tree: PatternTree
 var fps: float
 
 var operations: Operations
@@ -54,13 +55,12 @@ func _ready():
 	uimanager.console.operation_message.connect(command_process)
 
 func _unhandled_input(event):
-	if palette_index == 0:
-		return
-
-	if mode == Global.Mode.epaint:
-		paint()
 	if mode == Global.Mode.emulti:
 		multi_select()
+	if palette_index == 0:
+		return
+	if mode == Global.Mode.epaint:
+		paint()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -168,6 +168,11 @@ func command_process(payload: Dictionary):
 			operations.load_terrain(world_canvas, payload["filepath"])
 		"ls":
 			operations.list_files(uimanager.console, payload["path"])
+		"save_pattern":
+			world_canvas.save_pattern_file(payload["filepath"])
+			pattern_tree.refresh_trigger()
+		"load_pattern":
+			return world_canvas.load_patter_file(payload["filepath"])
 	pass
 
 func _save_objects():

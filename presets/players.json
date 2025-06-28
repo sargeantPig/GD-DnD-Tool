@@ -6,8 +6,8 @@
     "type": "",
     "subtype": "",
     "alignment": "",
-    "ac": 12,
-    "hp": 6,
+    "ac": 14,
+    "hp": 15,
     "hit_dice": "",
     "speed": "30ft",
     "stats": [
@@ -134,7 +134,7 @@
     "subtype": "",
     "alignment": "",
     "ac": 16,
-    "hp": 10,
+    "hp": 16,
     "hit_dice": "",
     "speed": "25ft/50ft",
     "stats": [
@@ -252,7 +252,7 @@
     "subtype": "",
     "alignment": "",
     "ac": 15,
-    "hp": 15,
+    "hp": 25,
     "hit_dice": "",
     "speed": "30ft",
     "stats": [
@@ -375,7 +375,7 @@
     "subtype": "",
     "alignment": "",
     "ac": 14,
-    "hp": 10,
+    "hp": 18,
     "hit_dice": "",
     "speed": "35ft",
     "stats": [
@@ -498,7 +498,7 @@
     "subtype": "",
     "alignment": "",
     "ac": 13,
-    "hp": 10,
+    "hp": 21,
     "hit_dice": "",
     "speed": "30ft",
     "stats": [
