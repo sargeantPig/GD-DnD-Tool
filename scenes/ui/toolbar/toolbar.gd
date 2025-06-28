@@ -151,7 +151,7 @@ func _process(delta):
 	# ...existing code...
 	if tab:
 		self.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS
-		size.x = clamp(size.x, 0, 100)
+		size.x = clamp(size.x, 0, 200)
 		size.y = 100
 		return
 	

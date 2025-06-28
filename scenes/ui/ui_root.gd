@@ -6,11 +6,11 @@ signal mode_changed(mode: Global.Mode)
 var mode: Global.Mode
 var terrain_idx: int
 @export var toolbar_scale: int = 2
+@export var console: Console
 
-var console: Console
+var focus_disabled: bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	console = $console
 	$TabContainer/terrain.btn_clicked.connect(btn_mode_changed)
 	$toolbar_tools.btn_clicked.connect(btn_mode_changed)
 	$TabContainer/characters.btn_clicked.connect(btn_mode_changed)
@@ -21,11 +21,25 @@ func _ready():
 	$TabContainer/characters.scale *= toolbar_scale
 	$toolbar_system.scale *= toolbar_scale
 	$toolbar_mod.scale *= toolbar_scale
+	enforce_tabbar_focus_disabled()
+	enforce_tree_focus_disabled()
 	pass # Replace with function body.
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func set_children_focus_to_none(control: Control):
+	var children = control.get_children()
+	for child in children:
+		set_children_focus_to_none(child)
+		child.focus_mode = Control.FOCUS_NONE
+
+func enforce_tree_focus_disabled():
+	var trees = find_children("*", "Tree")
+	for tree: Tree in trees:
+		tree.focus_mode = Control.FOCUS_NONE
+
+func enforce_tabbar_focus_disabled():
+	var tab_containers = find_children("*", "TabContainer")
+	for tab_container: TabContainer in tab_containers:
+		tab_container.tab_focus_mode = Control.FOCUS_NONE
 
 func _input(event):
 	if event.is_action_pressed("mode_position"):

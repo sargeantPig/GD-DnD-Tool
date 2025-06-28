@@ -34,11 +34,17 @@ func json_string() -> Dictionary:
 @export var x: int:
 	get:
 		return int(tilemap_cell_coord.x)
+	set(value):
+		tilemap_cell_coord.x = value
 
 @export var y: int:
 	get:
 		return int(tilemap_cell_coord.y)
+	set(value):
+		tilemap_cell_coord.y = value
 
 @export var z: int:
 	get:
 		return int(tilemap_cell_coord.z)
+	set(value):
+		tilemap_cell_coord.z = value

@@ -89,6 +89,8 @@ func actions_collection_string(key: String) -> String:
 
 func _spells_string():
 	var text = "Spells;\n"
+	if data["spells"] == null:
+		return ""
 	for spells in data["spells"]:
 		if spells is String:	
 			text += "%s\n" % spells.replace(":", "") 

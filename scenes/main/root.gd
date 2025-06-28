@@ -35,6 +35,7 @@ var colourPicker: ColorPickerButton
 
 var object_manager: ObjectManager
 var presets: PresetTree
+@export var pattern_tree: PatternTree
 var fps: float
 
 var operations: Operations
@@ -168,9 +169,10 @@ func command_process(payload: Dictionary):
 		"ls":
 			operations.list_files(uimanager.console, payload["path"])
 		"save_pattern":
-			operations.save_pattern(world_canvas, payload["filepath"])
+			world_canvas.save_pattern_file(payload["filepath"])
+			pattern_tree.refresh_trigger()
 		"load_pattern":
-			operations.load_pattern(world_canvas, payload["filepath"])
+			return world_canvas.load_patter_file(payload["filepath"])
 	pass
 
 func _save_objects():

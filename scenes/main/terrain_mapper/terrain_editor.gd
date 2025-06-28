@@ -30,7 +30,6 @@ func _process(_delta):
 	layer_interaction()
 	if onion_skin:
 		apply_onion_skins()
-	queue_redraw()
 
 func _unhandled_input(_event: InputEvent) -> void:
 	interaction()
@@ -41,6 +40,8 @@ func selection_started():
 
 func tile_selection():
 	for layer in range(current_layer, selection_depth+1):
+		if layer >= get_layers_count():
+			continue
 		if get_cell_source_id(layer, mouse_tile_location) == -1:
 			continue
 		if selected_tiles.has(Vector3(mouse_tile_location.x, mouse_tile_location.y, layer)):
@@ -48,11 +49,12 @@ func tile_selection():
 		selected_tiles.append(Vector3(mouse_tile_location.x, mouse_tile_location.y, layer))
 
 func remove_tile_from_selection():
-	if not selected_tiles.has(mouse_tile_location):
-		return
-
 	for layer in range(current_layer, selection_depth+1):
-		selected_tiles.erase(mouse_tile_location)
+		var location = Vector3(mouse_tile_location.x, mouse_tile_location.y, layer)
+		if not selected_tiles.has(location):
+			continue
+		selected_tiles.erase(location)
+	queue_redraw()
 
 func _draw() -> void:
 	if selected_tiles.size() == 0:
@@ -72,6 +74,7 @@ func layer_interaction():
 		onion_skin = !onion_skin
 		if not onion_skin:
 			reset_onion_skin()
+	queue_redraw()
 
 func interaction():
 	if Input.is_action_pressed("select") and not Input.is_action_pressed("shift"):
@@ -83,7 +86,7 @@ func interaction():
 		if !is_selecting:
 			selection_started()
 		tile_selection()
-	elif Input.is_action_pressed("unselect"):
+	elif Input.is_action_pressed("unselect") and Input.is_action_pressed("shift"):
 		if !is_selecting:
 			selection_started()
 		remove_tile_from_selection()
@@ -101,7 +104,7 @@ func pick():
 	palette_coord = get_cell_atlas_coords(0, mouse_tile_location)
 
 func hide_current_layer():
-	if current_layer == 0:
+	if current_layer <= 0:
 		console.receive_text("Cannot hide layer %s" % current_layer)
 		return
 	console.receive_text("Layer %s hidden" % current_layer)
@@ -112,19 +115,32 @@ func hide_current_layer():
 func change_layer(modifier: int):
 	if modifier == -1:
 		hide_current_layer()
+	
+	if (current_layer + modifier) < 0:
+		return
+
 	current_layer += modifier
-	console.receive_text("Current Layer: %s" % current_layer)
 	var layer_count = get_layers_count()
 	if current_layer >= layer_count:
 		add_new_layer(str(layer_count), layer_count)
 	elif not is_layer_enabled(current_layer):
 		set_layer_enabled(current_layer, true)
 	self.__clamp_layer()
+	console.receive_text("Current Layer: %s" % current_layer)
 
 func add_new_layer(name: String, position: int):
 	console.receive_text("Adding new layer")
 	add_layer(position)
 	set_layer_name(position, name)
+
+func add_layer_if_needed(layer_to_add: int):
+	var i = 0
+	var layer_count = get_layers_count()
+	while layer_to_add >= layer_count:
+		i += 1
+		add_new_layer(str(layer_to_add + i), get_layers_count())
+		change_layer(1)
+		layer_count = get_layers_count()
 
 func reset_onion_skin():
 	for layer in range(get_layers_count()):
@@ -139,9 +155,8 @@ func apply_onion_skins():
 		if diff == 0 or diff == 1:
 			set_layer_modulate(layer, Color(1*alpha, 1*alpha, 1*alpha, 1))
 			continue
-
 		#console.receive_text("Setting layer %s to %s" % [layer, alpha])
-		set_layer_modulate(layer, Color(1*alpha, 1*alpha, 1*alpha, 1*alpha))
+		set_layer_modulate(layer, Color(1*alpha, 1*alpha, 1*alpha, 1))
 
 func get_mouse_location_on_map():
 	var mouse = get_local_mouse_position()
@@ -192,12 +207,6 @@ func save_pattern():
 	return tiles_to_save
 
 func load_pattern(data: Dictionary):
-	# load the selected cells
-	for tile in data:
-		var cell = TileCell.load_from_string("%s_%s_%s" % [tile, data[tile][0], data[tile][1]])
-		var layer = int(cell.z)
-		if layer >= get_layers_count():
-			add_new_layer(str(layer), layer)
 	brush.set_pattern_brush(data)
 
 func _save():
@@ -231,7 +240,46 @@ func load(data):
 		var layer = splitkey[1]
 		
 		if int(layer) >= get_layers_count():
-			add_new_layer(str(layer_count), layer_count)
+			change_layer(1)
 			layer_count+=1 
 		
 		set_cell(int(layer), tilepos, 1, tilecoord)
+
+func save_pattern_file(filepath: String):
+	DirAccess.make_dir_recursive_absolute("user://patterns/%s" % filepath.get_base_dir())
+	
+	var save_file = FileAccess.open("user://patterns/%s" % filepath, FileAccess.WRITE_READ)
+	var data = self.save_pattern()
+	var json = JSON.stringify(data)
+	save_file.store_line(json)
+	save_file.close()
+
+func load_pattern_file(filepath: String):
+	var save_game = FileAccess.open("user://patterns/%s" % filepath, FileAccess.READ)
+	var json_string = save_game.get_as_text()
+	var json = JSON.new()
+	json.parse(json_string)
+	var node_data = json.get_data()
+	self.load_pattern(node_data)
+	save_game.close()
+	return node_data
+
+func save_terrain(filepath: String):
+	DirAccess.make_dir_recursive_absolute("user://saves/%s" % filepath.get_base_dir())
+	
+	var save_file = FileAccess.open("user://saves/%s" % filepath, FileAccess.WRITE_READ)
+	var data = self._save()
+	var json = JSON.stringify(data)
+	save_file.store_line(json)
+	save_file.close()
+
+func load_terrain(filepath: String):
+	self.clear()
+	var save_game = FileAccess.open("user://saves/%s" % filepath, FileAccess.READ)
+	while save_game.get_position() < save_game.get_length():
+		var json_string = save_game.get_line()
+		var json = JSON.new()
+		json.parse(json_string)
+		var node_data = json.get_data()
+		self.load(node_data)
+	save_game.close()

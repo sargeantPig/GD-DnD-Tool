@@ -10,22 +10,39 @@
 [ext_resource type="Script" uid="uid://b2nrlpudok6ux" path="res://scenes/main/object_manager.gd" id="7_t4ocf"]
 [ext_resource type="PackedScene" uid="uid://bdtqptjy3i3h6" path="res://scenes/main/camera/camera.tscn" id="12_qvbfp"]
 
-[node name="root" type="Node2D" node_paths=PackedStringArray("server", "world_canvas", "uimanager")]
+[node name="root" type="Node2D" node_paths=PackedStringArray("server", "world_canvas", "uimanager", "pattern_tree")]
 script = ExtResource("1_626pt")
 server = NodePath("server")
 atlas = Array[Texture2D]([ExtResource("6_nxgbm"), ExtResource("2_w845l"), ExtResource("3_wgu7a")])
 world_canvas = NodePath("terrain")
 uimanager = NodePath("canvas/ui")
+pattern_tree = NodePath("canvas/ui/TabContainer/patterns")
 
 [node name="server" type="Node2D" parent="."]
 script = ExtResource("5_iit5a")
 
 [node name="terrain" parent="." node_paths=PackedStringArray("parent") instance=ExtResource("6_8ylla")]
+position = Vector2(1, 0)
 parent = NodePath("..")
 
 [node name="canvas" type="CanvasLayer" parent="."]
 
 [node name="ui" parent="canvas" instance=ExtResource("4_oemms")]
+
+[node name="patterns" parent="canvas/ui/TabContainer" index="4" node_paths=PackedStringArray("parent", "world_canvas")]
+parent = NodePath("..")
+world_canvas = NodePath("../../../../terrain")
+
+[node name="toolbar_tools" parent="canvas/ui" index="1"]
+offset_left = 425.0
+offset_right = 791.0
+
+[node name="toolbar_mod" parent="canvas/ui" index="3"]
+offset_left = 1108.0
+offset_right = 1186.0
+
+[node name="load" parent="canvas/ui/TabContainer2" index="2" node_paths=PackedStringArray("parent")]
+parent = NodePath("..")
 
 [node name="colour_pick" type="ColorPickerButton" parent="canvas"]
 visible = false
@@ -38,3 +55,5 @@ offset_bottom = 137.0
 
 [node name="misc" type="Node2D" parent="."]
 script = ExtResource("7_t4ocf")
+
+[editable path="canvas/ui"]
